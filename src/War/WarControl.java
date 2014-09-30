@@ -4,15 +4,14 @@ import java.util.Vector;
 
 import Listeners.WarEventListener;
 import Listeners.WarEventUIListener;
-import View.ConsoleView;
-import View.WarXMLReader;
+import View.*;
 
 
 public class WarControl implements WarEventListener, WarEventUIListener{
 	private War warModel;
-	private ConsoleView view;
+	private AbstractWarView view;
 	
-	public WarControl(War warModel, ConsoleView view){
+	public WarControl(War warModel, AbstractWarView view){
 		this.warModel = warModel;
 		this.view = view;
 		
@@ -170,12 +169,13 @@ public class WarControl implements WarEventListener, WarEventUIListener{
 
 	@Override
 	public void warHasBeenFinished() {	
-		try {
-			view.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (view instanceof ConsoleView) {
+			try {
+				((ConsoleView)view).join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		view.showWarHasBeenFinished();
 	}
 

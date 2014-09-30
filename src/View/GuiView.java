@@ -5,30 +5,24 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.swing.JFrame;
+
 import Listeners.WarEventUIListener;
 import Utils.Utils;
 
-public class ConsoleView extends Thread implements AbstractWarView {
+public class GuiView extends JFrame implements AbstractWarView {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private List<WarEventUIListener> allListeners;
 	private Scanner input = new Scanner(System.in);
 	private StringBuilder menu = new StringBuilder(1000);
 	private boolean isRunning = true;
 
-	public ConsoleView() {
+	public GuiView() {
 		allListeners = new LinkedList<WarEventUIListener>();
 		createMenu();
 	}// cons't
-
-	public void run() {
-		try {
-			sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		while (isRunning) {
-			selectUserChoiseMethod();
-		}
-	}// run
 
 	public void registerListeners(WarEventUIListener listener) {
 		allListeners.add(listener);

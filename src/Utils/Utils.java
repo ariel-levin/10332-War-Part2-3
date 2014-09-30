@@ -22,14 +22,30 @@ public class Utils {
 	}
 
 	// delete all old logs in the folder
-	public static void deleteFolder() {
+	public static void cleanLogFolder() {
 		File file = new File("log");
-		File[] files = file.listFiles();
-
-		if (files != null){
-			for (File f : files){
-				f.delete();
-			}
+		String[] myFiles;
+		if(file.isDirectory()){  
+			myFiles = file.list();  
+			for (int i=0; i<myFiles.length; i++) {  
+				File myFile = new File(file, myFiles[i]);   
+				if (!myFile.canWrite()) {
+					javax.swing.JOptionPane.showMessageDialog(null,
+									"Some old log files are locked and can't be deleted.\n" +
+									"Please restart Eclipse and try to launch the program again.",
+									"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+					System.exit(0);
+				}
+				myFile.delete();
+			}  
+		}
+		
+		// if log directory does not exist, create it
+		java.io.File dir = new java.io.File("log");
+		if (!dir.exists()) {
+			try{
+				dir.mkdir();
+			} catch(SecurityException se){}
 		}
 	}
 

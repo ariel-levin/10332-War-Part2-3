@@ -19,7 +19,7 @@ public class WarLogger implements WarEventListener {
 	
 	// static cons't
 	static {
-		Utils.deleteFolder();
+		Utils.cleanLogFolder();
 		theLogger.setUseParentHandlers(false);
 	}
 	

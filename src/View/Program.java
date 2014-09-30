@@ -12,7 +12,10 @@ public class Program {
 	public static void main(String[] args) {
 		WarXMLReader warXML;
 
-		ConsoleView view = new ConsoleView();
+//		ConsoleView view = new ConsoleView();
+//		AbstractWarView view = new ConsoleView();
+		AbstractWarView view = new GuiView();
+		
 		War warModel = new War();
 
 		WarControl warControl = new WarControl(warModel, view);
@@ -34,7 +37,9 @@ public class Program {
 		}
 
 		warModel.start();
-		view.start();
+		
+		if (view instanceof ConsoleView)
+			((ConsoleView)view).start();
 	}
 
 }
