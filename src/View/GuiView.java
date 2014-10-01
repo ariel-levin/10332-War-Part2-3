@@ -1,46 +1,106 @@
 package View;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import Listeners.WarEventUIListener;
 import Utils.Utils;
+import View.Gui.*;
+import Utils.*;
+
+
 
 public class GuiView extends JFrame implements AbstractWarView {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private List<WarEventUIListener> allListeners;
-	private Scanner input = new Scanner(System.in);
-	private StringBuilder menu = new StringBuilder(1000);
-	private boolean isRunning = true;
+	private MainPanel mainPanel;
+	
+//	private Scanner input = new Scanner(System.in);
+//	private StringBuilder menu = new StringBuilder(1000);
+//	private boolean isRunning = true;
 
 	public GuiView() {
 		allListeners = new LinkedList<WarEventUIListener>();
-		createMenu();
-	}// cons't
+		createFrame();
+	}
 
 	public void registerListeners(WarEventUIListener listener) {
 		allListeners.add(listener);
 	}
 
-	private void createMenu() {
-		menu.append("choose one option: \n\n");
-		menu.append("1. Add Munition to Intercept launchers.\n");
-		menu.append("2. Add Munition to Intercept missile.\n");
-		menu.append("3. Add launcher.\n");
-		menu.append("4. Launch a missile.\n");
-		menu.append("5. Intercept a launcher.\n");
-		menu.append("6. Intercept a missile.\n");
-		menu.append("7. Show statistics.\n");
-		menu.append("8. End the war and show statistics.\n");
+	private void createFrame() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		setTitle("War Managment");
+		
+		// set the frame's Close operation
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				CloseJFrameUtil.closeApplication(GuiView.this);
+				// NOTE: when we want the 'Class' of the outer class, 'this' doesn't work.
+				// Should use <OuterClass>.this
+			}
+		});
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension frameSize = new Dimension();
+		frameSize.setSize(screenSize.width * 0.5, screenSize.height * 0.5);
+		setSize(frameSize);
+		
+		getContentPane().setLayout(new BorderLayout());
+		mainPanel = new MainPanel();
+		getContentPane().add(mainPanel, BorderLayout.CENTER);
+		
+//		setJMenuBar(new WarMenu(this));
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
-	private int readUserChoise() {
+	private void showAllLaunchers() {
+
+		for (WarEventUIListener l : allListeners) {
+			Vector<String> launchersIds = l.showAllLaunchers();
+			
+			
+			
+			
+		}
+	}
+	
+
+
+	private String[] getAllIronDomes() {
+
+		return null;
+	}
+	
+
+	private String[] getAllLauncherDestructors() {
+
+		return null;
+	}
+	
+	private int readUserChoice() {
 		boolean flag = false;
 		int choise = -1;
 		System.out.println(menu);
@@ -62,7 +122,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	}
 
 	public void selectUserChoiseMethod() {
-		int choise = readUserChoise();
+		int choise = readUserChoice();
 
 		switch (choise) {
 		case 1:
@@ -234,7 +294,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 			l.finishWar();
 		}
 
-		isRunning = false;
+//		isRunning = false;
 	}
 
 	/* Prints to screen event from controller */
@@ -367,5 +427,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 				+ defenseLauncherId + " tried to intercept, " + "but missed: "
 				+ launcherId + " doesn't exist!");
 	}
+
+
 
 }

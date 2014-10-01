@@ -49,8 +49,10 @@ public interface AbstractWarView {
 
 	void showEnemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime);
-
+	
+	
 //	 void addPassengerToUI(int id, String name);
 //	 void removePassengerFromUI(int id);
 
 }
+

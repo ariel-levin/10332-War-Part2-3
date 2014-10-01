@@ -374,4 +374,7 @@ public class ConsoleView extends Thread implements AbstractWarView {
 				+ launcherId + " doesn't exist!");
 	}
 
+	
+
 }
+
