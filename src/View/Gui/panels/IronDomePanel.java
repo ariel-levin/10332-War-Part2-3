@@ -1,4 +1,4 @@
-package View.Gui;
+package View.Gui.panels;
 
 public class IronDomePanel extends MunitionPanel {
 

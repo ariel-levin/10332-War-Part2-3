@@ -1,16 +1,23 @@
-package View.Gui;
+package View.Gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Listeners.WarEventUIListener;
+
 
 public class SectionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	private List<WarEventUIListener> allListeners;
 
 	private String sectionName;
 
@@ -20,8 +27,9 @@ public class SectionPanel extends JPanel {
 	
 	public SectionPanel(String sectionName) {
 //		allListseners = new ArrayList<TribeListener>();
-		
 		this.sectionName = sectionName;
+		allListeners = new LinkedList<WarEventUIListener>();
+		
 		setLayout(new BorderLayout());
 		
 		setBorder(BorderFactory.createTitledBorder(sectionName));
@@ -42,6 +50,10 @@ public class SectionPanel extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 
+	public void registerListener(WarEventUIListener listener) {
+		allListeners.add(listener);
+	}
+	
 //	public void addSurvivor(String name) {
 //		survivorsInnerPanel.add(new SurvivorPanel(name, this));
 //		validate();

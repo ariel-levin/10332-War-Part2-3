@@ -26,7 +26,7 @@ public class War extends Thread {
 		allListeners = new LinkedList<WarEventListener>();
 		statistics = new WarStatistics();
 
-		registerListenerts(new WarLogger());
+		registerListeners(new WarLogger());
 		WarLogger.addWarLoggerHandler("War");
 	}
 
@@ -357,7 +357,7 @@ public class War extends Thread {
 		return id;
 	}
 
-	public void registerListenerts(WarEventListener control) {
+	public void registerListeners(WarEventListener control) {
 		for (IronDome iron : ironDomeArr)
 			iron.registerListeners(control);
 	

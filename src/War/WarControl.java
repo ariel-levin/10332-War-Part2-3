@@ -7,7 +7,7 @@ import Listeners.WarEventUIListener;
 import View.*;
 
 
-public class WarControl implements WarEventListener, WarEventUIListener{
+public class WarControl implements WarEventListener, WarEventUIListener {
 	private War warModel;
 	private AbstractWarView view;
 	
@@ -15,7 +15,7 @@ public class WarControl implements WarEventListener, WarEventUIListener{
 		this.warModel = warModel;
 		this.view = view;
 		
-		warModel.registerListenerts(this);
+		warModel.registerListeners(this);
 		view.registerListeners(this);
 	}
 	

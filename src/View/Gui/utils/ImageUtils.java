@@ -1,4 +1,4 @@
-package Utils;
+package View.Gui.utils;
 
 import java.awt.Image;
 import java.awt.Toolkit;

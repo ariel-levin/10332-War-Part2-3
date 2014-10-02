@@ -3,8 +3,14 @@ package View.Gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.JPanel;
 //import javax.swing.JSplitPane;
+
+
+import Listeners.WarEventUIListener;
 
 
 public class MainPanel extends JPanel {
@@ -12,9 +18,11 @@ public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 //	private JSplitPane munitionSplitter;
+	private List<WarEventUIListener> allListeners;
 	private SectionPanel launcherSection, ironDomeSection, launcherDestructorSection;
 
 	public MainPanel() {
+		allListeners = new LinkedList<WarEventUIListener>();
 		setLayout(new BorderLayout());
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -25,8 +33,14 @@ public class MainPanel extends JPanel {
 //		munitionSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
 		launcherSection = new SectionPanel("Launchers");
+		for (WarEventUIListener l : allListeners)
+			launcherSection.registerListener(l);
 		ironDomeSection = new SectionPanel("Iron Domes");
+		for (WarEventUIListener l : allListeners)
+			ironDomeSection.registerListener(l);
 		launcherDestructorSection = new SectionPanel("Launcher Destructors");
+		for (WarEventUIListener l : allListeners)
+			launcherDestructorSection.registerListener(l);
 
 //		munitionSplitter.setLeftComponent(launcherSection);
 //		munitionSplitter.setRightComponent(ironDomeSection);
@@ -39,6 +53,10 @@ public class MainPanel extends JPanel {
 //		registerToTribesEvents();
 		
 //		add(tribesSplitter, BorderLayout.CENTER);
+	}
+	
+	public void registerListener(WarEventUIListener listener) {
+		allListeners.add(listener);
 	}
 
 //	public SectionPanel getTribe1() {

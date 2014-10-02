@@ -16,9 +16,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import Listeners.WarEventUIListener;
-import Utils.Utils;
-import View.Gui.*;
 import Utils.*;
+import View.Gui.panels.*;
+import View.Gui.utils.*;
 
 
 
@@ -70,6 +70,8 @@ public class GuiView extends JFrame implements AbstractWarView {
 		getContentPane().setLayout(new BorderLayout());
 		mainPanel = new MainPanel();
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
+		for (WarEventUIListener l : allListeners)
+			mainPanel.registerListener(l);
 		
 //		setJMenuBar(new WarMenu(this));
 		setLocationRelativeTo(null);
