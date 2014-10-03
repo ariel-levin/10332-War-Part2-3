@@ -77,30 +77,6 @@ public class GuiView extends JFrame implements AbstractWarView {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-
-	private void showAllLaunchers() {
-
-		for (WarEventUIListener l : allListeners) {
-			Vector<String> launchersIds = l.showAllLaunchers();
-			
-			
-			
-			
-		}
-	}
-	
-
-
-	private String[] getAllIronDomes() {
-
-		return null;
-	}
-	
-
-	private String[] getAllLauncherDestructors() {
-
-		return null;
-	}
 	
 	private int readUserChoice() {
 		boolean flag = false;

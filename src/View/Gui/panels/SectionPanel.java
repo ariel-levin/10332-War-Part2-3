@@ -2,10 +2,9 @@ package View.Gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,28 +16,24 @@ public class SectionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<WarEventUIListener> allListeners;
-
-	private String sectionName;
-	private JButton btnAddSurvivor;
+	protected List<WarEventUIListener> allListeners;
+	protected JButton btnAddMunition;
+	protected ArrayList<MunitionPanel> munitionArr = new ArrayList<MunitionPanel>();
+	
 	private JPanel innerPanel;
 	
-	public SectionPanel(String sectionName) {
+	
+	public SectionPanel() {
 //		allListseners = new ArrayList<TribeListener>();
-		this.sectionName = sectionName;
 		allListeners = new LinkedList<WarEventUIListener>();
 		
 		setLayout(new BorderLayout());
-		
-		setBorder(BorderFactory.createTitledBorder(sectionName));
-
-		btnAddSurvivor = new JButton(new AddSurvivorAction(this));
 		
 		// OR:
 		/*btnAddSurvivor = new JButton();
 		btnAddSurvivor.setText("Add Survivor");
 		btnAddSurvivor.addActionListener(new AddSurvivorAction(this));*/
-		add(btnAddSurvivor, BorderLayout.NORTH);
+		add(btnAddMunition, BorderLayout.NORTH);
 		
 		innerPanel = new JPanel();
 		innerPanel.setLayout(new GridLayout(0, 2, 10, 10));
@@ -57,10 +52,11 @@ public class SectionPanel extends JPanel {
 //		validate();
 //		repaint();
 //	}
-	
-	public void addMunition(MunitionPanel munition) {
+
+	public void displayMunition(MunitionPanel munition) {
+		munitionArr.add(munition);
 		innerPanel.add(munition);
-		munition.setSectionPanel(this);
+//		munition.setSectionPanel(this);
 		validate();
 		repaint();
 	}

@@ -1,4 +1,4 @@
-package View.Gui;
+package View.Gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -32,15 +32,15 @@ public class MainPanel extends JPanel {
 
 //		munitionSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-		launcherSection = new SectionPanel("Launchers");
+		launcherSection = new LaunchersSectionPanel();
 		for (WarEventUIListener l : allListeners)
 			launcherSection.registerListener(l);
-		ironDomeSection = new SectionPanel("Iron Domes");
-		for (WarEventUIListener l : allListeners)
-			ironDomeSection.registerListener(l);
-		launcherDestructorSection = new SectionPanel("Launcher Destructors");
-		for (WarEventUIListener l : allListeners)
-			launcherDestructorSection.registerListener(l);
+//		ironDomeSection = new SectionPanel("Iron Domes");
+//		for (WarEventUIListener l : allListeners)
+//			ironDomeSection.registerListener(l);
+//		launcherDestructorSection = new SectionPanel("Launcher Destructors");
+//		for (WarEventUIListener l : allListeners)
+//			launcherDestructorSection.registerListener(l);
 
 //		munitionSplitter.setLeftComponent(launcherSection);
 //		munitionSplitter.setRightComponent(ironDomeSection);

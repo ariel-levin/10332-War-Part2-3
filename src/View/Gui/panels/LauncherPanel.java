@@ -21,10 +21,10 @@ public class LauncherPanel extends MunitionPanel {
 	private static final String LAUNCHER_IMAGE = "../images/launcher.jpg";
 	private static final String LAUNCHERMIS_IMAGE = "../images/launcher-launch.jpg";
 	private static final String LAUNCHERDES_IMAGE = "../images/launcher-destroyed.jpg";
+
 	
-	
-//	public LauncherPanel(String id, SectionPanel sectionPanel) {
-	public LauncherPanel(String id) {	// for test
+	public LauncherPanel(String id, SectionPanel sectionPanel) {
+//	public LauncherPanel(String id) {	// for test
 		super();
 		super.id = id;
 		super.sectionPanel = sectionPanel;
@@ -85,13 +85,13 @@ public class LauncherPanel extends MunitionPanel {
 	}
 	
 	// for test
-	public static void main(String[] args) {
-		javax.swing.JFrame frame = new javax.swing.JFrame();
-		frame.add(new LauncherPanel("123"));
-		frame.setSize(300, 300);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		javax.swing.JFrame frame = new javax.swing.JFrame();
+//		frame.add(new LauncherPanel("123"));
+//		frame.setSize(300, 300);
+//		frame.setLocationRelativeTo(null);
+//		frame.setVisible(true);
+//	}
 	
 }
 
