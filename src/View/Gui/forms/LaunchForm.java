@@ -26,7 +26,6 @@ public class LaunchForm extends Form {
 	private final int MIN_DMG = 500;
 	private final int MAX_DMG = 5000;
 	
-	private LauncherPanel launcherPanel;
 	private JComboBox<String> cbDest;
 	private JSlider sliderFly;
 	private JSlider sliderDmg;
@@ -35,7 +34,7 @@ public class LaunchForm extends Form {
 	public LaunchForm(LauncherPanel launcherPanel) {
 		super();
 		
-		this.launcherPanel = launcherPanel;
+		super.munitionPanel = launcherPanel;
 		setTitle("Launch a Missile");
 		setSize(new Dimension(300,250));
 		
@@ -92,7 +91,6 @@ public class LaunchForm extends Form {
 		
 		add(pnlMain, BorderLayout.CENTER);
 		
-		
 		setVisible(true);
 	}
 	
@@ -109,10 +107,13 @@ public class LaunchForm extends Form {
 	}
 	
 	private void launchMissile() {
-		this.launcherPanel.launchMissile(	cbDest.getSelectedItem().toString(),
-											sliderFly.getValue(),
-											sliderDmg.getValue()	);
+		((LauncherPanel)super.munitionPanel).launchMissile
+							(	cbDest.getSelectedItem().toString(),
+								sliderFly.getValue(),
+								sliderDmg.getValue()	);
+		dispose();
 	}
+	
 	
 	// for test
 //	public static void main(String[] args) {

@@ -9,23 +9,25 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import Listeners.WarEventUIListener;
 import View.Gui.utils.*;
-import View.Gui.forms.LaunchForm;
+import View.Gui.forms.*;
 
 
 public class LauncherPanel extends MunitionPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final String LAUNCHER_IMAGE = "/images/launcher.jpg";
-	private static final String LAUNCHERMIS_IMAGE = "/images/launcher-launch.jpg";
-	private static final String LAUNCHERDES_IMAGE = "/images/launcher-destroyed.jpg";
+	private static final String LAUNCHER_IMAGE = "../images/launcher.jpg";
+	private static final String LAUNCHERMIS_IMAGE = "../images/launcher-launch.jpg";
+	private static final String LAUNCHERDES_IMAGE = "../images/launcher-destroyed.jpg";
 	
 	
 //	public LauncherPanel(String id, SectionPanel sectionPanel) {
-	public LauncherPanel(String id) {
+	public LauncherPanel(String id) {	// for test
+		super();
 		super.id = id;
-//		super.sectionPanel = sectionPanel;
+		super.sectionPanel = sectionPanel;
 		
 		setLayout(new BorderLayout());
 		initLabelAndIcon();
@@ -43,11 +45,6 @@ public class LauncherPanel extends MunitionPanel {
 		setPreferredSize(new Dimension(150, 170));
 		
 	}
-	
-	private void createLaunchForm() {
-		super.btnAction.setEnabled(false);
-		new LaunchForm(this);
-	}
 
 	private void initLabelAndIcon() {
 		super.munitionNameAndIcon = new JLabel();
@@ -60,16 +57,23 @@ public class LauncherPanel extends MunitionPanel {
 		super.munitionNameAndIcon.setPreferredSize(new Dimension(70, 80));
 	}
 	
+	private void createLaunchForm() {
+		super.btnAction.setEnabled(false);
+		Form form = new LaunchForm(this);
+		for(WarEventUIListener l : super.allListeners)
+			form.registerListener(l);
+	}
+	
 	public void launchMissile(String destination, int flyTime, int damage) {
 		
 		super.munitionNameAndIcon.setIcon(ImageUtils.getImageIcon(LAUNCHERMIS_IMAGE));
-		
+		super.btnAction.setEnabled(true);
 		
 	}
 	
 	public void launchDone() {
 		
-		super.btnAction.setEnabled(true);
+		super.munitionNameAndIcon.setIcon(ImageUtils.getImageIcon(LAUNCHER_IMAGE));
 		
 	}
 	
@@ -85,6 +89,7 @@ public class LauncherPanel extends MunitionPanel {
 		javax.swing.JFrame frame = new javax.swing.JFrame();
 		frame.add(new LauncherPanel("123"));
 		frame.setSize(300, 300);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 	

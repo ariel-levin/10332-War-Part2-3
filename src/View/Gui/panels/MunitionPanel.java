@@ -1,5 +1,6 @@
 package View.Gui.panels;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -20,6 +21,10 @@ public class MunitionPanel extends JPanel {
 	protected JLabel munitionNameAndIcon;
 	
 	
+	public MunitionPanel() {
+		allListeners = new LinkedList<WarEventUIListener>();
+	}
+	
 	public void registerListener(WarEventUIListener listener) {
 		allListeners.add(listener);
 	}
@@ -30,6 +35,10 @@ public class MunitionPanel extends JPanel {
 
 	public String getId() {
 		return id;
+	}
+	
+	public void formClosed() {
+		btnAction.setEnabled(true);
 	}
 	
 }

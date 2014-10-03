@@ -20,10 +20,8 @@ public class SectionPanel extends JPanel {
 	private List<WarEventUIListener> allListeners;
 
 	private String sectionName;
-
 	private JButton btnAddSurvivor;
 	private JPanel innerPanel;
-//	private List<TribeListener> allListseners;
 	
 	public SectionPanel(String sectionName) {
 //		allListseners = new ArrayList<TribeListener>();
@@ -34,7 +32,7 @@ public class SectionPanel extends JPanel {
 		
 		setBorder(BorderFactory.createTitledBorder(sectionName));
 
-//		btnAddSurvivor = new JButton(new AddSurvivorAction(this));
+		btnAddSurvivor = new JButton(new AddSurvivorAction(this));
 		
 		// OR:
 		/*btnAddSurvivor = new JButton();
