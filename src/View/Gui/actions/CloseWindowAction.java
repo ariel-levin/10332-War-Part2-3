@@ -1,13 +1,11 @@
 package View.Gui.actions;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 
-import survivors.ui.GameFrame;
-import utils.CloseJFrameUtil;
+import View.Gui.utils.*;
+
 
 public class CloseWindowAction implements ActionListener {
 	private JFrame parent;

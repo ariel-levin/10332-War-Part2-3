@@ -2,9 +2,7 @@ package View.Gui.forms;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -21,9 +19,11 @@ public class Form extends JFrame {
 	protected MunitionPanel munitionPanel;
 	
 
-	public Form() {
+	public Form(MunitionPanel munitionPanel, List<WarEventUIListener> allListeners) {
 		
-		allListeners = new LinkedList<WarEventUIListener>();
+		this.munitionPanel = munitionPanel;
+//		allListeners = new LinkedList<WarEventUIListener>();
+		this.allListeners = allListeners;
 		
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -45,9 +45,9 @@ public class Form extends JFrame {
 		
 	}
 	
-	public void registerListener(WarEventUIListener listener) {
-		allListeners.add(listener);
-	}
+//	public void registerListener(WarEventUIListener listener) {
+//		allListeners.add(listener);
+//	}
 	
 	private void formClosed() {
 		munitionPanel.formClosed();

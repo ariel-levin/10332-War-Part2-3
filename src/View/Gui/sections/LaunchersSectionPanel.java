@@ -1,12 +1,16 @@
-package View.Gui.panels;
+package View.Gui.sections;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import Listeners.WarEventUIListener;
+import View.Gui.panels.*;
 
 
 public class LaunchersSectionPanel extends SectionPanel {
@@ -14,13 +18,11 @@ public class LaunchersSectionPanel extends SectionPanel {
 	private static final long serialVersionUID = 1L;
 
 	
-	public LaunchersSectionPanel() {
-		super();
+	public LaunchersSectionPanel(List<WarEventUIListener> allListeners) {
+		super(allListeners);
 		
 		setBorder(BorderFactory.createTitledBorder("Launchers"));
-		
-		showAllLaunchers();
-		
+
 		super.btnAddMunition = new JButton("Add Launcher");
 		super.btnAddMunition.addActionListener(new ActionListener() {
 			@Override
@@ -28,31 +30,34 @@ public class LaunchersSectionPanel extends SectionPanel {
 				addNewLauncher();
 			}
 		});
+		super.add(btnAddMunition, BorderLayout.NORTH);
 		
-	}
-	
-	private void showAllLaunchers() {
-
-		for (WarEventUIListener l : allListeners) {
-			Vector<String> launchersIds = l.showAllLaunchers();
-			for (String id : launchersIds)
-				addExistLauncher(id);
-		}
+		showAllLaunchers();
 	}
 	
 	private void addNewLauncher() {
-		for(WarEventUIListener l : allListeners) {
+		for(WarEventUIListener l : super.allListeners) {
 			String id = l.addEnemyLauncher();
 			addExistLauncher(id);			
 		}
 	}
 	
 	private void addExistLauncher(String id) {
-		LauncherPanel launcherPanel = new LauncherPanel(id, this);
-		for (WarEventUIListener l : allListeners)
-			launcherPanel.registerListener(l);
+		LauncherPanel launcherPanel = new LauncherPanel(id, this, super.allListeners);
+//		for (WarEventUIListener l : allListeners)
+//			launcherPanel.registerListener(l);
 		
 		super.displayMunition(launcherPanel);
+	}
+	
+	private void showAllLaunchers() {
+		
+		for (WarEventUIListener l : super.allListeners) {
+			Vector<String> launchersIds = l.showAllLaunchers();
+			for (String id : launchersIds)
+				addExistLauncher(id);
+		}
+		
 	}
 
 }

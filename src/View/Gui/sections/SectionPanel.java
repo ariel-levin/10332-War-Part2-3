@@ -1,15 +1,15 @@
-package View.Gui.panels;
+package View.Gui.sections;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import Listeners.WarEventUIListener;
+import View.Gui.panels.*;
 
 
 public class SectionPanel extends JPanel {
@@ -23,9 +23,10 @@ public class SectionPanel extends JPanel {
 	private JPanel innerPanel;
 	
 	
-	public SectionPanel() {
+	public SectionPanel(List<WarEventUIListener> allListeners) {
 //		allListseners = new ArrayList<TribeListener>();
-		allListeners = new LinkedList<WarEventUIListener>();
+//		allListeners = new LinkedList<WarEventUIListener>();
+		this.allListeners = allListeners;
 		
 		setLayout(new BorderLayout());
 		
@@ -33,7 +34,6 @@ public class SectionPanel extends JPanel {
 		/*btnAddSurvivor = new JButton();
 		btnAddSurvivor.setText("Add Survivor");
 		btnAddSurvivor.addActionListener(new AddSurvivorAction(this));*/
-		add(btnAddMunition, BorderLayout.NORTH);
 		
 		innerPanel = new JPanel();
 		innerPanel.setLayout(new GridLayout(0, 2, 10, 10));
@@ -43,9 +43,9 @@ public class SectionPanel extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 
-	public void registerListener(WarEventUIListener listener) {
-		allListeners.add(listener);
-	}
+//	public void registerListener(WarEventUIListener listener) {
+//		allListeners.add(listener);
+//	}
 	
 //	public void addSurvivor(String name) {
 //		survivorsInnerPanel.add(new SurvivorPanel(name, this));

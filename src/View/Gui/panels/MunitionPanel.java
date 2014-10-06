@@ -1,13 +1,12 @@
 package View.Gui.panels;
 
-import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Listeners.WarEventUIListener;
+import View.Gui.sections.*;
 
 
 public class MunitionPanel extends JPanel {
@@ -21,13 +20,16 @@ public class MunitionPanel extends JPanel {
 	protected JLabel munitionNameAndIcon;
 	
 	
-	public MunitionPanel() {
-		allListeners = new LinkedList<WarEventUIListener>();
+	public MunitionPanel(String id, SectionPanel sectionPanel, List<WarEventUIListener> allListeners) {
+		this.id = id;
+		this.sectionPanel = sectionPanel;
+		this.allListeners = allListeners;
+//		allListeners = new LinkedList<WarEventUIListener>();
 	}
 	
-	public void registerListener(WarEventUIListener listener) {
-		allListeners.add(listener);
-	}
+//	public void registerListener(WarEventUIListener listener) {
+//		allListeners.add(listener);
+//	}
 	
 	public void setSectionPanel(SectionPanel sectionPanel) {
 		this.sectionPanel = sectionPanel;

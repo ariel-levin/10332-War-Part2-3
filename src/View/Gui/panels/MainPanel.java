@@ -1,9 +1,8 @@
 package View.Gui.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -11,6 +10,7 @@ import javax.swing.JPanel;
 
 
 import Listeners.WarEventUIListener;
+import View.Gui.sections.*;
 
 
 public class MainPanel extends JPanel {
@@ -21,9 +21,12 @@ public class MainPanel extends JPanel {
 	private List<WarEventUIListener> allListeners;
 	private SectionPanel launcherSection, ironDomeSection, launcherDestructorSection;
 
-	public MainPanel() {
-		allListeners = new LinkedList<WarEventUIListener>();
-		setLayout(new BorderLayout());
+	
+	public MainPanel(List<WarEventUIListener> allListeners) {
+//		allListeners = new LinkedList<WarEventUIListener>();
+		this.allListeners = allListeners;
+//		setLayout(new BorderLayout());
+		setLayout(new GridLayout(1,3,10,10));
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension panelSize = new Dimension();
@@ -32,9 +35,9 @@ public class MainPanel extends JPanel {
 
 //		munitionSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-		launcherSection = new LaunchersSectionPanel();
-		for (WarEventUIListener l : allListeners)
-			launcherSection.registerListener(l);
+		launcherSection = new LaunchersSectionPanel(this.allListeners);
+//		setSectionListerners(launcherSection);
+		
 //		ironDomeSection = new SectionPanel("Iron Domes");
 //		for (WarEventUIListener l : allListeners)
 //			ironDomeSection.registerListener(l);
@@ -42,8 +45,10 @@ public class MainPanel extends JPanel {
 //		for (WarEventUIListener l : allListeners)
 //			launcherDestructorSection.registerListener(l);
 
+		
 //		munitionSplitter.setLeftComponent(launcherSection);
 //		munitionSplitter.setRightComponent(ironDomeSection);
+		add(launcherSection);
 
 
 //		munitionSplitter.setResizeWeight(0.5); // distributes the extra space when resizing.
@@ -55,9 +60,9 @@ public class MainPanel extends JPanel {
 //		add(tribesSplitter, BorderLayout.CENTER);
 	}
 	
-	public void registerListener(WarEventUIListener listener) {
-		allListeners.add(listener);
-	}
+//	public void registerListener(WarEventUIListener listener) {
+//		allListeners.add(listener);
+//	}
 
 //	public SectionPanel getTribe1() {
 //		return launcherSection;
@@ -78,9 +83,21 @@ public class MainPanel extends JPanel {
 //		}
 //	}
 
-//	private void registerToTribesEvents() {
-//		launcherSection.addListener(this);
-//		ironDomeSection.addListener(this);
+//	private void setSectionListerners(SectionPanel sectionPanel) {
+//		if (allListeners.isEmpty())
+//			System.out.println("MainPanel no listeners");
+//		
+//		for (WarEventUIListener l : allListeners) {
+//			System.out.println("enter setSectionListerners");
+//			sectionPanel.registerListener(l);
+//		}
+//	}
+	
+//	public void showAllMunitions() {
+//		((LaunchersSectionPanel)launcherSection).showAllLaunchers();
+//		
+//		
+//		
 //	}
 
 //	@Override

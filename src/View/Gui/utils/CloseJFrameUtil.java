@@ -1,4 +1,4 @@
-package Utils;
+package View.Gui.utils;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

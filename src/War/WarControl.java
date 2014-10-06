@@ -15,8 +15,8 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 		this.warModel = warModel;
 		this.view = view;
 		
-		warModel.registerListeners(this);
-		view.registerListeners(this);
+		warModel.registerListener(this);
+		view.registerListener(this);
 	}
 	
 	//Method that related to the view

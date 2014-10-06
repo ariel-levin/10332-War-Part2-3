@@ -30,7 +30,7 @@ public class ConsoleView extends Thread implements AbstractWarView {
 		}
 	}// run
 
-	public void registerListeners(WarEventUIListener listener) {
+	public void registerListener(WarEventUIListener listener) {
 		allListeners.add(listener);
 	}
 
@@ -374,7 +374,9 @@ public class ConsoleView extends Thread implements AbstractWarView {
 				+ launcherId + " doesn't exist!");
 	}
 
-	
+	public void start() {
+		super.start();
+	}
 
 }
 

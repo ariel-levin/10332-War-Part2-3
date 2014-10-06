@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -13,6 +15,7 @@ import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Listeners.WarEventUIListener;
 import View.Gui.panels.LauncherPanel;
 import View.Gui.utils.SpringUtilities;
 
@@ -31,10 +34,8 @@ public class LaunchForm extends Form {
 	private JSlider sliderDmg;
 	
 
-	public LaunchForm(LauncherPanel launcherPanel) {
-		super();
-		
-		super.munitionPanel = launcherPanel;
+	public LaunchForm(LauncherPanel launcherPanel, List<WarEventUIListener> allListeners) {
+		super(launcherPanel,allListeners);
 		setTitle("Launch a Missile");
 		setSize(new Dimension(300,250));
 		
@@ -45,8 +46,8 @@ public class LaunchForm extends Form {
 		JLabel lblDest = new JLabel("Destination");
 		lblDest.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblDest);
-		String[] arrCity = {"city1","city2","city3","city4","city5"};
-//		String[] arrCity = allListeners.get(0).getAllWarDestinations();
+//		String[] arrCity = {"city1","city2","city3","city4","city5"};
+		String[] arrCity = super.allListeners.get(0).getAllWarDestinations();
 		cbDest = new JComboBox<String>(arrCity);
 		pnlMain.add(cbDest);
 		
@@ -106,8 +107,12 @@ public class LaunchForm extends Form {
 		return slider;
 	}
 	
+	private LauncherPanel getLauncherPanel() {
+		return (LauncherPanel)super.munitionPanel;
+	}
+	
 	private void launchMissile() {
-		((LauncherPanel)super.munitionPanel).launchMissile
+		getLauncherPanel().launchMissile
 							(	cbDest.getSelectedItem().toString(),
 								sliderFly.getValue(),
 								sliderDmg.getValue()	);

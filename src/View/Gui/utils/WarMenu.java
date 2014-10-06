@@ -1,18 +1,17 @@
-package View.Gui;
+package View.Gui.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import View.*;
-import Utils.*;
 
 
 public class WarMenu extends JMenuBar {
 	
+	private static final long serialVersionUID = 1L;
 	private GuiView mainFrame;
 	
 	public WarMenu(GuiView mainFrame) {
@@ -31,10 +30,10 @@ public class WarMenu extends JMenuBar {
 
 		JMenu addSurvivor = new JMenu("Add");
 		JMenuItem addToTribe1 = new JMenuItem("Add To Tribe 1");
-		addToTribe1.addActionListener(new AddSurvivorAction(mainFrame.getMainPanel().getTribe1()));
+//		addToTribe1.addActionListener(new AddSurvivorAction(mainFrame.getMainPanel().getTribe1()));
 		
 		JMenuItem addToTribe2 = new JMenuItem("Add To Tribe 2");
-		addToTribe2.addActionListener(new AddSurvivorAction(mainFrame.getMainPanel().getTribe2()));
+//		addToTribe2.addActionListener(new AddSurvivorAction(mainFrame.getMainPanel().getTribe2()));
 		
 		addSurvivor.add(addToTribe1);
 		addSurvivor.add(addToTribe2);

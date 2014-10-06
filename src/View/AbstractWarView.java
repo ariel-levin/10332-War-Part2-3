@@ -4,7 +4,7 @@ import Listeners.WarEventUIListener;
 
 public interface AbstractWarView {
 
-	void registerListeners(WarEventUIListener listener);
+	void registerListener(WarEventUIListener listener);
 
 	void showDefenseLaunchMissile(String MunitionsId, String missileId,
 			String enemyMissileId);
@@ -50,6 +50,7 @@ public interface AbstractWarView {
 	void showEnemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime);
 	
+	void start();
 	
 //	 void addPassengerToUI(int id, String name);
 //	 void removePassengerFromUI(int id);
