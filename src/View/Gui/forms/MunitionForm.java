@@ -11,7 +11,7 @@ import Listeners.WarEventUIListener;
 import View.Gui.panels.MunitionPanel;
 
 
-public class Form extends JFrame {
+public class MunitionForm extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -19,7 +19,7 @@ public class Form extends JFrame {
 	protected MunitionPanel munitionPanel;
 	
 
-	public Form(MunitionPanel munitionPanel, List<WarEventUIListener> allListeners) {
+	public MunitionForm(MunitionPanel munitionPanel, List<WarEventUIListener> allListeners) {
 		
 		this.munitionPanel = munitionPanel;
 //		allListeners = new LinkedList<WarEventUIListener>();

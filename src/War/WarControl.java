@@ -120,10 +120,19 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 		return ids;
 	}
 
-	@Override
 	public Vector<String> showAllLaunchers() {
 		Vector<String> ids = warModel.getAllLaunchersIds();
 		return ids;
+	}
+	
+	public Vector<String> showAllIronDomes() {
+		Vector<String> ids = warModel.getAllIronDomesIds();
+		return ids;
+	}
+	
+	public Vector<String> showAllLauncherDestructors() {
+		Vector<String> details = warModel.getAllLauncherDestructorsIdAndType();
+		return details;
 	}
 
 	@Override

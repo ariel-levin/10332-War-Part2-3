@@ -10,6 +10,7 @@ import Utils.Utils;
 import War.WarLogger;
 import War.WarStatistics;
 
+
 /** Plane or Ship **/
 public class LauncherDestructor extends Thread implements Munitions{
 	private List<WarEventListener> allListeners;
@@ -160,6 +161,10 @@ public class LauncherDestructor extends Thread implements Munitions{
 		return id;
 	}
 
+	public String getDestructorType() {
+		return type;
+	}
+	
 	@Override
 	// use for end the thread
 	public void stopRunning() {

@@ -278,6 +278,39 @@ public class War extends Thread {
 		return visibleIds;
 	}
 
+	//returns vector of all iron domes id's
+	public Vector<String> getAllIronDomesIds() {
+		Vector<String> irondomeIds = new Vector<>();
+
+		for (IronDome id : ironDomeArr) {
+			if (id.isAlive()){
+				irondomeIds.add(id.getIronDomeId());
+			}
+		}
+
+		if (irondomeIds.size() == 0)
+			return null;
+
+		return irondomeIds;
+	}
+	
+	//returns vector of all launcher destructors id's and types
+	public Vector<String> getAllLauncherDestructorsIdAndType() {
+		Vector<String> launcherDestructorDetails = new Vector<>();
+
+		for (LauncherDestructor ld : launcherDestractorArr) {
+			if (ld.isAlive()){
+				launcherDestructorDetails.add(ld.getDestructorId());
+				launcherDestructorDetails.add(ld.getDestructorType());
+			}
+		}
+
+		if (launcherDestructorDetails.size() == 0)
+			return null;
+
+		return launcherDestructorDetails;
+	}
+	
 	public void launchEnemyMissile(String launcherId, String destination,
 			int damage, int flyTime) {
 		for (EnemyLauncher el : enemyLauncherArr) {

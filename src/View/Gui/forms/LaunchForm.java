@@ -20,7 +20,7 @@ import View.Gui.panels.LauncherPanel;
 import View.Gui.utils.SpringUtilities;
 
 
-public class LaunchForm extends Form {
+public class LaunchForm extends MunitionForm {
 
 	static final long serialVersionUID = 1L;
 	

@@ -10,4 +10,22 @@
 		<launcher id="L104" isHidden="true">
 		</launcher>
 	</missileLaunchers>
+	<missileDestructors>
+		<destructor id="D201">
+		</destructor>
+		<destructor id="D202">
+		</destructor>
+		<destructor id="D203">
+		</destructor>
+	</missileDestructors>
+	<missileLauncherDestructors>
+		<destructor type="plane">
+		</destructor>
+		<destructor type="ship">
+		</destructor>
+		<destructor type="plane">
+		</destructor>
+		<destructor type="plane">
+		</destructor>
+	</missileLauncherDestructors>
 </war>

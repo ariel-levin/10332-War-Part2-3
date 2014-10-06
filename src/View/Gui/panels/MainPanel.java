@@ -36,20 +36,14 @@ public class MainPanel extends JPanel {
 //		munitionSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
 		launcherSection = new LaunchersSectionPanel(this.allListeners);
-//		setSectionListerners(launcherSection);
-		
-//		ironDomeSection = new SectionPanel("Iron Domes");
-//		for (WarEventUIListener l : allListeners)
-//			ironDomeSection.registerListener(l);
-//		launcherDestructorSection = new SectionPanel("Launcher Destructors");
-//		for (WarEventUIListener l : allListeners)
-//			launcherDestructorSection.registerListener(l);
+		ironDomeSection = new IronDomesSectionPanel(this.allListeners);
+		launcherDestructorSection = new LauncherDestructorsSectionPanel(this.allListeners);
 
-		
 //		munitionSplitter.setLeftComponent(launcherSection);
 //		munitionSplitter.setRightComponent(ironDomeSection);
 		add(launcherSection);
-
+		add(ironDomeSection);
+		add(launcherDestructorSection);
 
 //		munitionSplitter.setResizeWeight(0.5); // distributes the extra space when resizing.
 //											 // without it the proportions will not be saved during resize

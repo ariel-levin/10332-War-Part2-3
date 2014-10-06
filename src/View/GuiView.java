@@ -2,7 +2,6 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
@@ -53,9 +52,12 @@ public class GuiView extends JFrame implements AbstractWarView {
 			}
 		});
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frameSize = new Dimension();
-		frameSize.setSize(screenSize.width * 0.5, screenSize.height * 0.5);
+//		System.out.println("screenSize.width * 0.5 = " + screenSize.width * 0.5);
+//		System.out.println("screenSize.height * 0.5 = " + screenSize.height * 0.5);
+//		frameSize.setSize(screenSize.width * 0.5, screenSize.height * 0.5);
+		frameSize.setSize(1080,500);
 		setSize(frameSize);
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -67,7 +69,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 		
 //		setJMenuBar(new WarMenu(this));
 		setLocationRelativeTo(null);
-		setAlwaysOnTop(true);
+//		setAlwaysOnTop(true);
 		setVisible(true);
 	}
 	

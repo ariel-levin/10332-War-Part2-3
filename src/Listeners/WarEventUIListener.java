@@ -29,6 +29,12 @@ public interface WarEventUIListener {
 
 	/** User will select from which launcher he would like to launch missile **/
 	public Vector<String> showAllLaunchers();
+	
+	/** Get all the Iron Domes Id's in a Vector **/
+	public Vector<String> showAllIronDomes();
+	
+	/** Get all the Launcher Destructors Id's and Type in a Vector **/
+	public Vector<String> showAllLauncherDestructors();
 
 	/** Add missile to given launcher **/
 	public void addEnemyMissile(String launcherId, String destination,
