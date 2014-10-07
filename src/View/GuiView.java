@@ -86,6 +86,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 		for (WarEventUIListener l : allListeners) {
 			l.finishWar();
 		}
+		dispose();
 //		isRunning = false;
 	}
 

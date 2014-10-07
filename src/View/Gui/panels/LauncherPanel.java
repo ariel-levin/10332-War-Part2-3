@@ -1,17 +1,10 @@
 package View.Gui.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 import Listeners.WarEventUIListener;
-import View.Gui.utils.*;
 import View.Gui.forms.*;
 import View.Gui.sections.*;
 
@@ -30,39 +23,19 @@ public class LauncherPanel extends MunitionPanel {
 	
 //	public LauncherPanel(String id) { // for test
 		
-		super(id, sectionPanel, allListeners);
+		super(id, sectionPanel, LAUNCHER_IMAGE, "Launch", allListeners);
 
-		setLayout(new BorderLayout());
-		initLabelAndIcon();
-		add(super.munitionNameAndIcon, BorderLayout.CENTER);
-
-		super.btnAction = new JButton("Launch");
-		super.btnAction.addActionListener(new ActionListener() {
+		super.setButtonAction(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createLaunchForm();
 			}
 		});
-
-		add(super.btnAction, BorderLayout.SOUTH);
-		setPreferredSize(new Dimension(150, 170));
-
-	}
-
-	private void initLabelAndIcon() {
-		super.munitionNameAndIcon = new JLabel();
-		super.munitionNameAndIcon.setText(super.id);
-		super.munitionNameAndIcon.setIcon(ImageUtils
-				.getImageIcon(LAUNCHER_IMAGE));
-		super.munitionNameAndIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		super.munitionNameAndIcon.setBorder(BorderFactory.createEtchedBorder());
-		super.munitionNameAndIcon.setVerticalTextPosition(SwingConstants.TOP);
-		super.munitionNameAndIcon.setHorizontalTextPosition(JLabel.CENTER);
-		super.munitionNameAndIcon.setPreferredSize(new Dimension(70, 80));
+		
 	}
 
 	private void createLaunchForm() {
-		super.btnAction.setEnabled(false);
+		super.btnEnable(false);
 
 		// Form form = new LaunchForm(this);
 		// for(WarEventUIListener l : super.allListeners)
@@ -73,8 +46,7 @@ public class LauncherPanel extends MunitionPanel {
 
 	public void launchMissile(String destination, int flyTime, int damage) {
 
-		super.munitionNameAndIcon.setIcon(ImageUtils
-				.getImageIcon(LAUNCHERMIS_IMAGE));
+		super.setIcon(LAUNCHERMIS_IMAGE);
 		for (WarEventUIListener l : super.allListeners)
 			l.addEnemyMissile(super.id, destination, damage, flyTime);
 
@@ -82,17 +54,15 @@ public class LauncherPanel extends MunitionPanel {
 
 	public void launchDone() {
 
-		super.munitionNameAndIcon.setIcon(ImageUtils
-				.getImageIcon(LAUNCHER_IMAGE));
-		super.btnAction.setEnabled(true);
+		super.setIcon(LAUNCHER_IMAGE);
+		super.btnEnable(true);
 
 	}
 
 	public void launcherDestroyed() {
 
-		super.munitionNameAndIcon.setIcon(ImageUtils
-				.getImageIcon(LAUNCHERDES_IMAGE));
-		super.btnAction.setEnabled(false);
+		super.setIcon(LAUNCHERDES_IMAGE);
+		super.btnEnable(false);
 
 	}
 
