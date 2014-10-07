@@ -61,7 +61,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 		setSize(frameSize);
 		
 		getContentPane().setLayout(new BorderLayout());
-		mainPanel = new MainPanel(this.allListeners);
+		mainPanel = new MainPanel(this);
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 		
 //		for (WarEventUIListener l : allListeners)
@@ -76,6 +76,132 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void registerListener(WarEventUIListener listener) {
 		allListeners.add(listener);
 	}
+
+	/* When user is select, an event is throw to the control */
+//	private void fireAddDefenseLauncherDestructor() {
+//		System.out
+//				.println("Please choose between Plane or Ship, for exit press enter");
+//		input.nextLine();
+//
+//		String type = input.nextLine();
+//
+//		type = type.toLowerCase();
+//
+//		if (type.equals("plane") || type.equals("ship"))
+//			for (WarEventUIListener l : allListeners)
+//				l.addDefenseLauncherDestructor(type);
+//	}
+
+//	private void fireAddDefenseIronDome() {
+//		for (WarEventUIListener l : allListeners)
+//			l.addIronDome();
+//	}
+
+	public String fireAddEnemyLauncher() {
+//		for (WarEventUIListener l : allListeners)
+//			l.addEnemyLauncher();
+		return allListeners.get(0).addEnemyLauncher();
+	}
+
+//	private void fireAddEnemyMissile() {
+//		for (WarEventUIListener l : allListeners) {
+//			Vector<String> launchersIds = l.showAllLaunchers();
+//
+//			if (launchersIds != null) {
+//				System.out.println("Launchers to launch with:");
+//
+//				int size = launchersIds.size();
+//				for (int i = 0; i < size; i++)
+//					System.out.println("\t" + (i + 1) + ")"
+//							+ launchersIds.get(i));
+//
+//				System.out
+//						.println("Choose launcher id to equip, else press enter to continue");
+//
+//				input.nextLine();
+//				String launcher = input.nextLine();
+//
+//				if (launchersIds.contains(launcher)) {
+//					System.out.println("Destination cities to destory:");
+//					String[] destinations = l.getAllWarDestinations();
+//
+//					for (int j = 0; j < destinations.length; j++)
+//						System.out.println((j + 1) + ") " + destinations[j]);
+//
+//					System.out.println("Enter your choise:");
+//					// input.nextLine();
+//					String destination = input.nextLine();
+//
+//					int damage = (int) ((Math.random() * Utils.SECOND) + Utils.SECOND * 2);
+//					int flyTime = (int) ((Math.random() * Utils.FLY_TIME) + Utils.FLY_TIME);
+//
+//					l.addEnemyMissile(launcher, destination, damage, flyTime);
+//				}// if
+//				else
+//					System.out
+//							.println("The launcher you have selected doesn't exist!");
+//			}// if
+//			else
+//				System.out
+//						.println("There is no launcher yet, please add launcher first");
+//		}// for
+//	}// method
+
+//	private void fireInterceptEnemyLauncher() {
+//		for (WarEventUIListener l : allListeners) {
+//			Vector<String> launcersId = l.chooseLauncherToIntercept();
+//
+//			if (launcersId != null) {
+//				System.out.println("Launcher to intercept:");
+//
+//				int size = launcersId.size();
+//				for (int i = 0; i < size; i++)
+//					System.out
+//							.println("\t" + (i + 1) + ")" + launcersId.get(i));
+//
+//				System.out
+//						.println("Choose launcher id to intercept, else press enter to continue");
+//				input.nextLine();
+//				String launcher = input.nextLine();
+//
+//				if (launcersId.contains(launcher))
+//					l.interceptGivenLauncher(launcher);
+//				else
+//					System.out
+//							.println("The launcher you have selected doesn't exist!");
+//			}// if
+//			else
+//				System.out.println("There is no launcher to intercept!");
+//		}// for
+//	}// method
+
+//	private void fireInterceptMissile() {
+//		for (WarEventUIListener l : allListeners) {
+//			Vector<String> missilesId = l.chooseMissileToIntercept();
+//
+//			if (missilesId != null) {
+//				System.out.println("Missiles to intercept:");
+//
+//				int size = missilesId.size();
+//				for (int i = 0; i < size; i++)
+//					System.out
+//							.println("\t" + (i + 1) + ")" + missilesId.get(i));
+//
+//				System.out
+//						.println("Choose missile id to intercept, else press enter to continue");
+//				input.nextLine();
+//				String missile = input.nextLine();
+//
+//				if (missilesId.contains(missile))
+//					l.interceptGivenMissile(missile);
+//				else
+//					System.out
+//							.println("The missile you selected doesn't exist!");
+//			}// if
+//			else
+//				System.out.println("There is no missiles to intercept!");
+//		}// for
+//	}// method
 
 //	private void fireShowStatistics() {
 //		for (WarEventUIListener l : allListeners)

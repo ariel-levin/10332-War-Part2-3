@@ -43,7 +43,7 @@ public interface WarEventListener {
 			String Type, String id, String enemyLauncherId);
 
 	/** Defense event. try to intercept launcher but he was hidden **/
-	void defenseMissInterceptionHiddenLauncher(String whoLaunchedMeId,
+	public void defenseMissInterceptionHiddenLauncher(String whoLaunchedMeId,
 			String type, String enemyLauncherId);
 
 	/** Announce when the war endss **/
@@ -60,5 +60,14 @@ public interface WarEventListener {
 
 	/** Will occur when the target that selected isn't exist **/
 	public void enemyLauncherNotExist(String defenseLauncherId, String launcherId);
+	
+	/** Enemy Launcher was added */
+	public void enemyLauncherAdded(String id);
+	
+	/** Iron Dome was added */
+	public void ironDomeAdded(String id);
+	
+	/** Launcher Destructor was added */
+	public void launcherDestructorAdded(String id, String type);
 
 }

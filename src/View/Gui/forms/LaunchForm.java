@@ -16,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.panels.LauncherPanel;
 import View.Gui.utils.SpringUtilities;
 
@@ -34,8 +35,8 @@ public class LaunchForm extends MunitionForm {
 	private JSlider sliderDmg;
 	
 
-	public LaunchForm(LauncherPanel launcherPanel, List<WarEventUIListener> allListeners) {
-		super(launcherPanel,allListeners);
+	public LaunchForm(LauncherPanel launcherPanel, GuiView guiView) {
+		super(launcherPanel, guiView);
 		setTitle("Launch a Missile");
 		setSize(new Dimension(300,250));
 		

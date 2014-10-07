@@ -3,11 +3,13 @@ package View.Gui.forms;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.panels.MunitionPanel;
 
 
@@ -15,15 +17,14 @@ public class MunitionForm extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected List<WarEventUIListener> allListeners;
+	protected GuiView guiView;
 	protected MunitionPanel munitionPanel;
 	
 
-	public MunitionForm(MunitionPanel munitionPanel, List<WarEventUIListener> allListeners) {
+	public MunitionForm(MunitionPanel munitionPanel, GuiView guiView) {
 		
 		this.munitionPanel = munitionPanel;
-//		allListeners = new LinkedList<WarEventUIListener>();
-		this.allListeners = allListeners;
+		this.guiView = guiView;
 		
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -45,12 +46,9 @@ public class MunitionForm extends JFrame {
 		
 	}
 	
-//	public void registerListener(WarEventUIListener listener) {
-//		allListeners.add(listener);
-//	}
-	
 	private void formClosed() {
 		munitionPanel.formClosed();
 	}
 	
 }
+

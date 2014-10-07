@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.forms.*;
 import View.Gui.sections.*;
 
@@ -18,12 +19,11 @@ public class LauncherPanel extends MunitionPanel {
 	private static final String LAUNCHERDES_IMAGE = "../images/launcher-destroyed.jpg";
 
 	
-	public LauncherPanel(String id, SectionPanel sectionPanel,
-			List<WarEventUIListener> allListeners) {
+	public LauncherPanel(String id, SectionPanel sectionPanel, GuiView guiView) {
 	
 //	public LauncherPanel(String id) { // for test
 		
-		super(id, sectionPanel, LAUNCHER_IMAGE, "Launch", allListeners);
+		super(id, sectionPanel, LAUNCHER_IMAGE, "Launch", guiView);
 
 		super.setButtonAction(new ActionListener() {
 			@Override

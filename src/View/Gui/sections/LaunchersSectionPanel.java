@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.panels.*;
 
 
@@ -18,19 +19,16 @@ public class LaunchersSectionPanel extends SectionPanel {
 	private static final long serialVersionUID = 1L;
 
 	
-	public LaunchersSectionPanel(List<WarEventUIListener> allListeners) {
-		super(allListeners);
+	public LaunchersSectionPanel(GuiView guiView) {
+		super(guiView,"Launcher");
 		
-		setBorder(BorderFactory.createTitledBorder("Launchers"));
-
-		super.btnAddMunition = new JButton("Add Launcher");
 		super.btnAddMunition.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addNewLauncher();
 			}
 		});
-		super.add(btnAddMunition, BorderLayout.NORTH);
+		
 		
 		showAllLaunchers();
 	}
@@ -43,11 +41,7 @@ public class LaunchersSectionPanel extends SectionPanel {
 	}
 	
 	private void addExistLauncher(String id) {
-		LauncherPanel launcherPanel = new LauncherPanel(id, this, super.allListeners);
-//		for (WarEventUIListener l : allListeners)
-//			launcherPanel.registerListener(l);
-		
-		super.displayMunition(launcherPanel);
+		super.displayMunition(new LauncherPanel(id, this, guiView));
 	}
 	
 	private void showAllLaunchers() {

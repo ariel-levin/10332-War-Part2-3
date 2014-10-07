@@ -30,7 +30,6 @@ public class AddLauncherDestructorForm extends JFrame {
 	
 	public AddLauncherDestructorForm(
 			LauncherDestructorsSectionPanel destructorSectionPanel) {
-//	public AddLauncherDestructorForm() {	// for test
 		
 		this.destructorSectionPanel = destructorSectionPanel;
 		setTitle("Choose a Type");

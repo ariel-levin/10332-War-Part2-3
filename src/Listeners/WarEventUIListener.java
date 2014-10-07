@@ -41,19 +41,19 @@ public interface WarEventUIListener {
 			int damage, int flyTime);
 
 	/** Add enemy launcher **/
-	public String addEnemyLauncher();
+	public void addEnemyLauncher();
 
 	/** Add enemy launcher from xml **/
-	public String addEnemyLauncher(String launcherId, boolean isHidden);
+	public void addEnemyLauncher(String launcherId, boolean isHidden);
 
 	/** Add defense Iron Dome **/
-	public String addIronDome();
+	public void addIronDome();
 
 	/** Add plane or ship **/
-	public String addDefenseLauncherDestructor(String type);
+	public void addDefenseLauncherDestructor(String type);
 
 	/** Add defense Iron Dome from xml **/
-	public String addIronDome(String id);
+	public void addIronDome(String id);
 
 	/** Returns all war city targets **/
 	public String[] getAllWarDestinations();

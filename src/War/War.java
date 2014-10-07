@@ -331,7 +331,7 @@ public class War extends Thread {
 	}//method
 
 	//add enemy launcher without given parameters
-	public String addEnemyLauncher() {
+	public void addEnemyLauncher() {
 		String id = IdGenerator.enemyLauncherIdGenerator();
 		boolean isHidden = Math.random() < 0.5;
 
@@ -341,7 +341,7 @@ public class War extends Thread {
 	}
 
 	//add enemy launcher with parameters
-	public String addEnemyLauncher(String launcherId, boolean isHidden) {
+	public void addEnemyLauncher(String launcherId, boolean isHidden) {
 		EnemyLauncher launcher = new EnemyLauncher(launcherId, isHidden, statistics);
 		for (WarEventListener l : allListeners)
 			launcher.registerListeners(l);
@@ -353,7 +353,7 @@ public class War extends Thread {
 	}
 
 	//add iron dome without given parameters
-	public String addIronDome() {
+	public void addIronDome() {
 		String id = IdGenerator.ironDomeIdGenerator();
 		addIronDome(id);
 	
@@ -361,7 +361,7 @@ public class War extends Thread {
 	}
 
 	//add iron dome with given parameters
-	public String addIronDome(String id) {
+	public void addIronDome(String id) {
 		IronDome ironDome = new IronDome(id, statistics);
 		
 		for (WarEventListener l : allListeners)
@@ -375,7 +375,7 @@ public class War extends Thread {
 	}
 
 	//add defense launcher destructor
-	public String addDefenseLauncherDestructor(String type) {
+	public void addDefenseLauncherDestructor(String type) {
 		String id = IdGenerator.defenseLauncherDestractorIdGenerator(type.charAt(0));
 		
 		LauncherDestructor destructor = new LauncherDestructor(type, id, statistics);

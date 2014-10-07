@@ -3,13 +3,9 @@ package View.Gui.panels;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.util.List;
-
 import javax.swing.JPanel;
-//import javax.swing.JSplitPane;
 
-
-import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.sections.*;
 
 
@@ -18,13 +14,13 @@ public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 //	private JSplitPane munitionSplitter;
-	private List<WarEventUIListener> allListeners;
+	private GuiView guiView;
 	private SectionPanel launcherSection, ironDomeSection, launcherDestructorSection;
 
 	
-	public MainPanel(List<WarEventUIListener> allListeners) {
+	public MainPanel(GuiView guiView) {
 //		allListeners = new LinkedList<WarEventUIListener>();
-		this.allListeners = allListeners;
+		this.guiView = guiView;
 //		setLayout(new BorderLayout());
 		setLayout(new GridLayout(1,3,10,10));
 
@@ -35,9 +31,9 @@ public class MainPanel extends JPanel {
 
 //		munitionSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-		launcherSection = new LaunchersSectionPanel(this.allListeners);
-		ironDomeSection = new IronDomesSectionPanel(this.allListeners);
-		launcherDestructorSection = new LauncherDestructorsSectionPanel(this.allListeners);
+		launcherSection = new LaunchersSectionPanel(this.guiView);
+		ironDomeSection = new IronDomesSectionPanel(this.guiView);
+		launcherDestructorSection = new LauncherDestructorsSectionPanel(this.guiView);
 
 //		munitionSplitter.setLeftComponent(launcherSection);
 //		munitionSplitter.setRightComponent(ironDomeSection);

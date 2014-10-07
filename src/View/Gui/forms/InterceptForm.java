@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.panels.IronDomePanel;
 import View.Gui.utils.SpringUtilities;
 
@@ -23,8 +25,8 @@ public class InterceptForm extends MunitionForm {
 	private JComboBox<String> cbMissiles;
 	
 
-	public InterceptForm(IronDomePanel ironDomePanel, List<WarEventUIListener> allListeners) {
-		super(ironDomePanel,allListeners);
+	public InterceptForm(IronDomePanel ironDomePanel, GuiView guiView) {
+		super(ironDomePanel, guiView);
 		setTitle("Intercept a Missile");
 		setSize(new Dimension(300,120));
 		

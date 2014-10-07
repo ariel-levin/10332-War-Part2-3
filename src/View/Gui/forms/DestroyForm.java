@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.panels.LauncherDestructorPanel;
 import View.Gui.utils.SpringUtilities;
 
@@ -23,8 +25,8 @@ public class DestroyForm extends MunitionForm {
 	private JComboBox<String> cbLaunchers;
 	
 
-	public DestroyForm(LauncherDestructorPanel destructorPanel, List<WarEventUIListener> allListeners) {
-		super(destructorPanel,allListeners);
+	public DestroyForm(LauncherDestructorPanel destructorPanel, GuiView guiView) {
+		super(destructorPanel, guiView);
 		setTitle("Destroy a Missile");
 		setSize(new Dimension(300,120));
 		

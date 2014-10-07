@@ -14,8 +14,8 @@ public class Program {
 		WarXMLReader warXML;
 
 //		ConsoleView view = new ConsoleView();
-//		AbstractWarView view = new ConsoleView();
-		AbstractWarView view = new GuiView();
+		AbstractWarView view = new ConsoleView();
+//		AbstractWarView view = new GuiView();
 		
 		War warModel = new War();
 

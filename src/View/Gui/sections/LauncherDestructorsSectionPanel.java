@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.forms.AddLauncherDestructorForm;
 import View.Gui.panels.LauncherDestructorPanel;
 
@@ -18,8 +20,8 @@ public class LauncherDestructorsSectionPanel extends SectionPanel {
 	private static final long serialVersionUID = 1L;
 
 	
-	public LauncherDestructorsSectionPanel(List<WarEventUIListener> allListeners) {
-		super(allListeners);
+	public LauncherDestructorsSectionPanel(GuiView guiView) {
+		super(guiView,"Launcher Destructor");
 
 		setBorder(BorderFactory.createTitledBorder("Launcher Destructors"));
 

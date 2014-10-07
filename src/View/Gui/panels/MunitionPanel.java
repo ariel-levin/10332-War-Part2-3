@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.sections.*;
 import View.Gui.utils.ImageUtils;
 
@@ -19,7 +21,7 @@ public class MunitionPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	protected List<WarEventUIListener> allListeners;
+	protected GuiView guiView;
 	protected String id;
 	
 	private SectionPanel sectionPanel;
@@ -29,11 +31,11 @@ public class MunitionPanel extends JPanel {
 	
 	
 	public MunitionPanel(String id, SectionPanel sectionPanel, String icon,
-			String btnStr, List<WarEventUIListener> allListeners) {
+			String btnStr, GuiView guiView) {
 		
 		this.id = id;
 		this.sectionPanel = sectionPanel;
-		this.allListeners = allListeners;
+		this.guiView = guiView;
 		
 		setLayout(new BorderLayout());
 		initLabelAndIcon(icon);

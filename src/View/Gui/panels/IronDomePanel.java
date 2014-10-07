@@ -3,9 +3,11 @@ package View.Gui.panels;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.forms.InterceptForm;
 import View.Gui.sections.SectionPanel;
 
@@ -18,10 +20,9 @@ public class IronDomePanel extends MunitionPanel {
 	private static final String DOMEINT_IMAGE = "../images/dome-intercept.jpg";
 
 	
-	public IronDomePanel(String id, SectionPanel sectionPanel,
-			List<WarEventUIListener> allListeners) {
+	public IronDomePanel(String id, SectionPanel sectionPanel, GuiView guiView) {
 		
-		super(id, sectionPanel, DOME_IMAGE, "Intercept", allListeners);
+		super(id, sectionPanel, DOME_IMAGE, "Intercept", guiView);
 
 		super.setButtonAction(new ActionListener() {
 			@Override

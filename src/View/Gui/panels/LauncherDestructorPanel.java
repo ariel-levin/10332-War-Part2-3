@@ -3,9 +3,11 @@ package View.Gui.panels;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.forms.DestroyForm;
 import View.Gui.sections.SectionPanel;
 
@@ -23,10 +25,9 @@ public class LauncherDestructorPanel extends MunitionPanel {
 	private String type;
 	
 	
-	public LauncherDestructorPanel(String id, String type,
-			SectionPanel sectionPanel, List<WarEventUIListener> allListeners) {
+	public LauncherDestructorPanel(String id, String type, SectionPanel sectionPanel, GuiView guiView) {
 
-		super(id, sectionPanel, PLANE_IMAGE, "Destroy", allListeners);
+		super(id, sectionPanel, PLANE_IMAGE, "Destroy", guiView);
 		this.type = type;
 
 		if (isShip())

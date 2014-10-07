@@ -3,12 +3,12 @@ package View.Gui.sections;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.panels.*;
 
 
@@ -16,24 +16,18 @@ public class SectionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected List<WarEventUIListener> allListeners;
+	protected GuiView guiView;
 	protected JButton btnAddMunition;
 	protected ArrayList<MunitionPanel> munitionArr = new ArrayList<MunitionPanel>();
 	
 	private JPanel innerPanel;
 	
 	
-	public SectionPanel(List<WarEventUIListener> allListeners) {
-//		allListseners = new ArrayList<TribeListener>();
-//		allListeners = new LinkedList<WarEventUIListener>();
-		this.allListeners = allListeners;
-		
+	public SectionPanel(GuiView guiView, String name) {
+
+		this.guiView = guiView;
+
 		setLayout(new BorderLayout());
-		
-		// OR:
-		/*btnAddSurvivor = new JButton();
-		btnAddSurvivor.setText("Add Survivor");
-		btnAddSurvivor.addActionListener(new AddSurvivorAction(this));*/
 		
 		innerPanel = new JPanel();
 		innerPanel.setLayout(new GridLayout(0, 2, 10, 10));
@@ -41,18 +35,13 @@ public class SectionPanel extends JPanel {
 		JScrollPane scroller = new JScrollPane(innerPanel);
 		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		add(scroller, BorderLayout.CENTER);
+		
+		setBorder(BorderFactory.createTitledBorder(name + "s"));
+		
+		this.btnAddMunition = new JButton("Add " + name);
+		this.add(btnAddMunition, BorderLayout.NORTH);
 	}
-
-//	public void registerListener(WarEventUIListener listener) {
-//		allListeners.add(listener);
-//	}
 	
-//	public void addSurvivor(String name) {
-//		survivorsInnerPanel.add(new SurvivorPanel(name, this));
-//		validate();
-//		repaint();
-//	}
-
 	public void displayMunition(MunitionPanel munition) {
 		munitionArr.add(munition);
 		innerPanel.add(munition);
@@ -61,25 +50,5 @@ public class SectionPanel extends JPanel {
 		repaint();
 	}
 	
-//	public void removeSurvivor(SurvivorPanel theSurvivor) {
-//		survivorsInnerPanel.remove(theSurvivor);
-//		validate();
-//		repaint(); 
-//	}
-	
-//	public void addListener(TribeListener newListener) {
-//		allListseners.add(newListener);
-//	}
-	
-	// this method is triggered from the SurvivorPanel
-//	public void moveSurvivorToOtherTribe(SurvivorPanel theSurvivorPanel) {
-//		fireMoveSurvivorTribeEvent(theSurvivorPanel);
-//	}
-	
-//	private void fireMoveSurvivorTribeEvent(SurvivorPanel theSurvivorPanel) {
-//		for (TribeListener l : allListseners) {
-//			l.moveSurvivorTribeEvent(theSurvivorPanel, this);
-//		}
-//	}
-	
 }
+

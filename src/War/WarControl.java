@@ -36,7 +36,7 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	}
 
 	@Override
-	public void enemyLauncherIsVisible(String id,boolean visible) {
+	public void enemyLauncherIsVisible(String id, boolean visible) {
 		view.showLauncherIsVisible(id,visible);
 	}
 
@@ -68,6 +68,21 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	@Override
 	public void defenseHitInterceptionLauncher(String whoLaunchedMeId, String type, String missileId, String enemyLauncherId) {
 		view.showHitInterceptionLauncher(whoLaunchedMeId, type, enemyLauncherId, missileId);
+	}
+	
+	@Override
+	public void enemyLauncherAdded(String id) {
+		
+	}
+	
+	@Override
+	public void ironDomeAdded(String id) {
+		
+	}
+	
+	@Override
+	public void launcherDestructorAdded(String id, String type) {
+		
 	}
 	
 	//Methods related to the model
@@ -141,34 +156,59 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	}
 
 	@Override
-	public String addEnemyLauncher(String launcherId, boolean isHidden) {
-		String id = warModel.addEnemyLauncher(launcherId, isHidden);
-		return id;
+	public void addEnemyLauncher(String launcherId, boolean isHidden) {
+		warModel.addEnemyLauncher(launcherId, isHidden);
 	}
 	
 	@Override
-	public String addEnemyLauncher() {
-		String id = warModel.addEnemyLauncher();
-		return id;
+	public void addEnemyLauncher() {
+		warModel.addEnemyLauncher();
 	}
 
 	@Override
-	public String addIronDome() {
-		String id = warModel.addIronDome();
-		return id;
+	public void addIronDome() {
+		warModel.addIronDome();
 	}
 	
 	@Override
-	public String addIronDome(String id) {
-		String iId = warModel.addIronDome(id);
-		return iId;
+	public void addIronDome(String id) {
+		warModel.addIronDome(id);
 	}
 
 	@Override
-	public String addDefenseLauncherDestructor(String type) {
-		String id = warModel.addDefenseLauncherDestructor(type);
-		return id;
+	public void addDefenseLauncherDestructor(String type) {
+		warModel.addDefenseLauncherDestructor(type);
 	}
+	
+//	@Override
+//	public String addEnemyLauncher(String launcherId, boolean isHidden) {
+//		String id = warModel.addEnemyLauncher(launcherId, isHidden);
+//		return id;
+//	}
+	
+//	@Override
+//	public String addEnemyLauncher() {
+//		String id = warModel.addEnemyLauncher();
+//		return id;
+//	}
+
+//	@Override
+//	public String addIronDome() {
+//		String id = warModel.addIronDome();
+//		return id;
+//	}
+	
+//	@Override
+//	public String addIronDome(String id) {
+//		String iId = warModel.addIronDome(id);
+//		return iId;
+//	}
+
+//	@Override
+//	public String addDefenseLauncherDestructor(String type) {
+//		String id = warModel.addDefenseLauncherDestructor(type);
+//		return id;
+//	}
 
 	@Override
 	public String[] getAllWarDestinations() {

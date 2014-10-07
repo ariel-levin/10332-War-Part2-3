@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import Listeners.WarEventUIListener;
+import View.GuiView;
 import View.Gui.panels.IronDomePanel;
 
 
@@ -17,8 +19,8 @@ public class IronDomesSectionPanel extends SectionPanel {
 	private static final long serialVersionUID = 1L;
 
 	
-	public IronDomesSectionPanel(List<WarEventUIListener> allListeners) {
-		super(allListeners);
+	public IronDomesSectionPanel(GuiView guiView) {
+		super(guiView,"Iron Dome");
 		
 		setBorder(BorderFactory.createTitledBorder("Iron Domes"));
 
