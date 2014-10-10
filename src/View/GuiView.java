@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -22,9 +23,6 @@ public class GuiView extends JFrame implements AbstractWarView {
 	private List<WarEventUIListener> allListeners;
 	private MainPanel mainPanel;
 	
-//	private Scanner input = new Scanner(System.in);
-//	private StringBuilder menu = new StringBuilder(1000);
-//	private boolean isRunning = true;
 
 	public GuiView() {
 		allListeners = new LinkedList<WarEventUIListener>();
@@ -78,131 +76,54 @@ public class GuiView extends JFrame implements AbstractWarView {
 	}
 
 	/* When user is select, an event is throw to the control */
-//	private void fireAddDefenseLauncherDestructor() {
-//		System.out
-//				.println("Please choose between Plane or Ship, for exit press enter");
-//		input.nextLine();
-//
-//		String type = input.nextLine();
-//
-//		type = type.toLowerCase();
-//
-//		if (type.equals("plane") || type.equals("ship"))
-//			for (WarEventUIListener l : allListeners)
-//				l.addDefenseLauncherDestructor(type);
-//	}
-
-//	private void fireAddDefenseIronDome() {
-//		for (WarEventUIListener l : allListeners)
-//			l.addIronDome();
-//	}
-
-	public String fireAddEnemyLauncher() {
-//		for (WarEventUIListener l : allListeners)
-//			l.addEnemyLauncher();
-		return allListeners.get(0).addEnemyLauncher();
+	public void fireAddDefenseLauncherDestructor(String type) {
+		for (WarEventUIListener l : allListeners)
+			l.addDefenseLauncherDestructor(type);
+	}
+	
+	public void launcherDestructorAdded(String id, String type) {
+		this.mainPanel.launcherDestructorAdded(id, type);
 	}
 
-//	private void fireAddEnemyMissile() {
-//		for (WarEventUIListener l : allListeners) {
-//			Vector<String> launchersIds = l.showAllLaunchers();
-//
-//			if (launchersIds != null) {
-//				System.out.println("Launchers to launch with:");
-//
-//				int size = launchersIds.size();
-//				for (int i = 0; i < size; i++)
-//					System.out.println("\t" + (i + 1) + ")"
-//							+ launchersIds.get(i));
-//
-//				System.out
-//						.println("Choose launcher id to equip, else press enter to continue");
-//
-//				input.nextLine();
-//				String launcher = input.nextLine();
-//
-//				if (launchersIds.contains(launcher)) {
-//					System.out.println("Destination cities to destory:");
-//					String[] destinations = l.getAllWarDestinations();
-//
-//					for (int j = 0; j < destinations.length; j++)
-//						System.out.println((j + 1) + ") " + destinations[j]);
-//
-//					System.out.println("Enter your choise:");
-//					// input.nextLine();
-//					String destination = input.nextLine();
-//
-//					int damage = (int) ((Math.random() * Utils.SECOND) + Utils.SECOND * 2);
-//					int flyTime = (int) ((Math.random() * Utils.FLY_TIME) + Utils.FLY_TIME);
-//
-//					l.addEnemyMissile(launcher, destination, damage, flyTime);
-//				}// if
-//				else
-//					System.out
-//							.println("The launcher you have selected doesn't exist!");
-//			}// if
-//			else
-//				System.out
-//						.println("There is no launcher yet, please add launcher first");
-//		}// for
-//	}// method
+	public void fireAddDefenseIronDome() {
+		for (WarEventUIListener l : allListeners)
+			l.addIronDome();
+	}
+	
+	public void ironDomeAdded(String id) {
+		this.mainPanel.ironDomeAdded(id);
+	}
 
-//	private void fireInterceptEnemyLauncher() {
-//		for (WarEventUIListener l : allListeners) {
-//			Vector<String> launcersId = l.chooseLauncherToIntercept();
-//
-//			if (launcersId != null) {
-//				System.out.println("Launcher to intercept:");
-//
-//				int size = launcersId.size();
-//				for (int i = 0; i < size; i++)
-//					System.out
-//							.println("\t" + (i + 1) + ")" + launcersId.get(i));
-//
-//				System.out
-//						.println("Choose launcher id to intercept, else press enter to continue");
-//				input.nextLine();
-//				String launcher = input.nextLine();
-//
-//				if (launcersId.contains(launcher))
-//					l.interceptGivenLauncher(launcher);
-//				else
-//					System.out
-//							.println("The launcher you have selected doesn't exist!");
-//			}// if
-//			else
-//				System.out.println("There is no launcher to intercept!");
-//		}// for
-//	}// method
+	public void fireAddEnemyLauncher() {
+		for (WarEventUIListener l : allListeners)
+			l.addEnemyLauncher();
+	}
+	
+	public void enemyLauncherAdded(String id) {
+		this.mainPanel.enemyLauncherAdded(id);
+	}
 
-//	private void fireInterceptMissile() {
-//		for (WarEventUIListener l : allListeners) {
-//			Vector<String> missilesId = l.chooseMissileToIntercept();
-//
-//			if (missilesId != null) {
-//				System.out.println("Missiles to intercept:");
-//
-//				int size = missilesId.size();
-//				for (int i = 0; i < size; i++)
-//					System.out
-//							.println("\t" + (i + 1) + ")" + missilesId.get(i));
-//
-//				System.out
-//						.println("Choose missile id to intercept, else press enter to continue");
-//				input.nextLine();
-//				String missile = input.nextLine();
-//
-//				if (missilesId.contains(missile))
-//					l.interceptGivenMissile(missile);
-//				else
-//					System.out
-//							.println("The missile you selected doesn't exist!");
-//			}// if
-//			else
-//				System.out.println("There is no missiles to intercept!");
-//		}// for
-//	}// method
+	public void fireAddEnemyMissile(String launcherID, String destination,
+			int flyTime, int damage) {
+		
+		for (WarEventUIListener l : allListeners)
+			l.addEnemyMissile(launcherID, destination, damage, flyTime);
+	}
 
+	public void fireInterceptEnemyLauncher(String destructorID, String launcherID) {
+		for (WarEventUIListener l : allListeners)
+			l.interceptGivenLauncher(destructorID, launcherID);
+	}
+
+	public void fireInterceptMissile(String ironDomeID, String missileID) {
+		for (WarEventUIListener l : allListeners)
+			l.interceptGivenMissile(ironDomeID, missileID);
+	}
+
+	public Vector<String> getAllLaunchersID() {
+		
+	}
+	
 //	private void fireShowStatistics() {
 //		for (WarEventUIListener l : allListeners)
 //			l.showStatistics();

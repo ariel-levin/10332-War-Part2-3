@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
@@ -29,19 +28,7 @@ public class LaunchersSectionPanel extends SectionPanel {
 			}
 		});
 		
-		
 		showAllLaunchers();
-	}
-	
-	private void addNewLauncher() {
-		for(WarEventUIListener l : super.allListeners) {
-			String id = l.addEnemyLauncher();
-			addExistLauncher(id);			
-		}
-	}
-	
-	private void addExistLauncher(String id) {
-		super.displayMunition(new LauncherPanel(id, this, guiView));
 	}
 	
 	private void showAllLaunchers() {
@@ -53,6 +40,18 @@ public class LaunchersSectionPanel extends SectionPanel {
 		}
 		
 	}
-
+	
+	private void addExistLauncher(String id) {
+		super.displayMunition(new LauncherPanel(id, this, guiView));
+	}
+	
+	private void addNewLauncher() {
+		super.guiView.fireAddEnemyLauncher();
+	}
+	
+	public void enemyLauncherAdded(String id) {
+		addExistLauncher(id);
+	}
+	
 }
 

@@ -22,6 +22,7 @@ public class War extends Thread {
 	private String[] targetCities = { "Sderot", "Ofakim", "Beer-Sheva",
 			"Netivot", "Tel-Aviv", "Re'ut" };
 
+	
 	public War() {
 		allListeners = new LinkedList<WarEventListener>();
 		statistics = new WarStatistics();
@@ -102,7 +103,7 @@ public class War extends Thread {
 	}// endAllmunitions
 
 	// returns all missiles in air in current time
-	public Vector<String> getAllDuringFlyMissilesIds() {
+	public void getAllDuringFlyMissilesIds() {
 		Vector<String> missileIds = new Vector<>();
 
 		for (EnemyLauncher el : enemyLauncherArr) {
@@ -110,10 +111,12 @@ public class War extends Thread {
 				missileIds.add(el.getCurrentMissile().getMissileId());
 		}
 
-		if (missileIds.size() == 0)
-			return null;
-
-		return missileIds;
+		for (WarEventListener l : allListeners) {
+			if (missileIds.size() == 0)
+				l.sendMissileToIntercept(null);
+			else
+				l.sendMissileToIntercept(missileIds);
+		}
 	}
 
 	// intercept given missile id
@@ -246,7 +249,7 @@ public class War extends Thread {
 	}
 
 	//returns vector of all visible launchers id's
-	public Vector<String> getAllVisibleLaunchersIds() {
+	public void getAllVisibleLaunchersIds() {
 		Vector<String> visibleIds = new Vector<>();
 		
 		for (EnemyLauncher el : enemyLauncherArr) {
@@ -256,30 +259,34 @@ public class War extends Thread {
 			}
 		}
 
-		if (visibleIds.size() == 0)
-			return null;
-
-		return visibleIds;
+		for (WarEventListener l : allListeners) {
+			if (visibleIds.size() == 0)
+				l.sendLauncherToIntercept(null);
+			else
+				l.sendLauncherToIntercept(visibleIds);
+		}
 	}
 
 	//returns vector of all launchers id's
-	public Vector<String> getAllLaunchersIds() {
-		Vector<String> visibleIds = new Vector<>();
+	public void getAllLaunchersIds() {
+		Vector<String> launcherIds = new Vector<>();
 
 		for (EnemyLauncher el : enemyLauncherArr) {
 			if (el.isAlive()){
-				visibleIds.add(el.getLauncherId());
+				launcherIds.add(el.getLauncherId());
 			}
 		}
 
-		if (visibleIds.size() == 0)
-			return null;
-
-		return visibleIds;
+		for (WarEventListener l : allListeners) {
+			if (launcherIds.size() == 0)
+				l.sendAllLaunchersID(null);
+			else
+				l.sendAllLaunchersID(launcherIds);
+		}
 	}
 
 	//returns vector of all iron domes id's
-	public Vector<String> getAllIronDomesIds() {
+	public void getAllIronDomesIds() {
 		Vector<String> irondomeIds = new Vector<>();
 
 		for (IronDome id : ironDomeArr) {
@@ -288,27 +295,31 @@ public class War extends Thread {
 			}
 		}
 
-		if (irondomeIds.size() == 0)
-			return null;
-
-		return irondomeIds;
+		for (WarEventListener l : allListeners) {
+			if (irondomeIds.size() == 0)
+				l.sendAllIronDomesID(null);
+			else
+				l.sendAllIronDomesID(irondomeIds);
+		}
 	}
 	
 	//returns vector of all launcher destructors id's and types
-	public Vector<String> getAllLauncherDestructorsIdAndType() {
-		Vector<String> launcherDestructorDetails = new Vector<>();
+	public void getAllLauncherDestructorsIdAndType() {
+		Vector<String> destructorsDetails = new Vector<>();
 
 		for (LauncherDestructor ld : launcherDestractorArr) {
 			if (ld.isAlive()){
-				launcherDestructorDetails.add(ld.getDestructorId());
-				launcherDestructorDetails.add(ld.getDestructorType());
+				destructorsDetails.add(ld.getDestructorId());
+				destructorsDetails.add(ld.getDestructorType());
 			}
 		}
 
-		if (launcherDestructorDetails.size() == 0)
-			return null;
-
-		return launcherDestructorDetails;
+		for (WarEventListener l : allListeners) {
+			if (destructorsDetails.size() == 0)
+				l.sendAllLauncherDestructors(null);
+			else
+				l.sendAllLauncherDestructors(destructorsDetails);
+		}
 	}
 	
 	public void launchEnemyMissile(String launcherId, String destination,
@@ -336,8 +347,6 @@ public class War extends Thread {
 		boolean isHidden = Math.random() < 0.5;
 
 		addEnemyLauncher(id, isHidden);
-
-		return id;
 	}
 
 	//add enemy launcher with parameters
@@ -349,15 +358,14 @@ public class War extends Thread {
 		launcher.start();
 		enemyLauncherArr.add(launcher);
 	
-		return launcherId;
+		for (WarEventListener l : allListeners)
+			l.enemyLauncherAdded(launcher.getLauncherId());
 	}
 
 	//add iron dome without given parameters
 	public void addIronDome() {
 		String id = IdGenerator.ironDomeIdGenerator();
 		addIronDome(id);
-	
-		return id;
 	}
 
 	//add iron dome with given parameters
@@ -371,7 +379,8 @@ public class War extends Thread {
 		
 		ironDomeArr.add(ironDome);
 
-		return id;
+		for (WarEventListener l : allListeners)
+			l.ironDomeAdded(ironDome.getIronDomeId());
 	}
 
 	//add defense launcher destructor
@@ -387,7 +396,9 @@ public class War extends Thread {
 		
 		launcherDestractorArr.add(destructor);
 
-		return id;
+		for (WarEventListener l : allListeners)
+			l.launcherDestructorAdded(destructor.getDestructorId(),
+					destructor.getDestructorType());
 	}
 
 	public void registerListener(WarEventListener control) {
@@ -432,7 +443,10 @@ public class War extends Thread {
 		return statistics;
 	}
 
-	public String[] getAllTargetCities() {
-		return targetCities;
+	public void getAllTargetCities() {
+		for (WarEventListener l : allListeners)
+			l.sendAllWarDestinations(this.targetCities);
 	}
+
 }
+

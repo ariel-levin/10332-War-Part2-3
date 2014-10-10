@@ -3,6 +3,7 @@ package View.Gui.panels;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+
 import javax.swing.JPanel;
 
 import View.GuiView;
@@ -48,6 +49,18 @@ public class MainPanel extends JPanel {
 //		registerToTribesEvents();
 		
 //		add(tribesSplitter, BorderLayout.CENTER);
+	}
+	
+	public void enemyLauncherAdded(String id) {
+		
+	}
+	
+	public void ironDomeAdded(String id) {
+		
+	}
+	
+	public void launcherDestructorAdded(String id, String type) {
+		
 	}
 	
 //	public void registerListener(WarEventUIListener listener) {

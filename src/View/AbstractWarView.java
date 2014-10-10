@@ -1,6 +1,9 @@
 package View;
 
+import java.util.Vector;
+
 import Listeners.WarEventUIListener;
+
 
 public interface AbstractWarView {
 
@@ -49,6 +52,24 @@ public interface AbstractWarView {
 
 	void showEnemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime);
+	
+	void enemyLauncherAdded(String id);
+	
+	void ironDomeAdded(String id);
+	
+	void launcherDestructorAdded(String id, String type);
+
+	void getMissileToIntercept(Vector<String> missilesID);
+
+	void getLauncherToIntercept(Vector<String> launchersID);
+	
+	void getAllLaunchersID(Vector<String> launchersID);
+
+	void getAllIronDomesID(Vector<String> ironDomesID);
+	
+	void getAllLauncherDestructors(Vector<String> destructorsDetails);
+	
+	void getAllWarDestinations(String[] cities);
 	
 	void start();
 	

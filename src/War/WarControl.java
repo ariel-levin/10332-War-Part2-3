@@ -8,8 +8,10 @@ import View.*;
 
 
 public class WarControl implements WarEventListener, WarEventUIListener {
+	
 	private War warModel;
 	private AbstractWarView view;
+	
 	
 	public WarControl(War warModel, AbstractWarView view){
 		this.warModel = warModel;
@@ -72,17 +74,47 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	
 	@Override
 	public void enemyLauncherAdded(String id) {
-		
+		view.enemyLauncherAdded(id);
 	}
 	
 	@Override
 	public void ironDomeAdded(String id) {
-		
+		view.ironDomeAdded(id);
 	}
 	
 	@Override
 	public void launcherDestructorAdded(String id, String type) {
-		
+		view.launcherDestructorAdded(id, type);
+	}
+	
+	@Override
+	public void sendMissileToIntercept(Vector<String> missilesID) {
+		view.getMissileToIntercept(missilesID);
+	}
+	
+	@Override
+	public void sendLauncherToIntercept(Vector<String> launchersID) {
+		view.getLauncherToIntercept(launchersID);
+	}
+	
+	@Override
+	public void sendAllLaunchersID(Vector<String> launchersID) {
+		view.getAllLaunchersID(launchersID);
+	}
+	
+	@Override
+	public void sendAllIronDomesID(Vector<String> ironDomesID) {
+		view.getAllIronDomesID(ironDomesID);
+	}
+	
+	@Override
+	public void sendAllLauncherDestructors(Vector<String> destructorsDetails) {
+		view.getAllLauncherDestructors(destructorsDetails);
+	}
+	
+	@Override
+	public void sendAllWarDestinations(String[] cities) {
+		view.getAllWarDestinations(cities);
 	}
 	
 	//Methods related to the model
@@ -103,10 +135,8 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 		view.showStatistics(statistics.statisticsToArray());	
 	}
 
-	@Override
-	public Vector<String> chooseMissileToIntercept() {
-		Vector<String> ids = warModel.getAllDuringFlyMissilesIds();
-		return ids;
+	public void reqMissileToIntercept() {
+		warModel.getAllDuringFlyMissilesIds();
 	}
 
 	@Override
@@ -129,25 +159,21 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 		warModel.interceptGivenLauncher(destructorId,launcherId);
 	}
 	
+	public void reqLauncherToIntercept() {
+		warModel.getAllVisibleLaunchersIds();
+	}
+	
 	@Override
-	public Vector<String> chooseLauncherToIntercept() {
-		Vector<String> ids = warModel.getAllVisibleLaunchersIds();
-		return ids;
-	}
-
-	public Vector<String> showAllLaunchers() {
-		Vector<String> ids = warModel.getAllLaunchersIds();
-		return ids;
+	public void reqAllLaunchersID() {
+		warModel.getAllLaunchersIds();
 	}
 	
-	public Vector<String> showAllIronDomes() {
-		Vector<String> ids = warModel.getAllIronDomesIds();
-		return ids;
+	public void reqAllIronDomesID() {
+		warModel.getAllIronDomesIds();
 	}
 	
-	public Vector<String> showAllLauncherDestructors() {
-		Vector<String> details = warModel.getAllLauncherDestructorsIdAndType();
-		return details;
+	public void reqAllLauncherDestructors() {
+		warModel.getAllLauncherDestructorsIdAndType();
 	}
 
 	@Override
@@ -179,43 +205,12 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	public void addDefenseLauncherDestructor(String type) {
 		warModel.addDefenseLauncherDestructor(type);
 	}
-	
-//	@Override
-//	public String addEnemyLauncher(String launcherId, boolean isHidden) {
-//		String id = warModel.addEnemyLauncher(launcherId, isHidden);
-//		return id;
-//	}
-	
-//	@Override
-//	public String addEnemyLauncher() {
-//		String id = warModel.addEnemyLauncher();
-//		return id;
-//	}
-
-//	@Override
-//	public String addIronDome() {
-//		String id = warModel.addIronDome();
-//		return id;
-//	}
-	
-//	@Override
-//	public String addIronDome(String id) {
-//		String iId = warModel.addIronDome(id);
-//		return iId;
-//	}
-
-//	@Override
-//	public String addDefenseLauncherDestructor(String type) {
-//		String id = warModel.addDefenseLauncherDestructor(type);
-//		return id;
-//	}
 
 	@Override
-	public String[] getAllWarDestinations() {
-		String[] warTargets = warModel.getAllTargetCities();
-		return warTargets;
+	public void reqAllWarDestinations() {
+		warModel.getAllTargetCities();
 	}
-
+	
 	@Override
 	public void warHasBeenFinished() {	
 		if (view instanceof ConsoleView) {
@@ -255,5 +250,5 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 		view.showEnemyMissDestination(whoLaunchedMeId, id, destination, launchTime);
 	}
 
-
 }
+

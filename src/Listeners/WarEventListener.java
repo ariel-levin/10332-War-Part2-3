@@ -1,5 +1,8 @@
 package Listeners;
 
+import java.util.Vector;
+
+
 /** Event interface between the model and the control **/
 public interface WarEventListener {
 
@@ -69,5 +72,24 @@ public interface WarEventListener {
 	
 	/** Launcher Destructor was added */
 	public void launcherDestructorAdded(String id, String type);
+	
+	/** Sends to View all the On-Air Missile ID's */
+	public void sendMissileToIntercept(Vector<String> missilesID);
+	
+	/** Sends to View all the visible Launchers */
+	public void sendLauncherToIntercept(Vector<String> launchersID);
+	
+	/** Sends to View all the Launchers ID's */
+	public void sendAllLaunchersID(Vector<String> launchersID);
+	
+	/** Sends to View all the Iron Domes ID's */
+	public void sendAllIronDomesID(Vector<String> ironDomesID);
+	
+	/** Sends to View all the Launcher Destructors ID's */
+	public void sendAllLauncherDestructors(Vector<String> destructorsDetails);
+	
+	/** Sends to View all the Destination Targets */
+	public void sendAllWarDestinations(String[] cities);
 
 }
+

@@ -8,12 +8,15 @@ import java.util.Vector;
 import Listeners.WarEventUIListener;
 import Utils.Utils;
 
+
 public class ConsoleView extends Thread implements AbstractWarView {
+	
 	private List<WarEventUIListener> allListeners;
 	private Scanner input = new Scanner(System.in);
 	private StringBuilder menu = new StringBuilder(1000);
 	private boolean isRunning = true;
 
+	
 	public ConsoleView() {
 		allListeners = new LinkedList<WarEventUIListener>();
 		createMenu();
@@ -374,9 +377,24 @@ public class ConsoleView extends Thread implements AbstractWarView {
 				+ launcherId + " doesn't exist!");
 	}
 
+	@Override
+	public void enemyLauncherAdded(String id) {
+
+	}
+
+	@Override
+	public void ironDomeAdded(String id) {
+
+	}
+
+	@Override
+	public void launcherDestructorAdded(String id, String type) {
+
+	}
+
 	public void start() {
 		super.start();
 	}
-
+	
 }
 
