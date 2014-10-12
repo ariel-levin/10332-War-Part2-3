@@ -12,7 +12,9 @@ import javax.xml.parsers.*;
 
 import java.io.*;
 
+
 public class WarXMLReader extends Thread {
+	
 	private DocumentBuilderFactory factory;
 	private DocumentBuilder builder;
 	private Document document;
@@ -20,6 +22,7 @@ public class WarXMLReader extends Thread {
 	private static ThreadGroup threadGroup = new ThreadGroup("group");
 	private WarControl warControl;
 
+	
 	public WarXMLReader(String fileName, WarControl warControl)
 			throws ParserConfigurationException, SAXException, IOException {
 		this.warControl = warControl;

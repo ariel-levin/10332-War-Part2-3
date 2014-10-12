@@ -13,9 +13,11 @@ import Utils.Utils;
 import Utils.WarFormater;
 
 public class WarLogger implements WarEventListener {
+	
 	private static Logger theLogger = Logger.getLogger("warLogger");
 	private static Vector<FileHandler> allHandlers = new Vector<FileHandler>();
 	private static FileHandler warHandler;
+	
 	
 	// static cons't
 	static {
@@ -67,7 +69,6 @@ public class WarLogger implements WarEventListener {
 			e.printStackTrace();
 		}
 	}// addLoggerHandler
-	
 	
 	public static void closeWarHandler(){
 		warHandler.close();
@@ -197,6 +198,18 @@ public class WarLogger implements WarEventListener {
 	@Override
 	public void noSuchObject(String type) {
 		// Not needed
+	}
+
+	public void enemyLauncherAdded(String id) {
+		
+	}
+	
+	public void ironDomeAdded(String id) {
+		
+	}
+	
+	public void launcherDestructorAdded(String id, String type) {
+		
 	}
 
 }

@@ -376,7 +376,7 @@ public class ConsoleView extends Thread implements AbstractWarView {
 				+ defenseLauncherId + " tried to intercept, " + "but missed: "
 				+ launcherId + " doesn't exist!");
 	}
-
+	
 	@Override
 	public void enemyLauncherAdded(String id) {
 
@@ -392,6 +392,42 @@ public class ConsoleView extends Thread implements AbstractWarView {
 
 	}
 
+	@Override
+	public Vector<String> getMissileToIntercept() {
+		Vector<String> missiles = allListeners.get(0).chooseMissileToIntercept();
+		return missiles;
+	}
+	
+	@Override
+	public Vector<String> getLauncherToIntercept() {
+		Vector<String> launchers = allListeners.get(0).chooseLauncherToIntercept();
+		return launchers;
+	}
+	
+	@Override
+	public Vector<String> getAllLaunchersID() {
+		Vector<String> ids = allListeners.get(0).showAllLaunchers();
+		return ids;
+	}
+	
+	@Override
+	public Vector<String> getAllIronDomesID() {
+		Vector<String> ids = allListeners.get(0).showAllIronDomes();
+		return ids;
+	}
+	
+	@Override
+	public Vector<String> getAllLauncherDestructors() {
+		Vector<String> details = allListeners.get(0).showAllLauncherDestructors();
+		return details;
+	}
+		
+	@Override
+	public String[] getAllWarDestinations() {
+		String[] dest = allListeners.get(0).getAllWarDestinations();
+		return dest;
+	}
+	
 	public void start() {
 		super.start();
 	}

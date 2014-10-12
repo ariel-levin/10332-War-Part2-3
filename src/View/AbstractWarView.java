@@ -59,17 +59,17 @@ public interface AbstractWarView {
 	
 	void launcherDestructorAdded(String id, String type);
 
-	void getMissileToIntercept(Vector<String> missilesID);
+	Vector<String> getMissileToIntercept();
 
-	void getLauncherToIntercept(Vector<String> launchersID);
+	Vector<String> getLauncherToIntercept();
 	
-	void getAllLaunchersID(Vector<String> launchersID);
+	Vector<String> getAllLaunchersID();
 
-	void getAllIronDomesID(Vector<String> ironDomesID);
+	Vector<String> getAllIronDomesID();
 	
-	void getAllLauncherDestructors(Vector<String> destructorsDetails);
+	Vector<String> getAllLauncherDestructors();
 	
-	void getAllWarDestinations(String[] cities);
+	String[] getAllWarDestinations();
 	
 	void start();
 	

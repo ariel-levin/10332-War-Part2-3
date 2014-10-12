@@ -75,14 +75,13 @@ public class GuiView extends JFrame implements AbstractWarView {
 		allListeners.add(listener);
 	}
 
-	/* When user is select, an event is throw to the control */
-	public void fireAddDefenseLauncherDestructor(String type) {
+	public void fireAddEnemyLauncher() {
 		for (WarEventUIListener l : allListeners)
-			l.addDefenseLauncherDestructor(type);
+			l.addEnemyLauncher();
 	}
 	
-	public void launcherDestructorAdded(String id, String type) {
-		this.mainPanel.launcherDestructorAdded(id, type);
+	public void enemyLauncherAdded(String id) {
+		this.mainPanel.enemyLauncherAdded(id);
 	}
 
 	public void fireAddDefenseIronDome() {
@@ -93,16 +92,17 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void ironDomeAdded(String id) {
 		this.mainPanel.ironDomeAdded(id);
 	}
-
-	public void fireAddEnemyLauncher() {
+	
+	/* When user is select, an event is throw to the control */
+	public void fireAddDefenseLauncherDestructor(String type) {
 		for (WarEventUIListener l : allListeners)
-			l.addEnemyLauncher();
+			l.addDefenseLauncherDestructor(type);
 	}
 	
-	public void enemyLauncherAdded(String id) {
-		this.mainPanel.enemyLauncherAdded(id);
+	public void launcherDestructorAdded(String id, String type) {
+		this.mainPanel.launcherDestructorAdded(id, type);
 	}
-
+	
 	public void fireAddEnemyMissile(String launcherID, String destination,
 			int flyTime, int damage) {
 		
@@ -120,8 +120,40 @@ public class GuiView extends JFrame implements AbstractWarView {
 			l.interceptGivenMissile(ironDomeID, missileID);
 	}
 
+	@Override
+	public Vector<String> getMissileToIntercept() {
+		Vector<String> missiles = allListeners.get(0).chooseMissileToIntercept();
+		return missiles;
+	}
+	
+	@Override
+	public Vector<String> getLauncherToIntercept() {
+		Vector<String> launchers = allListeners.get(0).chooseLauncherToIntercept();
+		return launchers;
+	}
+	
+	@Override
 	public Vector<String> getAllLaunchersID() {
+		Vector<String> ids = allListeners.get(0).showAllLaunchers();
+		return ids;
+	}
+	
+	@Override
+	public Vector<String> getAllIronDomesID() {
+		Vector<String> ids = allListeners.get(0).showAllIronDomes();
+		return ids;
+	}
+	
+	@Override
+	public Vector<String> getAllLauncherDestructors() {
+		Vector<String> details = allListeners.get(0).showAllLauncherDestructors();
+		return details;
+	}
 		
+	@Override
+	public String[] getAllWarDestinations() {
+		String[] dest = allListeners.get(0).getAllWarDestinations();
+		return dest;
 	}
 	
 //	private void fireShowStatistics() {
@@ -273,3 +305,4 @@ public class GuiView extends JFrame implements AbstractWarView {
 	}
 
 }
+
