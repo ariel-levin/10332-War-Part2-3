@@ -86,38 +86,7 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	public void launcherDestructorAdded(String id, String type) {
 		view.launcherDestructorAdded(id, type);
 	}
-	
-//	@Override
-//	public void sendMissileToIntercept(Vector<String> missilesID) {
-//		view.getMissileToIntercept(missilesID);
-//	}
-//	
-//	@Override
-//	public void sendLauncherToIntercept(Vector<String> launchersID) {
-//		view.getLauncherToIntercept(launchersID);
-//	}
-//	
-//	@Override
-//	public void sendAllLaunchersID(Vector<String> launchersID) {
-//		view.getAllLaunchersID(launchersID);
-//	}
-//	
-//	@Override
-//	public void sendAllIronDomesID(Vector<String> ironDomesID) {
-//		view.getAllIronDomesID(ironDomesID);
-//	}
-//	
-//	@Override
-//	public void sendAllLauncherDestructors(Vector<String> destructorsDetails) {
-//		view.getAllLauncherDestructors(destructorsDetails);
-//	}
-//	
-//	@Override
-//	public void sendAllWarDestinations(String[] cities) {
-//		view.getAllWarDestinations(cities);
-//	}
-	
-	
+		
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////

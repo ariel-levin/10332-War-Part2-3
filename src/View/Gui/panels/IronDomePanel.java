@@ -45,14 +45,11 @@ public class IronDomePanel extends MunitionPanel {
 	public void interceptMissile(String missileID) {
 		super.setIcon(DOMEINT_IMAGE);
 		
-		
 	}
 
 	public void interceptDone() {
-
 		super.setIcon(DOME_IMAGE);
 		super.btnAction.setEnabled(true);
-		
 	}
 	
 }

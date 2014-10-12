@@ -66,7 +66,6 @@ public class LauncherDestructorPanel extends MunitionPanel {
 	}
 
 	public void destroyDone() {
-
 		if (isShip())
 			super.setIcon(SHIP_IMAGE);
 		else

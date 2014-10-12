@@ -8,7 +8,9 @@ import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -184,7 +186,6 @@ public class GuiView extends JFrame implements AbstractWarView {
 			l.finishWar();
 		}
 		dispose();
-//		isRunning = false;
 	}
 
 	/* Prints to screen event from controller */
@@ -221,7 +222,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 
 	public void showLauncherIsVisible(String id, boolean visible) {
 		String str = visible ? "visible" : "hidden";
-		console.append(	"[" + Utils.getCurrentTime() + "] Launcher: " + id
+		console.append(	"\n[" + Utils.getCurrentTime() + "] Launcher: " + id
 						+ " just turned " + str);
 		
 		this.mainPanel.showLauncherIsVisible(id, visible);
@@ -230,7 +231,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void showMissInterceptionMissile(String whoLaunchedMeId, String id,
 			String enemyMissileId) {
 		
-		console.append(	"[" + Utils.getCurrentTime() + "] Iron Dome: "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] Iron Dome: "
 						+ whoLaunchedMeId + " fired missile: " + id
 						+ " but missed the missile: " + enemyMissileId);
 		
@@ -240,17 +241,19 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void showHitInterceptionMissile(String whoLaunchedMeId, String id,
 			String enemyMissileId) {
 		
-		console.append(	"[" + Utils.getCurrentTime() + "] Iron Dome: "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] Iron Dome: "
 						+ whoLaunchedMeId + " fired missile: " + id
 						+ " and intercept succesfully the missile: " + enemyMissileId);
 		
 		this.mainPanel.ironDomeDone(whoLaunchedMeId);
+		String launcherID = this.mainPanel.getMissileOwner(enemyMissileId);
+		this.mainPanel.launcherDone(launcherID);
 	}
 
 	public void showEnemyHitDestination(String whoLaunchedMeId, String id,
 			String destination, int damage) {
 		
-		console.append(	"[" + Utils.getCurrentTime() + "] Enemy Missile: "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] Enemy Missile: "
 						+ id + " HIT " + destination + ". the damage is: " + damage
 						+ ". Launch by: " + whoLaunchedMeId);
 		
@@ -260,7 +263,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void showEnemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime) {
 		
-		console.append(	"[" + Utils.getCurrentTime() + "] Enemy Missile: "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] Enemy Missile: "
 						+ id + " MISSED " + destination + " launch at: " + launchTime
 						+ ". Launch by: " + whoLaunchedMeId);
 		
@@ -270,7 +273,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void showMissInterceptionLauncher(String whoLaunchedMeId,
 			String type, String enemyLauncherId, String missileId) {
 		
-		console.append(	"[" + Utils.getCurrentTime() + "] " + type + ": "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] " + type + ": "
 						+ whoLaunchedMeId + " fired missile: " + missileId
 						+ " but missed the Launcher: " + enemyLauncherId);
 		
@@ -280,7 +283,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void showMissInterceptionHiddenLauncher(String whoLaunchedMeId,
 			String type, String enemyLauncherId) {
 		
-		console.append(	"[" + Utils.getCurrentTime() + "] " + type + ": "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] " + type + ": "
 						+ whoLaunchedMeId + " missed the Launcher: " + enemyLauncherId
 						+ " because he is hidden");
 		
@@ -290,18 +293,19 @@ public class GuiView extends JFrame implements AbstractWarView {
 	public void showHitInterceptionLauncher(String whoLaunchedMeId,
 			String type, String enemyLauncherId, String missileId) {
 		
-		console.append(	"[" + Utils.getCurrentTime() + "] " + type + ": "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] " + type + ": "
 						+ whoLaunchedMeId + " fired missile: " + missileId
 						+ " and intercept succesfully the Launcher: "
 						+ enemyLauncherId);
 		
 		this.mainPanel.launcherDestructorDone(whoLaunchedMeId);
+		this.mainPanel.launcherDestroyed(enemyLauncherId);
 	}
 
 	// prints all war statistics
 	public void showStatistics(long[] array) {
 		StringBuilder msg = new StringBuilder();
-		msg.append("\n[" + Utils.getCurrentTime() + "]"
+		msg.append("[" + Utils.getCurrentTime() + "]"
 				+ "\t\t   War Statistics\n");
 		msg.append("\t\t\t=========================================\n");
 		msg.append("\t\t\t||\tNum of launch missiles: " + array[0] + "\t||\n");
@@ -313,7 +317,8 @@ public class GuiView extends JFrame implements AbstractWarView {
 				+ "\t||\n");
 		msg.append("\t\t\t||\ttotal damage: " + array[4] + "\t\t||\n");
 		msg.append("\t\t\t==========================================\n");
-		console.append(msg.toString());
+//		console.append(msg.toString());
+		JOptionPane.showMessageDialog(null,msg.toString(),"War Statistics",JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void showWarHasBeenFinished() {
@@ -321,28 +326,28 @@ public class GuiView extends JFrame implements AbstractWarView {
 			l.showStatistics();
 		}
 
-		console.append(	"[" + Utils.getCurrentTime()
+		console.append(	"\n[" + Utils.getCurrentTime()
 						+ "] =========>> Finally THIS WAR IS OVER!!! <<=========");
 	}
 
 	public void showWarHasBeenStarted() {
-		console.append(	"[" + Utils.getCurrentTime()
-						+ "] =========>> War has been strated!!! <<=========");
+//		console.append(	"\n[" + Utils.getCurrentTime()
+//						+ "] =========>> War has been strated!!! <<=========");
 	}
 
 	public void showNoSuchObject(String type) {
-		console.append(	"[" + Utils.getCurrentTime()
+		console.append(	"\n[" + Utils.getCurrentTime()
 						+ "] ERROR: Cannot find " + type + " you selected in war");
 	}
 
 	public void showMissileNotExist(String defenseLauncherId, String enemyId) {
-		console.append(	"[" + Utils.getCurrentTime() + "] ERROR: "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] ERROR: "
 						+ defenseLauncherId + " tried to intercept, " + "but missed: "
 						+ enemyId + " doesn't exist!");
 	}
 
 	public void showLauncherNotExist(String defenseLauncherId, String launcherId) {
-		console.append(	"[" + Utils.getCurrentTime() + "] ERROR: "
+		console.append(	"\n[" + Utils.getCurrentTime() + "] ERROR: "
 						+ defenseLauncherId + " tried to intercept, " + "but missed: "
 						+ launcherId + " doesn't exist!");
 	}

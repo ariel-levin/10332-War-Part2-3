@@ -45,18 +45,36 @@ public class LaunchersSectionPanel extends SectionPanel {
 	}
 	
 	public void showEnemyLaunch(String launcherID, String missileID) {
-		
-		
+		LauncherPanel lp = (LauncherPanel)super.findMunition(launcherID);
+		if (lp != null)
+			lp.launchMissile(missileID);
 	}
 	
 	public void showLauncherIsVisible(String launcherID, boolean visible) {
-		
-		
+		LauncherPanel lp = (LauncherPanel)super.findMunition(launcherID);
+		if (lp != null)
+			lp.changeVisible(visible);
 	}
 	
 	public void launcherDone(String launcherID) {
-		
-		
+		LauncherPanel lp = (LauncherPanel)super.findMunition(launcherID);
+		if (lp != null)
+			lp.launchDone();
+	}
+	
+	public void launcherDestroyed(String launcherID) {
+		LauncherPanel lp = (LauncherPanel)super.findMunition(launcherID);
+		if (lp != null)
+			lp.launcherDestroyed();
+	}
+	
+	public String getMissileOwner(String missileID) {
+		for (MunitionPanel mp : super.munitionArr) {
+			String onAir = ((LauncherPanel)mp).getMissileOnAir();
+			if (onAir!=null && onAir.compareTo(missileID)==0)
+				return mp.getId();
+		}
+		return null;
 	}
 	
 }

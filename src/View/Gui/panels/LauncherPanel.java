@@ -16,10 +16,14 @@ public class LauncherPanel extends MunitionPanel {
 	private static final String LAUNCHERMIS_IMAGE = "../images/launcher-launch.jpg";
 	private static final String LAUNCHERDES_IMAGE = "../images/launcher-destroyed.jpg";
 
+	private boolean alive = false;
+	private String missileOnAir = null;
+	
 	
 	public LauncherPanel(String id, SectionPanel sectionPanel, GuiView guiView) {
 
 		super(id, sectionPanel, LAUNCHER_IMAGE, "Launch", guiView);
+		alive = true;
 
 		super.btnAction.addActionListener(new ActionListener() {
 			@Override
@@ -39,24 +43,34 @@ public class LauncherPanel extends MunitionPanel {
 		super.guiView.fireAddEnemyMissile(super.id, destination, flyTime, damage);
 	}
 	
-	public void launchMissile() {
+	public void launchMissile(String missileID) {
 		super.setIcon(LAUNCHERMIS_IMAGE);
+		this.missileOnAir = missileID;
+		
+	}
+	
+	public void changeVisible(boolean visible) {
 		
 		
 	}
 
 	public void launchDone() {
-
-		super.setIcon(LAUNCHER_IMAGE);
-		super.btnAction.setEnabled(true);
-
+		if (alive) {
+			super.setIcon(LAUNCHER_IMAGE);
+			super.btnAction.setEnabled(true);
+		}
+		this.missileOnAir = null;
 	}
 
 	public void launcherDestroyed() {
-
+		alive = false;
+		this.missileOnAir = null;
 		super.setIcon(LAUNCHERDES_IMAGE);
 		super.btnAction.setEnabled(false);
-
 	}
 
+	public String getMissileOnAir() {
+		return missileOnAir;
+	}
+	
 }

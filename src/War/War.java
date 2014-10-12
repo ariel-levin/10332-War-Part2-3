@@ -454,5 +454,11 @@ public class War extends Thread {
 		return targetCities;
 	}
 
+	public String getMissileOwner(String missileID) {
+		
+
+		return null;
+	}
+
 }
 

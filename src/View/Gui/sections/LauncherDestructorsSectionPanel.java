@@ -60,13 +60,15 @@ public class LauncherDestructorsSectionPanel extends SectionPanel {
 	}
 	
 	public void showDestroyLauncher(String destructorID, String launcherID) {
-		
-		
+		LauncherDestructorPanel ldp = (LauncherDestructorPanel)super.findMunition(destructorID);
+		if (ldp != null)
+			ldp.destroyLauncher(launcherID);
 	}
 	
 	public void launcherDestructorDone(String destructorID) {
-		
-		
+		LauncherDestructorPanel ldp = (LauncherDestructorPanel)super.findMunition(destructorID);
+		if (ldp != null)
+			ldp.destroyDone();
 	}
 
 }

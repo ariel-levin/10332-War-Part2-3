@@ -42,12 +42,20 @@ public class SectionPanel extends JPanel {
 		this.add(btnAddMunition, BorderLayout.NORTH);
 	}
 	
-	public void displayMunition(MunitionPanel munition) {
+	protected void displayMunition(MunitionPanel munition) {
 		munitionArr.add(munition);
 		innerPanel.add(munition);
 //		munition.setSectionPanel(this);
 		validate();
 		repaint();
+	}
+	
+	protected MunitionPanel findMunition(String id) {
+		for (MunitionPanel mp : this.munitionArr) {
+			if (mp.getId().compareTo(id) == 0)
+				return mp;
+		}
+		return null;
 	}
 	
 }

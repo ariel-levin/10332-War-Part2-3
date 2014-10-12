@@ -3,6 +3,7 @@ package View.Gui.panels;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+
 import javax.swing.JPanel;
 
 import View.GuiView;
@@ -88,7 +89,13 @@ public class MainPanel extends JPanel {
 		((LauncherDestructorsSectionPanel)launcherDestructorSection).launcherDestructorDone(destructorID);
 	}
 	
+	public void launcherDestroyed(String launcherID) {
+		((LaunchersSectionPanel)launcherSection).launcherDestroyed(launcherID);
+	}
 	
+	public String getMissileOwner(String missileID) {
+		return ((LaunchersSectionPanel)launcherSection).getMissileOwner(missileID);
+	}
 	
 }
 

@@ -45,13 +45,15 @@ public class IronDomesSectionPanel extends SectionPanel {
 	}
 	
 	public void showInterceptMissile(String ironDomeID, String missileID) {
-		
-		
+		IronDomePanel idp = (IronDomePanel)super.findMunition(ironDomeID);
+		if (idp != null)
+			idp.interceptMissile(missileID);
 	}
 	
 	public void ironDomeDone(String ironDomeID) {
-		
-		
+		IronDomePanel idp = (IronDomePanel)super.findMunition(ironDomeID);
+		if (idp != null)
+			idp.interceptDone();
 	}
 
 }

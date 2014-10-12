@@ -66,7 +66,7 @@ public class MunitionPanel extends JPanel {
 	}
 	
 	public void formClosed() {
-		btnAction.setEnabled(true);
+		this.btnAction.setEnabled(true);
 	}
 	
 }
