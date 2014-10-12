@@ -3,7 +3,6 @@ package View.Gui.panels;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-
 import javax.swing.JPanel;
 
 import View.GuiView;
@@ -46,8 +45,6 @@ public class MainPanel extends JPanel {
 //											 // without it the proportions will not be saved during resize
 //		tribesSplitter.setResizeWeight(0.6);
 
-//		registerToTribesEvents();
-		
 //		add(tribesSplitter, BorderLayout.CENTER);
 	}
 	
@@ -63,51 +60,35 @@ public class MainPanel extends JPanel {
 		((LauncherDestructorsSectionPanel)launcherDestructorSection).launcherDestructorAdded(id, type);
 	}
 	
-//	public void registerListener(WarEventUIListener listener) {
-//		allListeners.add(listener);
-//	}
-
-//	public SectionPanel getTribe1() {
-//		return launcherSection;
-//	}
-
-//	public SectionPanel getTribe2() {
-//		return ironDomeSection;
-//	}
-
-//	private void moveSurvivorToOtherTribe(SurvivorPanel survivorPanel,
-//			SectionPanel srcTribePanel) {
-//		if (launcherSection == srcTribePanel) {
-//			launcherSection.removeSurvivor(survivorPanel);
-//			ironDomeSection.addSurvivor(survivorPanel);
-//		} else {
-//			ironDomeSection.removeSurvivor(survivorPanel);
-//			launcherSection.addSurvivor(survivorPanel);
-//		}
-//	}
-
-//	private void setSectionListerners(SectionPanel sectionPanel) {
-//		if (allListeners.isEmpty())
-//			System.out.println("MainPanel no listeners");
-//		
-//		for (WarEventUIListener l : allListeners) {
-//			System.out.println("enter setSectionListerners");
-//			sectionPanel.registerListener(l);
-//		}
-//	}
+	public void showInterceptMissile(String ironDomeID, String missileID) {
+		((IronDomesSectionPanel)ironDomeSection).showInterceptMissile(ironDomeID, missileID);
+	}
 	
-//	public void showAllMunitions() {
-//		((LaunchersSectionPanel)launcherSection).showAllLaunchers();
-//		
-//		
-//		
-//	}
-
-//	@Override
-//	public void moveSurvivorTribeEvent(SurvivorPanel survivorPanel,
-//			SectionPanel srcTribePanel) {
-//		moveSurvivorToOtherTribe(survivorPanel, srcTribePanel);
-//	}
+	public void showDestroyLauncher(String destructorID, String launcherID) {
+		((LauncherDestructorsSectionPanel)launcherDestructorSection).showDestroyLauncher(destructorID, launcherID);
+	}
+	
+	public void showEnemyLaunch(String launcherID, String missileID) {
+		((LaunchersSectionPanel)launcherSection).showEnemyLaunch(launcherID, missileID);
+	}
+	
+	public void showLauncherIsVisible(String launcherID, boolean visible) {
+		((LaunchersSectionPanel)launcherSection).showLauncherIsVisible(launcherID, visible);
+	}
+	
+	public void ironDomeDone(String ironDomeID) {
+		((IronDomesSectionPanel)ironDomeSection).ironDomeDone(ironDomeID);
+	}
+	
+	public void launcherDone(String launcherID) {
+		((LaunchersSectionPanel)launcherSection).launcherDone(launcherID);
+	}
+	
+	public void launcherDestructorDone(String destructorID) {
+		((LauncherDestructorsSectionPanel)launcherDestructorSection).launcherDestructorDone(destructorID);
+	}
+	
+	
 	
 }
 

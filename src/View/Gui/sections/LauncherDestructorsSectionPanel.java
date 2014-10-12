@@ -58,6 +58,16 @@ public class LauncherDestructorsSectionPanel extends SectionPanel {
 		addExistLauncherDestructor(id, type);
 		super.btnAddMunition.setEnabled(true);
 	}
+	
+	public void showDestroyLauncher(String destructorID, String launcherID) {
+		
+		
+	}
+	
+	public void launcherDestructorDone(String destructorID) {
+		
+		
+	}
 
 }
 

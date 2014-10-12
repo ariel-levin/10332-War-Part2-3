@@ -44,5 +44,20 @@ public class LaunchersSectionPanel extends SectionPanel {
 		addExistLauncher(id);
 	}
 	
+	public void showEnemyLaunch(String launcherID, String missileID) {
+		
+		
+	}
+	
+	public void showLauncherIsVisible(String launcherID, boolean visible) {
+		
+		
+	}
+	
+	public void launcherDone(String launcherID) {
+		
+		
+	}
+	
 }
 

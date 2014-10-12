@@ -43,6 +43,16 @@ public class IronDomesSectionPanel extends SectionPanel {
 	public void ironDomeAdded(String id) {
 		addExistIronDome(id);
 	}
+	
+	public void showInterceptMissile(String ironDomeID, String missileID) {
+		
+		
+	}
+	
+	public void ironDomeDone(String ironDomeID) {
+		
+		
+	}
 
 }
 

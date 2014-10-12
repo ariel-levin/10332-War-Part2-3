@@ -2,14 +2,19 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.text.DefaultCaret;
 
 import Listeners.WarEventUIListener;
 import Utils.*;
@@ -22,6 +27,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	
 	private List<WarEventUIListener> allListeners;
 	private MainPanel mainPanel;
+	private JTextArea console;
 	
 
 	public GuiView() {
@@ -32,9 +38,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(this);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		} catch (Exception e1) {}
 
 		setTitle("War Managment");
 		
@@ -52,18 +56,32 @@ public class GuiView extends JFrame implements AbstractWarView {
 
 //		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frameSize = new Dimension();
-//		System.out.println("screenSize.width * 0.5 = " + screenSize.width * 0.5);
-//		System.out.println("screenSize.height * 0.5 = " + screenSize.height * 0.5);
+//		console.append("screenSize.width * 0.5 = " + screenSize.width * 0.5);
+//		console.append("screenSize.height * 0.5 = " + screenSize.height * 0.5);
 //		frameSize.setSize(screenSize.width * 0.5, screenSize.height * 0.5);
-		frameSize.setSize(1080,500);
+		frameSize.setSize(1080,650);
+//		frameSize.setSize(1080,500);
 		setSize(frameSize);
 		
 		getContentPane().setLayout(new BorderLayout());
 		mainPanel = new MainPanel(this);
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 		
-//		for (WarEventUIListener l : allListeners)
-//			mainPanel.registerListener(l);
+		
+		JPanel lowerPanel = new JPanel(new BorderLayout());
+		console = new JTextArea();
+		console.setFont(console.getFont().deriveFont(Font.PLAIN,12));
+		console.setEditable(false);
+
+		DefaultCaret caret = (DefaultCaret)console.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(console);
+		scrollPane.setPreferredSize(new Dimension(this.getWidth()-20, 150));
+		lowerPanel.add(scrollPane, BorderLayout.CENTER);
+		
+		getContentPane().add(lowerPanel, BorderLayout.SOUTH);
 		
 //		setJMenuBar(new WarMenu(this));
 		setLocationRelativeTo(null);
@@ -172,81 +190,112 @@ public class GuiView extends JFrame implements AbstractWarView {
 	/* Prints to screen event from controller */
 	public void showDefenseLaunchMissile(String MunitionsId, String missileId,
 			String enemyMissileId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] Iron dome: "
-				+ MunitionsId + " just launched missile: " + missileId
-				+ " towards missile: " + enemyMissileId);
+		
+		console.append(	"\n[" + Utils.getCurrentTime() + "] Iron dome: "
+						+ MunitionsId + " just launched missile: " + missileId
+						+ " towards missile: " + enemyMissileId);
+		
+		this.mainPanel.showInterceptMissile(MunitionsId, enemyMissileId);
 	}
 
 	public void showDefenseLaunchMissile(String MunitionsId, String type,
 			String missileId, String enemyLauncherId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] " + type + ": "
-				+ MunitionsId + " just launched missile: " + missileId
-				+ " towards launcher: " + enemyLauncherId);
+		
+		console.append(	"\n[" + Utils.getCurrentTime() + "] " + type + ": "
+						+ MunitionsId + " just launched missile: " + missileId
+						+ " towards launcher: " + enemyLauncherId);
+		
+		this.mainPanel.showDestroyLauncher(MunitionsId, enemyLauncherId);
 	}
 
 	public void showEnemyLaunchMissile(String MunitionsId, String missileId,
 			String destination, int damage) {
-		System.out.println("[" + Utils.getCurrentTime() + "] Launcher: "
-				+ MunitionsId + " just launched missile: " + missileId
-				+ " towards: " + destination
-				+ " its about to cause damade of: " + damage);
+		
+		console.append(	"\n[" + Utils.getCurrentTime() + "] Launcher: "
+						+ MunitionsId + " just launched missile: " + missileId
+						+ " towards: " + destination
+						+ " its about to cause damade of: " + damage);
+		
+		this.mainPanel.showEnemyLaunch(MunitionsId, missileId);
 	}
 
 	public void showLauncherIsVisible(String id, boolean visible) {
 		String str = visible ? "visible" : "hidden";
-		System.out.println("[" + Utils.getCurrentTime() + "] Launcher: " + id
-				+ " just turned " + str);
+		console.append(	"[" + Utils.getCurrentTime() + "] Launcher: " + id
+						+ " just turned " + str);
+		
+		this.mainPanel.showLauncherIsVisible(id, visible);
 	}
 
 	public void showMissInterceptionMissile(String whoLaunchedMeId, String id,
 			String enemyMissileId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] Iron Dome: "
-				+ whoLaunchedMeId + " fired missile: " + id
-				+ " but missed the missile: " + enemyMissileId);
+		
+		console.append(	"[" + Utils.getCurrentTime() + "] Iron Dome: "
+						+ whoLaunchedMeId + " fired missile: " + id
+						+ " but missed the missile: " + enemyMissileId);
+		
+		this.mainPanel.ironDomeDone(whoLaunchedMeId);
 	}
 
 	public void showHitInterceptionMissile(String whoLaunchedMeId, String id,
 			String enemyMissileId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] Iron Dome: "
-				+ whoLaunchedMeId + " fired missile: " + id
-				+ " and intercept succesfully the missile: " + enemyMissileId);
+		
+		console.append(	"[" + Utils.getCurrentTime() + "] Iron Dome: "
+						+ whoLaunchedMeId + " fired missile: " + id
+						+ " and intercept succesfully the missile: " + enemyMissileId);
+		
+		this.mainPanel.ironDomeDone(whoLaunchedMeId);
 	}
 
 	public void showEnemyHitDestination(String whoLaunchedMeId, String id,
 			String destination, int damage) {
-		System.out.println("[" + Utils.getCurrentTime() + "] Enemy Missile: "
-				+ id + " HIT " + destination + ". the damage is: " + damage
-				+ ". Launch by: " + whoLaunchedMeId);
+		
+		console.append(	"[" + Utils.getCurrentTime() + "] Enemy Missile: "
+						+ id + " HIT " + destination + ". the damage is: " + damage
+						+ ". Launch by: " + whoLaunchedMeId);
+		
+		this.mainPanel.launcherDone(whoLaunchedMeId);
 	}
 
 	public void showEnemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime) {
-		System.out.println("[" + Utils.getCurrentTime() + "] Enemy Missile: "
-				+ id + " MISSED " + destination + " launch at: " + launchTime
-				+ ". Launch by: " + whoLaunchedMeId);
+		
+		console.append(	"[" + Utils.getCurrentTime() + "] Enemy Missile: "
+						+ id + " MISSED " + destination + " launch at: " + launchTime
+						+ ". Launch by: " + whoLaunchedMeId);
+		
+		this.mainPanel.launcherDone(whoLaunchedMeId);
 	}
 
 	public void showMissInterceptionLauncher(String whoLaunchedMeId,
 			String type, String enemyLauncherId, String missileId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] " + type + ": "
-				+ whoLaunchedMeId + " fired missile: " + missileId
-				+ " but missed the Launcher: " + enemyLauncherId);
+		
+		console.append(	"[" + Utils.getCurrentTime() + "] " + type + ": "
+						+ whoLaunchedMeId + " fired missile: " + missileId
+						+ " but missed the Launcher: " + enemyLauncherId);
+		
+		this.mainPanel.launcherDestructorDone(whoLaunchedMeId);
 	}
 
 	public void showMissInterceptionHiddenLauncher(String whoLaunchedMeId,
 			String type, String enemyLauncherId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] " + type + ": "
-				+ whoLaunchedMeId + " missed the Launcher: " + enemyLauncherId
-				+ " because he is hidden");
+		
+		console.append(	"[" + Utils.getCurrentTime() + "] " + type + ": "
+						+ whoLaunchedMeId + " missed the Launcher: " + enemyLauncherId
+						+ " because he is hidden");
+		
+		this.mainPanel.launcherDestructorDone(whoLaunchedMeId);
 	}
 
 	public void showHitInterceptionLauncher(String whoLaunchedMeId,
 			String type, String enemyLauncherId, String missileId) {
-		System.out
-				.println("[" + Utils.getCurrentTime() + "] " + type + ": "
+		
+		console.append(	"[" + Utils.getCurrentTime() + "] " + type + ": "
 						+ whoLaunchedMeId + " fired missile: " + missileId
 						+ " and intercept succesfully the Launcher: "
 						+ enemyLauncherId);
+		
+		this.mainPanel.launcherDestructorDone(whoLaunchedMeId);
 	}
 
 	// prints all war statistics
@@ -264,7 +313,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 				+ "\t||\n");
 		msg.append("\t\t\t||\ttotal damage: " + array[4] + "\t\t||\n");
 		msg.append("\t\t\t==========================================\n");
-		System.out.println(msg.toString());
+		console.append(msg.toString());
 	}
 
 	public void showWarHasBeenFinished() {
@@ -272,37 +321,35 @@ public class GuiView extends JFrame implements AbstractWarView {
 			l.showStatistics();
 		}
 
-		System.out.println("[" + Utils.getCurrentTime()
-				+ "] =========>> Finally THIS WAR IS OVER!!! <<=========");
-		// System.out.println("[" + Utils.getCurrentTime() + "]");
+		console.append(	"[" + Utils.getCurrentTime()
+						+ "] =========>> Finally THIS WAR IS OVER!!! <<=========");
 	}
 
 	public void showWarHasBeenStarted() {
-		System.out.println("[" + Utils.getCurrentTime()
-				+ "] =========>> War has been strated!!! <<=========");
-		// System.out.println("[" + Utils.getCurrentTime() + "]");
+		console.append(	"[" + Utils.getCurrentTime()
+						+ "] =========>> War has been strated!!! <<=========");
 	}
 
 	public void showNoSuchObject(String type) {
-		System.out.println("[" + Utils.getCurrentTime()
-				+ "] ERROR: Cannot find " + type + " you selected in war");
+		console.append(	"[" + Utils.getCurrentTime()
+						+ "] ERROR: Cannot find " + type + " you selected in war");
 	}
 
 	public void showMissileNotExist(String defenseLauncherId, String enemyId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] ERROR: "
-				+ defenseLauncherId + " tried to intercept, " + "but missed: "
-				+ enemyId + " doesn't exist!");
+		console.append(	"[" + Utils.getCurrentTime() + "] ERROR: "
+						+ defenseLauncherId + " tried to intercept, " + "but missed: "
+						+ enemyId + " doesn't exist!");
 	}
 
 	public void showLauncherNotExist(String defenseLauncherId, String launcherId) {
-		System.out.println("[" + Utils.getCurrentTime() + "] ERROR: "
-				+ defenseLauncherId + " tried to intercept, " + "but missed: "
-				+ launcherId + " doesn't exist!");
+		console.append(	"[" + Utils.getCurrentTime() + "] ERROR: "
+						+ defenseLauncherId + " tried to intercept, " + "but missed: "
+						+ launcherId + " doesn't exist!");
 	}
 
 	public void start() {
 		createFrame();
 	}
-
+	
 }
 
