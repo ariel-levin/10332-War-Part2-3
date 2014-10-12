@@ -1,14 +1,9 @@
 package View.Gui.sections;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Vector;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 
-import Listeners.WarEventUIListener;
 import View.GuiView;
 import View.Gui.panels.*;
 
@@ -32,17 +27,13 @@ public class LaunchersSectionPanel extends SectionPanel {
 	}
 	
 	private void showAllLaunchers() {
-		
-		for (WarEventUIListener l : super.allListeners) {
-			Vector<String> launchersIds = l.showAllLaunchers();
-			for (String id : launchersIds)
-				addExistLauncher(id);
-		}
-		
+		Vector<String> launchersIds = super.guiView.getAllLaunchersID();
+		for (String id : launchersIds)
+			addExistLauncher(id);
 	}
 	
 	private void addExistLauncher(String id) {
-		super.displayMunition(new LauncherPanel(id, this, guiView));
+		super.displayMunition(new LauncherPanel(id, this, super.guiView));
 	}
 	
 	private void addNewLauncher() {

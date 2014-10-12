@@ -2,16 +2,12 @@ package View.Gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import Listeners.WarEventUIListener;
 import View.GuiView;
 import View.Gui.sections.*;
 import View.Gui.utils.ImageUtils;
@@ -22,12 +18,11 @@ public class MunitionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	protected GuiView guiView;
+	protected SectionPanel sectionPanel;
 	protected String id;
-	
-	private SectionPanel sectionPanel;
-	private JLabel munitionNameAndIcon;
-	private JButton btnAction;
-	private JLabel status;
+	protected JLabel munitionNameAndIcon;
+	protected JButton btnAction;
+	protected JLabel status;
 	
 	
 	public MunitionPanel(String id, SectionPanel sectionPanel, String icon,
@@ -60,14 +55,6 @@ public class MunitionPanel extends JPanel {
 	
 	protected void setIcon(String icon) {
 		this.munitionNameAndIcon.setIcon(ImageUtils.getImageIcon(icon));
-	}
-	
-	protected void setButtonAction(ActionListener action) {
-		this.btnAction.addActionListener(action);
-	}
-	
-	protected void btnEnable(boolean enable) {
-		this.btnAction.setEnabled(enable);
 	}
 	
 	public void setSectionPanel(SectionPanel sectionPanel) {

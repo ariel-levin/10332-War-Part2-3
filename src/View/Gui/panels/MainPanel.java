@@ -52,15 +52,15 @@ public class MainPanel extends JPanel {
 	}
 	
 	public void enemyLauncherAdded(String id) {
-		
+		((LaunchersSectionPanel)launcherSection).enemyLauncherAdded(id);
 	}
 	
 	public void ironDomeAdded(String id) {
-		
+		((IronDomesSectionPanel)ironDomeSection).ironDomeAdded(id);
 	}
 	
 	public void launcherDestructorAdded(String id, String type) {
-		
+		((LauncherDestructorsSectionPanel)launcherDestructorSection).launcherDestructorAdded(id, type);
 	}
 	
 //	public void registerListener(WarEventUIListener listener) {

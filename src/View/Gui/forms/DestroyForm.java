@@ -4,15 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
-import Listeners.WarEventUIListener;
 import View.GuiView;
 import View.Gui.panels.LauncherDestructorPanel;
 import View.Gui.utils.SpringUtilities;
@@ -37,9 +34,7 @@ public class DestroyForm extends MunitionForm {
 		JLabel lblLauncher = new JLabel("Launcher to Destroy");
 		lblLauncher.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblLauncher);
-//		String[] arrLaunchers = {"launcher1","launcher2","launcher3","launcher4","launcher5"};
-//		String[] arrLaunchers = (String[])(allListeners.get(0).chooseLauncherToIntercept().toArray());
-		String[] arrLaunchers = allListeners.get(0).chooseLauncherToIntercept().toArray(new String[0]);
+		String[] arrLaunchers = super.guiView.getLauncherToIntercept().toArray(new String[0]);
 		cbLaunchers = new JComboBox<String>(arrLaunchers);
 		pnlMain.add(cbLaunchers);
 
@@ -68,16 +63,9 @@ public class DestroyForm extends MunitionForm {
 	}
 	
 	private void destroyLauncher() {
-		getLauncherDestructorPanel().destroyLauncher(cbLaunchers.getSelectedItem().toString());
-
+		getLauncherDestructorPanel().addTarget(cbLaunchers.getSelectedItem().toString());
 		dispose();
 	}
-	
-	
-	// for test
-//	public static void main(String[] args) {
-//		new DestroyForm(null,null);
-//	}
 	
 }
 

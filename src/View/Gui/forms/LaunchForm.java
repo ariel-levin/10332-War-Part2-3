@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -15,7 +13,6 @@ import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import Listeners.WarEventUIListener;
 import View.GuiView;
 import View.Gui.panels.LauncherPanel;
 import View.Gui.utils.SpringUtilities;
@@ -47,8 +44,7 @@ public class LaunchForm extends MunitionForm {
 		JLabel lblDest = new JLabel("Destination");
 		lblDest.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblDest);
-//		String[] arrCity = {"city1","city2","city3","city4","city5"};
-		String[] arrCity = super.allListeners.get(0).getAllWarDestinations();
+		String[] arrCity = super.guiView.getAllWarDestinations();
 		cbDest = new JComboBox<String>(arrCity);
 		pnlMain.add(cbDest);
 		
@@ -113,18 +109,12 @@ public class LaunchForm extends MunitionForm {
 	}
 	
 	private void launchMissile() {
-		getLauncherPanel().launchMissile
+		getLauncherPanel().addMissile
 							(	cbDest.getSelectedItem().toString(),
 								sliderFly.getValue(),
 								sliderDmg.getValue()	);
 		dispose();
 	}
-	
-	
-	// for test
-//	public static void main(String[] args) {
-//		new LaunchForm();
-//	}
 	
 }
 

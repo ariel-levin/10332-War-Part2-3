@@ -2,11 +2,8 @@ package View.Gui.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.JOptionPane;
 
-import Listeners.WarEventUIListener;
 import View.GuiView;
 import View.Gui.forms.InterceptForm;
 import View.Gui.sections.SectionPanel;
@@ -24,7 +21,7 @@ public class IronDomePanel extends MunitionPanel {
 		
 		super(id, sectionPanel, DOME_IMAGE, "Intercept", guiView);
 
-		super.setButtonAction(new ActionListener() {
+		super.btnAction.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createInterceptForm();
@@ -33,27 +30,29 @@ public class IronDomePanel extends MunitionPanel {
 	}
 
 	private void createInterceptForm() {
-		if (super.allListeners.get(0).chooseMissileToIntercept() == null)
+		if (super.guiView.getMissileToIntercept() == null)
 			JOptionPane.showMessageDialog(null,"No Missiles On-Air available","Error",JOptionPane.ERROR_MESSAGE);
 		else {
-			super.btnEnable(false);
-			new InterceptForm(this, super.allListeners);
+			super.btnAction.setEnabled(false);
+			new InterceptForm(this, super.guiView);
 		}
 	}
 
+	public void addTarget(String missileID) {
+		super.guiView.fireInterceptMissile(super.id, missileID);
+	}
+	
 	public void interceptMissile(String missileID) {
-
 		super.setIcon(DOMEINT_IMAGE);
 		
-		for (WarEventUIListener l : super.allListeners)
-			l.interceptGivenMissile(super.id, missileID);
-
+		
 	}
 
 	public void interceptDone() {
 
 		super.setIcon(DOME_IMAGE);
-		super.btnEnable(true);
+		super.btnAction.setEnabled(true);
+		
 	}
 	
 }

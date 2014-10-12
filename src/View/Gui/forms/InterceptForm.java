@@ -4,15 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
-import Listeners.WarEventUIListener;
 import View.GuiView;
 import View.Gui.panels.IronDomePanel;
 import View.Gui.utils.SpringUtilities;
@@ -37,9 +34,7 @@ public class InterceptForm extends MunitionForm {
 		JLabel lblMissile = new JLabel("Missile to Intercept");
 		lblMissile.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblMissile);
-//		String[] arrMissiles = {"missile1","missile2","missile3","missile4","missile5"};
-//		String[] arrMissiles = (String[])(allListeners.get(0).chooseMissileToIntercept().toArray());
-		String[] arrMissiles = allListeners.get(0).chooseMissileToIntercept().toArray(new String[0]);
+		String[] arrMissiles = super.guiView.getMissileToIntercept().toArray(new String[0]);
 		cbMissiles = new JComboBox<String>(arrMissiles);
 		pnlMain.add(cbMissiles);	
 
@@ -68,16 +63,9 @@ public class InterceptForm extends MunitionForm {
 	}
 	
 	private void interceptMissile() {
-		getIronDomePanel().interceptMissile(cbMissiles.getSelectedItem().toString());
-
+		getIronDomePanel().addTarget(cbMissiles.getSelectedItem().toString());
 		dispose();
 	}
-	
-	
-	// for test
-//	public static void main(String[] args) {
-//		new InterceptForm(null,null);
-//	}
 	
 }
 

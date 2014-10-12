@@ -2,11 +2,8 @@ package View.Gui.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.JOptionPane;
 
-import Listeners.WarEventUIListener;
 import View.GuiView;
 import View.Gui.forms.DestroyForm;
 import View.Gui.sections.SectionPanel;
@@ -33,7 +30,7 @@ public class LauncherDestructorPanel extends MunitionPanel {
 		if (isShip())
 			super.setIcon(SHIP_IMAGE);
 		
-		super.setButtonAction(new ActionListener() {
+		super.btnAction.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createDestroyForm();
@@ -43,11 +40,11 @@ public class LauncherDestructorPanel extends MunitionPanel {
 	}
 
 	private void createDestroyForm() {
-		if (super.allListeners.get(0).chooseLauncherToIntercept() == null)
+		if (super.guiView.getLauncherToIntercept() == null)
 			JOptionPane.showMessageDialog(null,"No visible Launchers available","Error",JOptionPane.ERROR_MESSAGE);
 		else {
-			super.btnEnable(false);
-			new DestroyForm(this, super.allListeners);
+			super.btnAction.setEnabled(false);
+			new DestroyForm(this, super.guiView);
 		}
 	}
 	
@@ -55,16 +52,17 @@ public class LauncherDestructorPanel extends MunitionPanel {
 		return (this.type.toLowerCase().compareTo("ship") == 0);
 	}
 
+	public void addTarget(String launcherID) {
+		super.guiView.fireInterceptEnemyLauncher(super.id, launcherID);
+	}
+	
 	public void destroyLauncher(String launcherID) {
-
 		if (isShip())
 			super.setIcon(SHIPDES_IMAGE);
 		else
 			super.setIcon(PLANEDES_IMAGE);
 		
-		for (WarEventUIListener l : super.allListeners)
-			l.interceptGivenLauncher(super.id, launcherID);
-
+		
 	}
 
 	public void destroyDone() {
@@ -74,7 +72,8 @@ public class LauncherDestructorPanel extends MunitionPanel {
 		else
 			super.setIcon(PLANE_IMAGE);
 		
-		super.btnEnable(true);
+		super.btnAction.setEnabled(true);
+		
 	}
 
 }

@@ -20,6 +20,7 @@ public class War extends Thread {
 	private ArrayList<LauncherDestructor> launcherDestractorArr = new ArrayList<LauncherDestructor>();
 	private ArrayList<EnemyLauncher> enemyLauncherArr = new ArrayList<EnemyLauncher>();
 	private WarStatistics statistics;
+	private boolean alive = false;
 	private String[] targetCities = { "Sderot", "Ofakim", "Beer-Sheva",
 			"Netivot", "Tel-Aviv", "Re'ut" };
 
@@ -35,7 +36,8 @@ public class War extends Thread {
 	public void run() {
 		// throws event
 		fireWarHasBeenStarted();
-
+		alive = true;
+		
 		// this thread will be alive until the war is over
 		synchronized (this) {
 			try {
@@ -43,6 +45,7 @@ public class War extends Thread {
 
 				stopAllMunitions();
 				fireWarHasBeenFinished();
+				alive = false;
 				sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -349,8 +352,10 @@ public class War extends Thread {
 		launcher.start();
 		enemyLauncherArr.add(launcher);
 	
-		for (WarEventListener l : allListeners)
-			l.enemyLauncherAdded(launcher.getLauncherId());
+		if (alive) {
+			for (WarEventListener l : allListeners)
+				l.enemyLauncherAdded(launcher.getLauncherId());
+		}
 		
 		return launcherId;
 	}
@@ -373,9 +378,11 @@ public class War extends Thread {
 		
 		ironDomeArr.add(ironDome);
 
-		for (WarEventListener l : allListeners)
-			l.ironDomeAdded(ironDome.getIronDomeId());
-		
+		if (alive) {
+			for (WarEventListener l : allListeners)
+				l.ironDomeAdded(ironDome.getIronDomeId());
+		}
+
 		return id;
 	}
 
@@ -392,9 +399,11 @@ public class War extends Thread {
 		
 		launcherDestractorArr.add(destructor);
 
-		for (WarEventListener l : allListeners)
-			l.launcherDestructorAdded(destructor.getDestructorId(),
-					destructor.getDestructorType());
+		if (alive) {
+			for (WarEventListener l : allListeners)
+				l.launcherDestructorAdded(destructor.getDestructorId(),
+						destructor.getDestructorType());
+		}
 		
 		return id;
 	}
