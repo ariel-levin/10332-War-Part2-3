@@ -35,21 +35,27 @@ public class IronDomePanel extends MunitionPanel {
 		else {
 			super.btnAction.setEnabled(false);
 			new InterceptForm(this, super.guiView);
+			super.setStatus("Add Target");
 		}
 	}
 
 	public void addTarget(String missileID) {
-		super.guiView.fireInterceptMissile(super.id, missileID);
+		if (super.guiView.isMissileOnAir(missileID)) {
+			super.guiView.fireInterceptMissile(super.id, missileID);
+			super.setStatus("Target " + missileID);
+		} else
+			interceptDone();
 	}
 	
 	public void interceptMissile(String missileID) {
 		super.setIcon(DOMEINT_IMAGE);
-		
+		super.setStatus("Intercept " + missileID);
 	}
 
 	public void interceptDone() {
 		super.setIcon(DOME_IMAGE);
 		super.btnAction.setEnabled(true);
+		super.setStatus("Free");
 	}
 	
 }

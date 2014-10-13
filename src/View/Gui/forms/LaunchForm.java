@@ -4,18 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import View.GuiView;
 import View.Gui.panels.LauncherPanel;
-import View.Gui.utils.SpringUtilities;
 
 
 public class LaunchForm extends MunitionForm {
@@ -24,7 +24,7 @@ public class LaunchForm extends MunitionForm {
 	
 	private final int MIN_FLY = 5;
 	private final int MAX_FLY = 100;
-	private final int MIN_DMG = 500;
+	private final int MIN_DMG = 1000;
 	private final int MAX_DMG = 5000;
 	
 	private JComboBox<String> cbDest;
@@ -35,18 +35,24 @@ public class LaunchForm extends MunitionForm {
 	public LaunchForm(LauncherPanel launcherPanel, GuiView guiView) {
 		super(launcherPanel, guiView);
 		setTitle("Launch a Missile");
-		setSize(new Dimension(300,250));
+		setSize(new Dimension(350,270));
 		
 		getContentPane().setLayout(new BorderLayout());
 		
-		JPanel pnlMain = new JPanel(new SpringLayout());
+		JPanel pnlMain = new JPanel();
+		pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.PAGE_AXIS));
+		
+		pnlMain.add(Box.createRigidArea(new Dimension(0,10)));
 		
 		JLabel lblDest = new JLabel("Destination");
 		lblDest.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblDest);
+		pnlMain.add(Box.createRigidArea(new Dimension(0,5)));
 		String[] arrCity = super.guiView.getAllWarDestinations();
 		cbDest = new JComboBox<String>(arrCity);
 		pnlMain.add(cbDest);
+		
+		pnlMain.add(Box.createRigidArea(new Dimension(0,20)));
 		
 		JLabel lblFly = new JLabel("Fly Time - " + MIN_FLY);
 		lblFly.setHorizontalAlignment(JLabel.CENTER);
@@ -60,6 +66,8 @@ public class LaunchForm extends MunitionForm {
 		});
 		pnlMain.add(sliderFly);
 		
+		pnlMain.add(Box.createRigidArea(new Dimension(0,20)));
+		
 		JLabel lblDmg = new JLabel("Damage - " + MIN_DMG);
 		lblDmg.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblDmg);
@@ -70,7 +78,9 @@ public class LaunchForm extends MunitionForm {
 				lblDmg.setText("Damage - " + sliderDmg.getValue());
 			}
 		});
-		pnlMain.add(sliderDmg);		
+		pnlMain.add(sliderDmg);
+		
+		pnlMain.add(Box.createRigidArea(new Dimension(0,20)));
 
 		JButton btnLaunch = new JButton("Launch");
 		btnLaunch.addActionListener(new ActionListener() {
@@ -80,14 +90,9 @@ public class LaunchForm extends MunitionForm {
 		});
 		
 		add(btnLaunch, BorderLayout.SOUTH);
-		
-		SpringUtilities.makeCompactGrid(pnlMain,
-                6, 1, 			//rows, cols
-                6, 6,        	//initX, initY
-                6, 6);       	//xPad, yPad
-		
-		
 		add(pnlMain, BorderLayout.CENTER);
+		add(Box.createRigidArea(new Dimension(10,0)), BorderLayout.EAST);
+		add(Box.createRigidArea(new Dimension(10,0)), BorderLayout.WEST);
 		
 		setVisible(true);
 	}

@@ -44,7 +44,7 @@ public class War extends Thread {
 				wait();
 
 				stopAllMunitions();
-				fireWarHasBeenFinished();
+				
 				alive = false;
 				sleep(2000);
 			} catch (InterruptedException e) {
@@ -56,6 +56,7 @@ public class War extends Thread {
 		WarLogger.closeAllHandlers();
 		WarLogger.closeWarHandler();
 		//warHandler.close();
+		fireWarHasBeenFinished();
 	}// run
 
 
@@ -460,5 +461,34 @@ public class War extends Thread {
 		return null;
 	}
 
+	public boolean isLauncherHidden(String launcherID) {
+		for (EnemyLauncher el : enemyLauncherArr) {
+			if (launcherID.compareTo(el.getLauncherId()) == 0)
+				return el.getIsHidden();
+		}
+		return false;
+	}
+
+	public boolean isMissileOnAir(String missileID) {
+		for (EnemyLauncher el : enemyLauncherArr) {
+			EnemyMissile em = el.getCurrentMissile();
+			if (em!=null && em.getMissileId().compareTo(missileID)==0)
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isLauncherAliveAndVisible(String launcherID) {
+		for (EnemyLauncher el : enemyLauncherArr) {
+			if (el.getLauncherId().compareTo(launcherID)==0) {
+				if (el.isAlive() && !el.getIsHidden())
+					return true;
+				else
+					return false;
+			}
+		}
+		return false;
+	}
+	
 }
 

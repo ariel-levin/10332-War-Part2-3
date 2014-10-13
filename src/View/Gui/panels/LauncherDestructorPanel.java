@@ -53,7 +53,11 @@ public class LauncherDestructorPanel extends MunitionPanel {
 	}
 
 	public void addTarget(String launcherID) {
-		super.guiView.fireInterceptEnemyLauncher(super.id, launcherID);
+		if (super.guiView.isLauncherAliveAndVisible(launcherID)) {
+			super.guiView.fireInterceptEnemyLauncher(super.id, launcherID);
+			super.setStatus("Target " + launcherID);
+		} else
+			destroyDone();
 	}
 	
 	public void destroyLauncher(String launcherID) {
@@ -62,7 +66,7 @@ public class LauncherDestructorPanel extends MunitionPanel {
 		else
 			super.setIcon(PLANEDES_IMAGE);
 		
-		
+		super.setStatus("Destroy " + launcherID);
 	}
 
 	public void destroyDone() {
@@ -72,7 +76,7 @@ public class LauncherDestructorPanel extends MunitionPanel {
 			super.setIcon(PLANE_IMAGE);
 		
 		super.btnAction.setEnabled(true);
-		
+		super.setStatus("Free");
 	}
 
 }

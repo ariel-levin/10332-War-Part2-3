@@ -86,7 +86,47 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	public void launcherDestructorAdded(String id, String type) {
 		view.launcherDestructorAdded(id, type);
 	}
+	
+	@Override
+	public void warHasBeenFinished() {	
+		if (view instanceof ConsoleView) {
+			try {
+				((ConsoleView)view).join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		view.showWarHasBeenFinished();
+	}
+
+	@Override
+	public void warHasBeenStarted() {
+		view.showWarHasBeenStarted();
+	}
+
+	@Override
+	public void noSuchObject(String type) {
+		view.showNoSuchObject(type);
+	}
+
+	@Override
+	public void missileNotExist(String defenseLauncherId, String enemyId) {
+		view.showMissileNotExist(defenseLauncherId, enemyId);
+	}
+	
+	@Override
+	public void enemyLauncherNotExist(String defenseLauncherId,
+			String launcherId) {
+		view.showLauncherNotExist(defenseLauncherId, launcherId);
+	}
+
+	@Override
+	public void enemyMissDestination(String whoLaunchedMeId, String id,
+			String destination, String launchTime) {
+		view.showEnemyMissDestination(whoLaunchedMeId, id, destination, launchTime);
+	}
 		
+	
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +136,7 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	
 	// Methods related to the model
 	@Override
-	public void finishWar() {
+	public void reqfinishWar() {
 		WarXMLReader.stopAllThreads();
 		//warModel.finishWar();
 		
@@ -202,42 +242,21 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	}
 	
 	@Override
-	public void warHasBeenFinished() {	
-		if (view instanceof ConsoleView) {
-			try {
-				((ConsoleView)view).join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		view.showWarHasBeenFinished();
-	}
-
-	@Override
-	public void warHasBeenStarted() {
-		view.showWarHasBeenStarted();
-	}
-
-	@Override
-	public void noSuchObject(String type) {
-		view.showNoSuchObject(type);
-	}
-
-	@Override
-	public void missileNotExist(String defenseLauncherId, String enemyId) {
-		view.showMissileNotExist(defenseLauncherId, enemyId);
+	public boolean isLauncherHidden(String launcherID) {
+		boolean isHidden = warModel.isLauncherHidden(launcherID);
+		return isHidden;
 	}
 	
 	@Override
-	public void enemyLauncherNotExist(String defenseLauncherId,
-			String launcherId) {
-		view.showLauncherNotExist(defenseLauncherId, launcherId);
+	public boolean isLauncherAliveAndVisible(String launcherID) {
+		boolean isAliveAndVisible = warModel.isLauncherAliveAndVisible(launcherID);
+		return isAliveAndVisible;
 	}
-
+	
 	@Override
-	public void enemyMissDestination(String whoLaunchedMeId, String id,
-			String destination, String launchTime) {
-		view.showEnemyMissDestination(whoLaunchedMeId, id, destination, launchTime);
+	public boolean isMissileOnAir(String missileID) {
+		boolean isOnAir = warModel.isMissileOnAir(missileID);
+		return isOnAir;
 	}
 	
 }

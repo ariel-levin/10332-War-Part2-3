@@ -73,8 +73,5 @@ public interface AbstractWarView {
 	
 	void start();
 	
-//	 void addPassengerToUI(int id, String name);
-//	 void removePassengerFromUI(int id);
-
 }
 

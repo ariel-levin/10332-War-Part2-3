@@ -8,7 +8,6 @@ import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +20,7 @@ import javax.swing.text.DefaultCaret;
 import Listeners.WarEventUIListener;
 import Utils.*;
 import View.Gui.panels.*;
+import View.Gui.utils.WarMenu;
 
 
 public class GuiView extends JFrame implements AbstractWarView {
@@ -48,10 +48,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-//				CloseJFrameUtil.closeApplication(GuiView.this);
-				// NOTE: when we want the 'Class' of the outer class, 'this' doesn't work.
-				// Should use <OuterClass>.this
-				
+				fireShowStatistics();
 				fireFinishWar();
 			}
 		});
@@ -85,7 +82,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 		
 		getContentPane().add(lowerPanel, BorderLayout.SOUTH);
 		
-//		setJMenuBar(new WarMenu(this));
+		setJMenuBar(new WarMenu(this));
 		setLocationRelativeTo(null);
 //		setAlwaysOnTop(true);
 		setVisible(true);
@@ -169,23 +166,37 @@ public class GuiView extends JFrame implements AbstractWarView {
 		Vector<String> details = allListeners.get(0).showAllLauncherDestructors();
 		return details;
 	}
-		
+	
 	@Override
 	public String[] getAllWarDestinations() {
 		String[] dest = allListeners.get(0).getAllWarDestinations();
 		return dest;
 	}
 	
-//	private void fireShowStatistics() {
-//		for (WarEventUIListener l : allListeners)
-//			l.showStatistics();
-//	}
+	public boolean isLauncherHidden(String launcherID) {
+		boolean isHidden = allListeners.get(0).isLauncherHidden(launcherID);
+		return isHidden;
+	}
+	
+	public boolean isLauncherAliveAndVisible(String launcherID) {
+		boolean isAliveAndVisible = allListeners.get(0).isLauncherAliveAndVisible(launcherID);
+		return isAliveAndVisible;
+	}
+	
+	public boolean isMissileOnAir(String missileID) {
+		boolean isOnAir = allListeners.get(0).isMissileOnAir(missileID);
+		return isOnAir;
+	}
+	
+	public void fireShowStatistics() {
+		for (WarEventUIListener l : allListeners)
+			l.showStatistics();
+	}
 
-	private void fireFinishWar() {
+	public void fireFinishWar() {
 		for (WarEventUIListener l : allListeners) {
-			l.finishWar();
+			l.reqfinishWar();
 		}
-		dispose();
 	}
 
 	/* Prints to screen event from controller */
@@ -247,7 +258,8 @@ public class GuiView extends JFrame implements AbstractWarView {
 		
 		this.mainPanel.ironDomeDone(whoLaunchedMeId);
 		String launcherID = this.mainPanel.getMissileOwner(enemyMissileId);
-		this.mainPanel.launcherDone(launcherID);
+		if (launcherID != null)
+			this.mainPanel.launcherDone(launcherID);
 	}
 
 	public void showEnemyHitDestination(String whoLaunchedMeId, String id,
@@ -317,17 +329,12 @@ public class GuiView extends JFrame implements AbstractWarView {
 				+ "\t||\n");
 		msg.append("\t\t\t||\ttotal damage: " + array[4] + "\t\t||\n");
 		msg.append("\t\t\t==========================================\n");
-//		console.append(msg.toString());
 		JOptionPane.showMessageDialog(null,msg.toString(),"War Statistics",JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void showWarHasBeenFinished() {
-		for (WarEventUIListener l : allListeners) {
-			l.showStatistics();
-		}
-
-		console.append(	"\n[" + Utils.getCurrentTime()
-						+ "] =========>> Finally THIS WAR IS OVER!!! <<=========");
+		dispose();
+		System.exit(0);
 	}
 
 	public void showWarHasBeenStarted() {

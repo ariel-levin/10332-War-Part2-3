@@ -240,7 +240,7 @@ public class ConsoleView extends Thread implements AbstractWarView {
 
 	private void fireFinishWar() {
 		for (WarEventUIListener l : allListeners) {
-			l.finishWar();
+			l.reqfinishWar();
 		}
 
 		isRunning = false;
@@ -427,7 +427,7 @@ public class ConsoleView extends Thread implements AbstractWarView {
 		String[] dest = allListeners.get(0).getAllWarDestinations();
 		return dest;
 	}
-	
+		
 	public void start() {
 		super.start();
 	}

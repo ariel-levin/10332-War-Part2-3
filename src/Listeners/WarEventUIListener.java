@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public interface WarEventUIListener {
 	/** Stop the war, truce and show war statistics **/
-	public void finishWar();
+	public void reqfinishWar();
 
 	/** Show current war statistics **/
 	public void showStatistics();
@@ -58,6 +58,15 @@ public interface WarEventUIListener {
 
 	/** Returns all war city targets **/
 	public String[] getAllWarDestinations();
+	
+	/** Returns if the given Launcher is Hidden or not */
+	public boolean isLauncherHidden(String launcherID);
 
+	/** Returns if the given Missile is On-Air */
+	public boolean isMissileOnAir(String missileID);
+	
+	/** Returns if the given Launcher is Alive and Visible */
+	public boolean isLauncherAliveAndVisible(String launcherID);
+	
 }
 

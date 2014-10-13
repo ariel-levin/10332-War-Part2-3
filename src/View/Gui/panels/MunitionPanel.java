@@ -2,6 +2,9 @@ package View.Gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,9 +23,8 @@ public class MunitionPanel extends JPanel {
 	protected GuiView guiView;
 	protected SectionPanel sectionPanel;
 	protected String id;
-	protected JLabel munitionNameAndIcon;
+	protected JLabel munitionNameAndIcon, status;
 	protected JButton btnAction;
-	protected JLabel status;
 	
 	
 	public MunitionPanel(String id, SectionPanel sectionPanel, String icon,
@@ -36,8 +38,14 @@ public class MunitionPanel extends JPanel {
 		initLabelAndIcon(icon);
 		add(this.munitionNameAndIcon, BorderLayout.CENTER);
 		
+		JPanel lowerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+		this.status = new JLabel("Free");
+		this.status.setHorizontalAlignment(JLabel.CENTER);
+		this.status.setFont(status.getFont().deriveFont(Font.PLAIN,11));
 		this.btnAction = new JButton(btnStr);
-		add(this.btnAction, BorderLayout.SOUTH);
+		lowerPanel.add(status);
+		lowerPanel.add(btnAction);
+		add(lowerPanel, BorderLayout.SOUTH);
 		setPreferredSize(new Dimension(150, 170));
 		
 	}
@@ -57,6 +65,14 @@ public class MunitionPanel extends JPanel {
 		this.munitionNameAndIcon.setIcon(ImageUtils.getImageIcon(icon));
 	}
 	
+	protected void setTitle(String text) {
+		this.munitionNameAndIcon.setText(text);
+	}
+	
+	protected void setStatus(String text) {
+		this.status.setText(text);
+	}
+	
 	public void setSectionPanel(SectionPanel sectionPanel) {
 		this.sectionPanel = sectionPanel;
 	}
@@ -67,6 +83,7 @@ public class MunitionPanel extends JPanel {
 	
 	public void formClosed() {
 		this.btnAction.setEnabled(true);
+		setStatus("Free");
 	}
 	
 }

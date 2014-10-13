@@ -18,7 +18,7 @@ public class SectionPanel extends JPanel {
 	
 	protected GuiView guiView;
 	protected JButton btnAddMunition;
-	protected ArrayList<MunitionPanel> munitionArr = new ArrayList<MunitionPanel>();
+	protected ArrayList<MunitionPanel> munitionArr;
 	
 	private JPanel innerPanel;
 	
@@ -26,7 +26,8 @@ public class SectionPanel extends JPanel {
 	public SectionPanel(GuiView guiView, String name) {
 
 		this.guiView = guiView;
-
+		munitionArr = new ArrayList<MunitionPanel>();
+		
 		setLayout(new BorderLayout());
 		
 		innerPanel = new JPanel();
@@ -45,15 +46,16 @@ public class SectionPanel extends JPanel {
 	protected void displayMunition(MunitionPanel munition) {
 		munitionArr.add(munition);
 		innerPanel.add(munition);
-//		munition.setSectionPanel(this);
 		validate();
 		repaint();
 	}
 	
 	protected MunitionPanel findMunition(String id) {
-		for (MunitionPanel mp : this.munitionArr) {
-			if (mp.getId().compareTo(id) == 0)
-				return mp;
+		if (this.munitionArr!=null && id!=null) {
+			for (MunitionPanel mp : this.munitionArr) {
+				if (mp.getId().compareTo(id) == 0)
+					return mp;
+			}
 		}
 		return null;
 	}

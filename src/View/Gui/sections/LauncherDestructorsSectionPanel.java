@@ -46,12 +46,7 @@ public class LauncherDestructorsSectionPanel extends SectionPanel {
 	}
 	
 	private void createAddForm() {
-		super.btnAddMunition.setEnabled(false);
-		new AddLauncherDestructorForm(this);
-	}
-	
-	public void formClosed() {
-		super.btnAddMunition.setEnabled(true);
+		new AddLauncherDestructorForm(super.guiView);
 	}
 	
 	public void launcherDestructorAdded(String id, String type) {

@@ -4,15 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 
 import View.GuiView;
 import View.Gui.panels.IronDomePanel;
-import View.Gui.utils.SpringUtilities;
 
 
 public class InterceptForm extends MunitionForm {
@@ -29,15 +29,21 @@ public class InterceptForm extends MunitionForm {
 		
 		getContentPane().setLayout(new BorderLayout());
 		
-		JPanel pnlMain = new JPanel(new SpringLayout());
+		JPanel pnlMain = new JPanel();
+		pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.PAGE_AXIS));
+		
+		pnlMain.add(Box.createRigidArea(new Dimension(0,10)));
 		
 		JLabel lblMissile = new JLabel("Missile to Intercept");
 		lblMissile.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblMissile);
+		pnlMain.add(Box.createRigidArea(new Dimension(0,5)));
 		String[] arrMissiles = super.guiView.getMissileToIntercept().toArray(new String[0]);
 		cbMissiles = new JComboBox<String>(arrMissiles);
 		pnlMain.add(cbMissiles);	
 
+		pnlMain.add(Box.createRigidArea(new Dimension(0,10)));
+		
 		JButton btnIntercept = new JButton("Intercept");
 		btnIntercept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -47,13 +53,9 @@ public class InterceptForm extends MunitionForm {
 		
 		add(btnIntercept, BorderLayout.SOUTH);
 		
-		SpringUtilities.makeCompactGrid(pnlMain,
-                2, 1, 			//rows, cols
-                6, 6,        	//initX, initY
-                6, 6);       	//xPad, yPad
-		
-		
 		add(pnlMain, BorderLayout.CENTER);
+		add(Box.createRigidArea(new Dimension(10,0)), BorderLayout.EAST);
+		add(Box.createRigidArea(new Dimension(10,0)), BorderLayout.WEST);
 		
 		setVisible(true);
 	}

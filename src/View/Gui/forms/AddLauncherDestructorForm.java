@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,22 +14,20 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import View.Gui.sections.LauncherDestructorsSectionPanel;
+import View.GuiView;
 
 
 public class AddLauncherDestructorForm extends JFrame {
 
 	static final long serialVersionUID = 1L;
 	
-	private LauncherDestructorsSectionPanel destructorSectionPanel;
+	private GuiView guiView;
 	private JRadioButton rbShip, rbPlane;
 	private ButtonGroup bGroup;
 
 	
-	public AddLauncherDestructorForm(
-			LauncherDestructorsSectionPanel destructorSectionPanel) {
-		
-		this.destructorSectionPanel = destructorSectionPanel;
+	public AddLauncherDestructorForm(GuiView guiView) {
+		this.guiView = guiView;
 		setTitle("Choose a Type");
 		setSize(new Dimension(300, 100));
 		
@@ -41,13 +37,6 @@ public class AddLauncherDestructorForm extends JFrame {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				formClosed();
-			}
-		});
 		
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -86,21 +75,14 @@ public class AddLauncherDestructorForm extends JFrame {
 		java.util.Enumeration<javax.swing.AbstractButton> en = bGroup.getElements();
 		while(en.hasMoreElements()) {
 			JRadioButton rb = (JRadioButton)en.nextElement();
-			if (rb.isSelected())
-				destructorSectionPanel.addNewLauncherDestructor(rb.getText().toLowerCase());
+			if (rb.isSelected()) {
+				String type = rb.getText().toLowerCase();
+				this.guiView.fireAddDefenseLauncherDestructor(type);
+			}
 		}
 		
 		dispose();
 	}
-	
-	private void formClosed() {
-		destructorSectionPanel.formClosed();
-	}
-
-//	 for test
-//	 public static void main(String[] args) {
-//		 new AddLauncherDestructorForm();
-//	 }
 
 }
 
