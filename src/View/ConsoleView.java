@@ -428,6 +428,18 @@ public class ConsoleView extends Thread implements AbstractWarView {
 		return dest;
 	}
 		
+	@Override
+	public String getWarNameFromUser() {
+		System.out.println("\nPlease enter War name:");
+		String name = input.nextLine();
+		return name;
+	}
+	
+	@Override
+	public void showWarNameTaken() {
+		System.out.println("\nError: War name taken, please select another\n");
+	}
+	
 	public void start() {
 		super.start();
 	}

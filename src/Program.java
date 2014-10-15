@@ -1,11 +1,9 @@
-package View;
-
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
-import War.War;
-import War.WarControl;
+import View.*;
+import War.*;
 
 
 public class Program {
@@ -20,6 +18,14 @@ public class Program {
 		War warModel = new War();
 
 		WarControl warControl = new WarControl(warModel, view);
+		
+		String warName = view.getWarNameFromUser();
+		Boolean isSet = warModel.setWarName(warName);
+		while (!isSet) {
+			view.showWarNameTaken();
+			warName = view.getWarNameFromUser();
+			isSet = warModel.setWarName(warName);
+		}
 
 		try {
 			warXML = new WarXMLReader("warStart.xml", warControl);
@@ -36,7 +42,6 @@ public class Program {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 		
 		warModel.start();
 		view.start();

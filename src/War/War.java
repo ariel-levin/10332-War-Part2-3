@@ -5,12 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import Database.*;
 import Launchers.EnemyLauncher;
 import Launchers.IronDome;
 import Launchers.LauncherDestructor;
 import Listeners.WarEventListener;
 import Missiles.EnemyMissile;
 import Utils.IdGenerator;
+
 
 public class War extends Thread {
 	
@@ -20,14 +22,18 @@ public class War extends Thread {
 	private ArrayList<LauncherDestructor> launcherDestractorArr = new ArrayList<LauncherDestructor>();
 	private ArrayList<EnemyLauncher> enemyLauncherArr = new ArrayList<EnemyLauncher>();
 	private WarStatistics statistics;
+	private WarDB warDB;
 	private boolean alive = false;
 	private String[] targetCities = { "Sderot", "Ofakim", "Beer-Sheva",
-			"Netivot", "Tel-Aviv", "Re'ut" };
+									"Netivot", "Tel-Aviv", "Re'ut" };
+	
+	public String warName;
 
 	
 	public War() {
 		allListeners = new LinkedList<WarEventListener>();
 		statistics = new WarStatistics();
+		warDB = new WarJDBC();
 
 		registerListener(new WarLogger());
 		WarLogger.addWarLoggerHandler("War");
@@ -488,6 +494,11 @@ public class War extends Thread {
 			}
 		}
 		return false;
+	}
+	
+	public boolean setWarName(String name) {
+		boolean isSet = warDB.setWarName(name);
+		return isSet;
 	}
 	
 }

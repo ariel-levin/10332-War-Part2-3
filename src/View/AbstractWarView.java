@@ -71,6 +71,10 @@ public interface AbstractWarView {
 	
 	String[] getAllWarDestinations();
 	
+	String getWarNameFromUser();
+	
+	void showWarNameTaken();
+	
 	void start();
 	
 }

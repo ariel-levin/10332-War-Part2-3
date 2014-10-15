@@ -359,6 +359,21 @@ public class GuiView extends JFrame implements AbstractWarView {
 						+ launcherId + " doesn't exist!");
 	}
 
+	@Override
+	public String getWarNameFromUser() {
+		String name = JOptionPane.showInputDialog(null,
+				"Please enter War name", "War Name",
+				JOptionPane.QUESTION_MESSAGE);
+		return name;
+	}
+	
+	@Override
+	public void showWarNameTaken() {
+		JOptionPane.showMessageDialog(null,
+				"War name taken, please select another", "Error",
+				JOptionPane.ERROR_MESSAGE);
+	}
+	
 	public void start() {
 		createFrame();
 	}
