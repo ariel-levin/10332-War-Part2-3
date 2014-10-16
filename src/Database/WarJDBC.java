@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 
 
-
 public class WarJDBC implements WarDB {
 	
 //	private final String[] allTables = {"launchers","launches","irondomes",
@@ -47,15 +46,16 @@ public class WarJDBC implements WarDB {
 			connection = DriverManager.getConnection(dbUrl, "root", "");
 			
 			String sqlQuery = 	"INSERT INTO `war`.`interceptions` "
-								+ "(`irondomeID`, `targetID`, `time`, `isHit`) "
-								+ "VALUES (?,?,?,?)";
+								+ "(`warName`, `irondomeID`, `targetID`, `time`, `isHit`) "
+								+ "VALUES (?,?,?,?,?)";
 			
 			PreparedStatement ps = connection.prepareStatement(sqlQuery);
 			
-			ps.setString(1, irondomeID);
-			ps.setString(2, enemyMissileId);
-			ps.setTimestamp(3, getCurrentTime());
-			ps.setNull(4, java.sql.Types.BOOLEAN);
+			ps.setString(1, this.warName);
+			ps.setString(2, irondomeID);
+			ps.setString(3, enemyMissileId);
+			ps.setTimestamp(4, getCurrentTime());
+			ps.setNull(5, java.sql.Types.BOOLEAN);
 			
 			ps.executeUpdate();
 			
@@ -80,16 +80,17 @@ public class WarJDBC implements WarDB {
 			connection = DriverManager.getConnection(dbUrl, "root", "");
 			
 			String sqlQuery = 	"INSERT INTO `war`.`destructions` "
-								+ "(`destructorID`, `destructorType`, `targetID`, `time`, `isHit`) "
-								+ "VALUES (?,?,?,?,?)";
+								+ "(`warName`, `destructorID`, `destructorType`, `targetID`, `time`, `isHit`) "
+								+ "VALUES (?,?,?,?,?,?)";
 			
 			PreparedStatement ps = connection.prepareStatement(sqlQuery);
 			
-			ps.setString(1, destructorID);
-			ps.setString(2, type);
-			ps.setString(3, enemyLauncherId);
-			ps.setTimestamp(4, getCurrentTime());
-			ps.setNull(5, java.sql.Types.BOOLEAN);
+			ps.setString(1, this.warName);
+			ps.setString(2, destructorID);
+			ps.setString(3, type);
+			ps.setString(4, enemyLauncherId);
+			ps.setTimestamp(5, getCurrentTime());
+			ps.setNull(6, java.sql.Types.BOOLEAN);
 			
 			ps.executeUpdate();
 			
@@ -115,14 +116,36 @@ public class WarJDBC implements WarDB {
 			
 			String sqlQuery =	"UPDATE interceptions "
 								+ "SET isHit = ? "
-								+ "WHERE irondomeID = ? AND targetID = ?";
+								+ "WHERE warName = ? "
+									+ "AND irondomeID = ? "
+									+ "AND targetID = ?";
 			
 			PreparedStatement ps = connection.prepareStatement(sqlQuery);
 			
 			ps.setBoolean(1, true);
-			ps.setString(2, whoLaunchedMeId);
-			ps.setString(3, enemyMissileId);
+			ps.setString(2, this.warName);
+			ps.setString(3, whoLaunchedMeId);
+			ps.setString(4, enemyMissileId);
 			
+			ps.executeUpdate();
+			
+			
+			// update launches table
+			sqlQuery =	"UPDATE launches "
+					+ "SET isHit = ?"
+					+	", isIntercepted = ?"
+					+	", whoIntercepted = ?"
+					+ "WHERE warName = ? "
+						+ "AND missileID = ?";
+
+			ps = connection.prepareStatement(sqlQuery);
+
+			ps.setBoolean(1, false);
+			ps.setBoolean(2, true);
+			ps.setString(3, whoLaunchedMeId);
+			ps.setString(4, this.warName);
+			ps.setString(5, enemyMissileId);
+
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -141,39 +164,114 @@ public class WarJDBC implements WarDB {
 	public void defenseHitInterceptionLauncher(String whoLaunchedMeId,
 			String Type, String id, String enemyLauncherId) {
 		
-//		theLogger.log(Level.INFO, whoLaunchedMeId + "\tIntercept: " + enemyLauncherId
-//				+ "\t\t\tStatus: SUCCESS\n");
-//		theLogger.log(Level.INFO, enemyLauncherId + "\tStatus: DESTROYED\n");
-		
 		try {
 			
 			connection = DriverManager.getConnection(dbUrl, "root", "");
 			
 			String sqlQuery =	"UPDATE destructions "
 								+ "SET isHit = ? "
-								+ "WHERE destructorID = ? AND targetID = ?";
+								+ "WHERE warName = ? "
+									+ "AND destructorID = ? "
+									+ "AND targetID = ?";
 			
 			PreparedStatement ps = connection.prepareStatement(sqlQuery);
 			
 			ps.setBoolean(1, true);
-			ps.setString(2, whoLaunchedMeId);
-			ps.setString(3, enemyLauncherId);
+			ps.setString(2, this.warName);
+			ps.setString(3, whoLaunchedMeId);
+			ps.setString(4, enemyLauncherId);
 			
 			ps.executeUpdate();
 			
 			
-			sqlQuery =	"UPDATE destructions "
-						+ "SET isHit = ? "
-						+ "WHERE destructorID = ? AND targetID = ?";
+			// update launchers table			
+			sqlQuery =	"UPDATE launchers "
+						+ "SET isDestroyed = ? "
+						+ "WHERE warName = ? AND launcherID = ?";
 
 			ps = connection.prepareStatement(sqlQuery);
 
 			ps.setBoolean(1, true);
-			ps.setString(2, whoLaunchedMeId);
+			ps.setString(2, this.warName);
 			ps.setString(3, enemyLauncherId);
 
 			ps.executeUpdate();
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void defenseMissInterceptionMissile(String whoLaunchedMeId,
+			String id, String enemyMissileId, int damage) {
+
+		try {
+			
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+			
+			String sqlQuery =	"UPDATE interceptions "
+								+ "SET isHit = ? "
+								+ "WHERE warName = ? "
+									+ "AND irondomeID = ? "
+									+ "AND targetID = ?";
+			
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+			
+			ps.setBoolean(1, false);
+			ps.setString(2, this.warName);
+			ps.setString(3, whoLaunchedMeId);
+			ps.setString(4, enemyMissileId);
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@Override
+	public void defenseMissInterceptionHiddenLauncher(String whoLaunchedMeId,
+			String type, String enemyLauncherId) {
+		
+		defenseMissInterceptionLauncher(whoLaunchedMeId,type,null,enemyLauncherId);
+	}
+
+	@Override
+	public void defenseMissInterceptionLauncher(String whoLaunchedMeId,
+			String Type, String id, String enemyLauncherId) {
+
+		try {
+			
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+			
+			String sqlQuery =	"UPDATE destructions "
+								+ "SET isHit = ? "
+								+ "WHERE warName = ? "
+									+ "AND destructorID = ? "
+									+ "AND targetID = ?";
+			
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+			
+			ps.setBoolean(1, false);
+			ps.setString(2, this.warName);
+			ps.setString(3, whoLaunchedMeId);
+			ps.setString(4, enemyLauncherId);
+			
+			ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -185,32 +283,6 @@ public class WarJDBC implements WarDB {
 			}
 		}
 		
-		
-	}
-
-	@Override
-	public void defenseMissInterceptionMissile(String whoLaunchedMeId,
-			String id, String enemyMissileId, int damage) {
-//		theLogger.log(Level.INFO, whoLaunchedMeId + "\tIntercept: " + enemyMissileId
-//				+ "\t\t\tStatus: FAIL \t\t\tDamage: " + damage + "\n");
-		
-
-	}
-
-	@Override
-	public void defenseMissInterceptionHiddenLauncher(String whoLaunchedMeId,
-			String type, String enemyLauncherId) {
-//		theLogger.log(Level.INFO, whoLaunchedMeId + "\tIntercept: " + enemyLauncherId
-//				+ "\t\t\tStatus: FAIL\t\t\tReason: Launcher is hidden\n");
-		
-	}
-
-	@Override
-	public void defenseMissInterceptionLauncher(String whoLaunchedMeId,
-			String Type, String id, String enemyLauncherId) {
-//		theLogger.log(Level.INFO, whoLaunchedMeId + "\tIntercept: " + enemyLauncherId
-//				+ "\t\t\tStatus: FAIL\n");
-
 	}
 
 	@Override
@@ -253,57 +325,169 @@ public class WarJDBC implements WarDB {
 
 	@Override
 	public void enemyLauncherIsVisible(String id, boolean visible) {
-//		String str = visible ? "visible\n" : "hidden\n";
-//		theLogger.log(Level.INFO, id + "\tis now: " + str);
-		
-		
+
+		try {
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+			
+			String sqlQuery =	"UPDATE launchers "
+								+ "SET isHidden = ? "
+								+ "WHERE warName = ? AND launcherID = ?";
+
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+
+			ps.setBoolean(1, visible);
+			ps.setString(2, this.warName);
+			ps.setString(3, id);
+
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void enemyHitDestination(String whoLaunchedMeId, String id,
 			String destination, int damage, String launchTime) {
-//		theLogger.log(Level.INFO, whoLaunchedMeId + "\tTarget: " + destination + "\t\tStatus: HIT" + 
-//			 "\t\t\tLand Time: " + Utils.getCurrentTime() + "\t\t\tDamage: " + damage + "\n");
-		
-		
+
+		try {
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+
+			String sqlQuery =	"UPDATE launches "
+								+ "SET isHit = ?"
+								+	", isIntercepted = ?"
+								+ "WHERE warName = ? "
+								+ 	"AND missileID = ?";
+
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+
+			ps.setBoolean(1, true);
+			ps.setBoolean(2, false);
+			ps.setString(3, this.warName);
+			ps.setString(4, id);
+
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void enemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime) {
-//		theLogger.log(Level.INFO, whoLaunchedMeId + "\tTarget: " + destination + "\t\tStatus: MISS" + 
-//				 "\t\t\tLand Time: " + Utils.getCurrentTime() + "\n");
-		
-		
+
+		try {
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+
+			String sqlQuery =	"UPDATE launches "
+								+ "SET isHit = ?"
+								+	", isIntercepted = ?"
+								+ "WHERE warName = ? "
+								+ 	"AND missileID = ?";
+
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+
+			ps.setBoolean(1, false);
+			ps.setBoolean(2, false);
+			ps.setString(3, this.warName);
+			ps.setString(4, id);
+
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void warHasBeenStarted() {
-//		theLogger.log(Level.INFO, "====== >\tWar started\t< ======\n");
-	
+		try {
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+
+			String sqlQuery =	"INSERT INTO `war`.`wars` "
+								+ "(`warName`, `startTime`, `endTime`)"
+								+ "VALUES (?,?,?)";
+
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+
+			ps.setString(1, this.warName);
+			ps.setTimestamp(2, getCurrentTime());
+			ps.setNull(3, java.sql.Types.TIMESTAMP);
+
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void warHasBeenFinished() {
-//		theLogger.log(Level.INFO, "====== >\tWar finished\t< ====== \n");
-		
+		try {
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+			
+			String sqlQuery =	"UPDATE wars "
+								+ "SET endTime = ? "
+								+ "WHERE warName = ?";
+
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+
+			ps.setTimestamp(1, getCurrentTime());
+			ps.setString(2, this.warName);
+
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
 	}
 
 	@Override
 	public void missileNotExist(String defenseLauncherId, String enemyId) {
+		// Not needed
+		
 //		theLogger.log(Level.INFO, defenseLauncherId + "\tFAIL: missile " 
 //					+ enemyId + " does not exist" + "\n");
-		
-		
 	}
 
 	@Override
 	public void enemyLauncherNotExist(String defenseLauncherId,
 			String launcherId) {
+		// Not needed
+		
 //		theLogger.log(Level.INFO, defenseLauncherId + "\tFAIL: launcher " 
 //				+ launcherId + " does not exist" + "\n");
-		
-		
 	}
 
 	@Override
@@ -312,7 +496,37 @@ public class WarJDBC implements WarDB {
 	}
 
 	public void enemyLauncherAdded(String id) {
-		
+//		try {
+//			
+//			connection = DriverManager.getConnection(dbUrl, "root", "");
+//			
+//			String sqlQuery = "INSERT INTO `war`.`launches` "
+//							+ "(`launcherID`, `missileID`, `destination`, `time`, "
+//							+ "`damage`, `isHit`, `isIntercepted`, `whoIntercepted`) "
+//							+ "VALUES (?,?,?,?,?,?,?,?)";
+//			
+//			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+//			
+//			ps.setString(1, launcherID);
+//			ps.setString(2, missileID);
+//			ps.setString(3, destination);
+//			ps.setTimestamp(4, getCurrentTime());
+//			ps.setInt(5, damage);
+//			ps.setNull(6, java.sql.Types.BOOLEAN);
+//			ps.setNull(7, java.sql.Types.BOOLEAN);
+//			ps.setNull(8, java.sql.Types.VARCHAR);
+//			
+//			ps.executeUpdate();
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				connection.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 	public void ironDomeAdded(String id) {
@@ -355,7 +569,32 @@ public class WarJDBC implements WarDB {
 	}
 	
 	private boolean isWarNameExist(String name) {
-		
+		try {
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+			
+			String sqlQuery =	"SELECT TOP 1 wars.warName"
+								+ "FROM wars"
+								+ "WHERE wars.warName = ?";
+			
+			PreparedStatement ps = connection.prepareStatement(sqlQuery);
+			
+			ps.setString(1, name);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			boolean isExist = rs.first();
+
+			return isExist;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
