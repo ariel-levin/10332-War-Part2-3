@@ -23,10 +23,10 @@ public class IronDomesSectionPanel extends SectionPanel {
 			}
 		});
 		
-		showAllIronDomes();
+//		showAllIronDomes();
 	}
 	
-	private void showAllIronDomes() {
+	public void showAllIronDomes() {
 		Vector<String> ironDomesIds = super.guiView.getAllIronDomesID();
 		for (String id : ironDomesIds)
 			addExistIronDome(id);

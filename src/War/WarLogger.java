@@ -200,7 +200,7 @@ public class WarLogger implements WarEventListener {
 		// Not needed
 	}
 
-	public void enemyLauncherAdded(String id) {
+	public void enemyLauncherAdded(String id, boolean isHidden) {
 		
 	}
 	

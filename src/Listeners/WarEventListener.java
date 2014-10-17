@@ -63,7 +63,7 @@ public interface WarEventListener {
 	public void enemyLauncherNotExist(String defenseLauncherId, String launcherId);
 	
 	/** Enemy Launcher was added */
-	public void enemyLauncherAdded(String id);
+	public void enemyLauncherAdded(String id, boolean isHidden);
 	
 	/** Iron Dome was added */
 	public void ironDomeAdded(String id);

@@ -97,8 +97,8 @@ public class GuiView extends JFrame implements AbstractWarView {
 			l.addEnemyLauncher();
 	}
 	
-	public void enemyLauncherAdded(String id) {
-		this.mainPanel.enemyLauncherAdded(id);
+	public void enemyLauncherAdded(String id, boolean isHidden) {
+		this.mainPanel.enemyLauncherAdded(id, isHidden);
 	}
 
 	public void fireAddDefenseIronDome() {
@@ -338,8 +338,8 @@ public class GuiView extends JFrame implements AbstractWarView {
 	}
 
 	public void showWarHasBeenStarted() {
-//		console.append(	"\n[" + Utils.getCurrentTime()
-//						+ "] =========>> War has been strated!!! <<=========");
+		createFrame();
+		this.mainPanel.showAllMunitions();
 	}
 
 	public void showNoSuchObject(String type) {
@@ -375,7 +375,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	}
 	
 	public void start() {
-		createFrame();
+//		createFrame();
 	}
 	
 }

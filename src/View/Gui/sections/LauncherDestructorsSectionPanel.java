@@ -24,10 +24,10 @@ public class LauncherDestructorsSectionPanel extends SectionPanel {
 			}
 		});
 		
-		showAllLauncherDestructors();
+//		showAllLauncherDestructors();
 	}
 	
-	private void showAllLauncherDestructors() {
+	public void showAllLauncherDestructors() {
 		Vector<String> destructorsDetails = super.guiView.getAllLauncherDestructors();
 		int size = destructorsDetails.size();
 		for (int i = 0 ; i < size-1 ; i+=2) {

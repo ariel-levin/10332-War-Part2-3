@@ -33,9 +33,10 @@ public class War extends Thread {
 	public War() {
 		allListeners = new LinkedList<WarEventListener>();
 		statistics = new WarStatistics();
-		warDB = new WarJDBC();
+		warDB = new WarJDBC(this);
 
 		registerListener(new WarLogger());
+		registerListener(warDB);
 		WarLogger.addWarLoggerHandler("War");
 	}
 
@@ -361,7 +362,7 @@ public class War extends Thread {
 	
 		if (alive) {
 			for (WarEventListener l : allListeners)
-				l.enemyLauncherAdded(launcher.getLauncherId());
+				l.enemyLauncherAdded(launcher.getLauncherId(),isHidden);
 		}
 		
 		return launcherId;
@@ -459,12 +460,6 @@ public class War extends Thread {
 
 	public String[] getAllTargetCities() {
 		return targetCities;
-	}
-
-	public String getMissileOwner(String missileID) {
-		
-
-		return null;
 	}
 
 	public boolean isLauncherHidden(String launcherID) {

@@ -23,25 +23,27 @@ public class LaunchersSectionPanel extends SectionPanel {
 			}
 		});
 		
-		showAllLaunchers();
+//		showAllLaunchers();
 	}
 	
-	private void showAllLaunchers() {
+	public void showAllLaunchers() {
 		Vector<String> launchersIds = super.guiView.getAllLaunchersID();
-		for (String id : launchersIds)
-			addExistLauncher(id);
+		for (String id : launchersIds) {
+			boolean isHidden = super.guiView.isLauncherHidden(id);
+			addExistLauncher(id, isHidden);
+		}
 	}
 	
-	private void addExistLauncher(String id) {
-		super.displayMunition(new LauncherPanel(id, this, super.guiView));
+	private void addExistLauncher(String id, boolean isHidden) {
+		super.displayMunition(new LauncherPanel(id, isHidden, this, super.guiView));
 	}
 	
 	private void addNewLauncher() {
 		super.guiView.fireAddEnemyLauncher();
 	}
 	
-	public void enemyLauncherAdded(String id) {
-		addExistLauncher(id);
+	public void enemyLauncherAdded(String id, boolean isHidden) {
+		addExistLauncher(id, isHidden);
 	}
 	
 	public void showEnemyLaunch(String launcherID, String missileID) {

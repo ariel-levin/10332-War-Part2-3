@@ -73,8 +73,8 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	}
 	
 	@Override
-	public void enemyLauncherAdded(String id) {
-		view.enemyLauncherAdded(id);
+	public void enemyLauncherAdded(String id, boolean isHidden) {
+		view.enemyLauncherAdded(id, isHidden);
 	}
 	
 	@Override

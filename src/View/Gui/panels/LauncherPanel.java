@@ -22,7 +22,8 @@ public class LauncherPanel extends MunitionPanel {
 	private String missileOnAir = null;
 	
 	
-	public LauncherPanel(String id, SectionPanel sectionPanel, GuiView guiView) {
+	public LauncherPanel(String id, boolean isHidden,
+			SectionPanel sectionPanel, GuiView guiView) {
 
 		super(id, sectionPanel, LAUNCHER_IMAGE, "Launch", guiView);
 		alive = true;
@@ -34,7 +35,6 @@ public class LauncherPanel extends MunitionPanel {
 			}
 		});
 		
-		boolean isHidden = super.guiView.isLauncherHidden(super.id);
 		String str = (isHidden)?"Hidden":"Visible";
 		super.setTitle(super.id + " - " + str);
 	}

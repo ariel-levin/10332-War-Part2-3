@@ -1,5 +1,7 @@
 import java.io.IOException;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
 
 import View.*;
@@ -20,10 +22,14 @@ public class Program {
 		WarControl warControl = new WarControl(warModel, view);
 		
 		String warName = view.getWarNameFromUser();
+		if (warName == null)
+			System.exit(0);
 		Boolean isSet = warModel.setWarName(warName);
 		while (!isSet) {
 			view.showWarNameTaken();
 			warName = view.getWarNameFromUser();
+			if (warName == null)
+				System.exit(0);
 			isSet = warModel.setWarName(warName);
 		}
 

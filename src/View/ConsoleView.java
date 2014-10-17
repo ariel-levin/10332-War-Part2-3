@@ -378,7 +378,7 @@ public class ConsoleView extends Thread implements AbstractWarView {
 	}
 	
 	@Override
-	public void enemyLauncherAdded(String id) {
+	public void enemyLauncherAdded(String id, boolean isHidden) {
 
 	}
 

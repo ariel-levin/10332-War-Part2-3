@@ -53,7 +53,7 @@ public interface AbstractWarView {
 	void showEnemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime);
 	
-	void enemyLauncherAdded(String id);
+	void enemyLauncherAdded(String id, boolean isHidden);
 	
 	void ironDomeAdded(String id);
 	

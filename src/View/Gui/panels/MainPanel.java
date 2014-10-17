@@ -49,8 +49,14 @@ public class MainPanel extends JPanel {
 //		add(tribesSplitter, BorderLayout.CENTER);
 	}
 	
-	public void enemyLauncherAdded(String id) {
-		((LaunchersSectionPanel)launcherSection).enemyLauncherAdded(id);
+	public void showAllMunitions() {
+		((LaunchersSectionPanel)launcherSection).showAllLaunchers();
+		((IronDomesSectionPanel)ironDomeSection).showAllIronDomes();
+		((LauncherDestructorsSectionPanel)launcherDestructorSection).showAllLauncherDestructors();
+	}
+	
+	public void enemyLauncherAdded(String id, boolean isHidden) {
+		((LaunchersSectionPanel)launcherSection).enemyLauncherAdded(id, isHidden);
 	}
 	
 	public void ironDomeAdded(String id) {
