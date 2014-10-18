@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 
 import View.*;
 import View.Gui.forms.AddLauncherDestructorForm;
+import View.Gui.forms.DateSelectionForm;
 
 
 public class WarMenu extends JMenuBar {
@@ -30,6 +31,15 @@ public class WarMenu extends JMenuBar {
 		});
 		fileMenu.add(statisticsItem);
 		
+		JMenuItem datesItem = new JMenuItem("Statistics by Dates");
+		datesItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new DateSelectionForm(WarMenu.this.guiView);
+			}
+		});
+		fileMenu.add(datesItem);
+		
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.addActionListener(new ActionListener() {
 			@Override
@@ -41,7 +51,9 @@ public class WarMenu extends JMenuBar {
 		fileMenu.add(exitMenuItem);
 		
 		this.add(fileMenu);
-
+		
+		
+		
 		JMenu addMunition = new JMenu("Add");
 		
 		JMenuItem addLauncherItem = new JMenuItem("Add Enemy Launcher");

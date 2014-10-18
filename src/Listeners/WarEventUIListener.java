@@ -1,5 +1,6 @@
 package Listeners;
 
+import java.util.Calendar;
 import java.util.Vector;
 
 
@@ -9,6 +10,9 @@ public interface WarEventUIListener {
 
 	/** Show current war statistics **/
 	public void showStatistics();
+	
+	/** Show war statistics by date **/
+	public void showStatisticsByDate(Calendar startDate, Calendar endDate);
 
 	/** Ask for current missiles in air **/
 	public Vector<String> chooseMissileToIntercept();

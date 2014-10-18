@@ -44,19 +44,19 @@ public class AddLauncherDestructorForm extends JFrame {
 
 		getContentPane().setLayout(new BorderLayout());
 
-		JPanel plnRadioButtons = new JPanel();
-		plnRadioButtons.setLayout(new GridLayout(1, 2, 10, 10));
+		JPanel pnlRadioButtons = new JPanel();
+		pnlRadioButtons.setLayout(new GridLayout(1, 2, 10, 10));
 		rbShip = new JRadioButton("Ship");
 		rbShip.setHorizontalAlignment(JLabel.CENTER);
 		rbPlane = new JRadioButton("Plane");
 		rbPlane.setHorizontalAlignment(JLabel.CENTER);
-		plnRadioButtons.add(rbShip);
-		plnRadioButtons.add(rbPlane);
+		pnlRadioButtons.add(rbShip);
+		pnlRadioButtons.add(rbPlane);
 		bGroup = new ButtonGroup();
 		bGroup.add(rbShip);
 		bGroup.add(rbPlane);
 		rbShip.setSelected(true);
-		add(plnRadioButtons, BorderLayout.CENTER);
+		add(pnlRadioButtons, BorderLayout.CENTER);
 
 		JButton btnLaunch = new JButton("Add");
 		btnLaunch.addActionListener(new ActionListener() {

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -193,6 +194,11 @@ public class GuiView extends JFrame implements AbstractWarView {
 			l.showStatistics();
 	}
 
+	public void fireShowStatisticsByDate(Calendar startDate, Calendar endDate) {
+		for (WarEventUIListener l : allListeners)
+			l.showStatisticsByDate(startDate, endDate);
+	}
+	
 	public void fireFinishWar() {
 		for (WarEventUIListener l : allListeners) {
 			l.reqfinishWar();
@@ -375,7 +381,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	}
 	
 	public void start() {
-//		createFrame();
+		// not needed
 	}
 	
 }
