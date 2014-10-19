@@ -1,5 +1,6 @@
 package View;
 
+import java.util.Calendar;
 import java.util.Vector;
 
 import Listeners.WarEventUIListener;
@@ -38,7 +39,7 @@ public interface AbstractWarView {
 	void showHitInterceptionLauncher(String whoLaunchedMeId, String type,
 			String enemyLauncherId, String missileId);
 
-	void showStatistics(long[] array);
+	void showStatistics(long[] array, Calendar startDate, Calendar endDate);
 
 	void showWarHasBeenFinished();
 

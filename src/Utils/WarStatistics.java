@@ -1,11 +1,14 @@
-package War;
+package Utils;
+
 
 public class WarStatistics {
+	
 	private long numOfLaunchMissiles;
 	private long numOfInterceptMissiles;
 	private long numOfHitTargetMissiles;
 	private long numOfLaunchersDestroyed;
 	private long totalDamage;
+	
 	
 	public WarStatistics(){
 		numOfLaunchMissiles = 0;

@@ -1,4 +1,4 @@
-package War;
+package Utils;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -9,8 +9,6 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import Listeners.WarEventListener;
-import Utils.Utils;
-import Utils.WarFormater;
 
 public class WarLogger implements WarEventListener {
 	

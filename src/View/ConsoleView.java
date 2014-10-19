@@ -1,5 +1,6 @@
 package View;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -327,7 +328,7 @@ public class ConsoleView extends Thread implements AbstractWarView {
 	}
 
 	// prints all war statistics
-	public void showStatistics(long[] array) {
+	public void showStatistics(long[] array, Calendar startDate, Calendar endDate) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("\n[" + Utils.getCurrentTime() + "]"
 				+ "\t\t   War Statistics\n");

@@ -7,8 +7,8 @@ import Listeners.WarEventListener;
 import Missiles.DefenseDestructorMissile;
 import Utils.IdGenerator;
 import Utils.Utils;
-import War.WarLogger;
-import War.WarStatistics;
+import Utils.WarLogger;
+import Utils.WarStatistics;
 
 
 /** Plane or Ship **/

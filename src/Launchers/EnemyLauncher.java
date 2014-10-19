@@ -7,8 +7,8 @@ import Listeners.WarEventListener;
 import Missiles.EnemyMissile;
 import Utils.IdGenerator;
 import Utils.Utils;
-import War.WarLogger;
-import War.WarStatistics;
+import Utils.WarLogger;
+import Utils.WarStatistics;
 
 public class EnemyLauncher extends Thread implements Munitions{
 	private List<WarEventListener> allListeners;

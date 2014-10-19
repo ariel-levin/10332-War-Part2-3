@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Vector;
 
 import War.War;
@@ -53,9 +54,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery = 	"INSERT INTO `war`.`interceptions` "
 						+ "(`warName`, `irondomeID`, `targetID`, `time`, `isHit`) "
 						+ "VALUES (?,?,?,?,?)";
@@ -72,12 +70,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 
@@ -89,9 +81,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery = 	"INSERT INTO `war`.`destructions` "
 						+ "(`warName`, `destructorID`, `destructorType`, `targetID`, `time`, `isHit`) "
 						+ "VALUES (?,?,?,?,?,?)";
@@ -109,12 +98,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 
@@ -126,9 +109,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE interceptions "
 						+ "SET isHit = ? "
 						+ "WHERE warName = ? "
@@ -165,12 +145,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 
@@ -182,9 +156,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE destructions "
 						+ "SET isHit = ? "
 						+ "WHERE warName = ? "
@@ -216,12 +187,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 	}
@@ -232,9 +197,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE interceptions "
 						+ "SET isHit = ? "
 						+ "WHERE warName = ? "
@@ -252,12 +214,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 
@@ -276,9 +232,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE destructions "
 						+ "SET isHit = ? "
 						+ "WHERE warName = ? "
@@ -296,12 +249,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 
@@ -313,9 +260,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery = "INSERT INTO `war`.`launches` "
 						+ "(`warName`, `launcherID`, `missileID`, `destination`, "
 						+ "`time`, `damage`, `isHit`, `isIntercepted`, `whoIntercepted`) "
@@ -337,12 +281,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 
@@ -353,8 +291,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE launchers "
 						+ "SET isHidden = ? "
 						+ "WHERE warName = ? AND launcherID = ?";
@@ -369,12 +305,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 	}
@@ -385,8 +315,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE launches "
 						+ "SET isHit = ?"
 						+	", isIntercepted = ? "
@@ -404,12 +332,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 	}
@@ -420,8 +342,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE launches "
 						+ "SET isHit = ?"
 						+	", isIntercepted = ? "
@@ -439,12 +359,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 	}
@@ -454,8 +368,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"INSERT INTO `war`.`wars` "
 						+ "(`warName`, `startTime`, `endTime`) "
 						+ "VALUES (?,?,?)";
@@ -470,12 +382,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 		
@@ -507,8 +413,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"UPDATE wars "
 						+ "SET endTime = ? "
 						+ "WHERE warName = ?";
@@ -558,8 +462,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery = "INSERT INTO `war`.`launchers` "
 						+ "(`launcherID`, `warName`, `isHidden`, `isDestroyed`) "
 						+ "VALUES (?,?,?,?)";
@@ -575,12 +477,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 	}
@@ -589,8 +485,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery = "INSERT INTO `war`.`irondomes` "
 						+ "(`irondomeID`, `warName`) "
 						+ "VALUES (?,?)";
@@ -604,12 +498,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 	}
@@ -618,8 +506,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery = "INSERT INTO `war`.`destructors` "
 						+ "(`destructorID`, `warName`, `type`) "
 						+ "VALUES (?,?,?)";
@@ -634,12 +520,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 	}
@@ -669,8 +549,6 @@ public class WarJDBC implements WarDB {
 
 		synchronized (connection) {
 			try {
-//				connection = DriverManager.getConnection(dbUrl, "root", "");
-
 				String sqlQuery =	"SELECT wars.warName "
 						+ "FROM wars "
 						+ "WHERE wars.warName = ?";
@@ -687,12 +565,6 @@ public class WarJDBC implements WarDB {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 		return false;
@@ -713,15 +585,179 @@ public class WarJDBC implements WarDB {
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	// for test
-//	public static void main(String[] args) {
-//		new WarJDBC(null);
-//	}
+	@Override
+	public long getNumOfLaunchMissiles(Calendar startDate, Calendar endDate) {
+		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
+		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+		
+		long count = 0;
+		
+		synchronized (connection) {
+			try {
+				String sqlQuery = "SELECT * "
+								+ "FROM launches "
+								+ "WHERE launches.time BETWEEN ? AND ? "
+								+ "ORDER BY launches.time DESC";
 
+				PreparedStatement ps = connection.prepareStatement(sqlQuery);
+				
+				ps.setTimestamp(1, sqlStart);
+				ps.setTimestamp(2, sqlEnd);
+
+				ResultSet rs = ps.executeQuery();
+				
+				while (rs.next())
+					count++;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return count;
+	}
+	
+	@Override
+	public long getNumOfInterceptMissiles(Calendar startDate, Calendar endDate) {
+		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
+		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+		
+		long count = 0;
+		
+		synchronized (connection) {
+			try {
+				String sqlQuery = "SELECT * "
+								+ "FROM interceptions "
+								+ "WHERE interceptions.time BETWEEN ? AND ? "
+								+ 	"AND isHit = 1 "
+								+ "ORDER BY interceptions.time DESC";
+
+				PreparedStatement ps = connection.prepareStatement(sqlQuery);
+				
+				ps.setTimestamp(1, sqlStart);
+				ps.setTimestamp(2, sqlEnd);
+
+				ResultSet rs = ps.executeQuery();
+				
+				while (rs.next())
+					count++;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return count;
+	}
+	
+	@Override
+	public long getNumOfHitTargetMissiles(Calendar startDate, Calendar endDate) {
+		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
+		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+		
+		long count = 0;
+		
+		synchronized (connection) {
+			try {
+				String sqlQuery = "SELECT * "
+								+ "FROM launches "
+								+ "WHERE launches.time BETWEEN ? AND ? "
+								+	"AND isHit = 1 "
+								+ "ORDER BY launches.time DESC";
+
+				PreparedStatement ps = connection.prepareStatement(sqlQuery);
+				
+				ps.setTimestamp(1, sqlStart);
+				ps.setTimestamp(2, sqlEnd);
+
+				ResultSet rs = ps.executeQuery();
+				
+				while (rs.next())
+					count++;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return count;
+	}
+	
+	@Override
+	public long getNumOfLaunchersDestroyed(Calendar startDate, Calendar endDate) {
+		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
+		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+		
+		long count = 0;
+		
+		synchronized (connection) {
+			try {
+				String sqlQuery = "SELECT * "
+								+ "FROM destructions "
+								+ "WHERE destructions.time BETWEEN ? AND ? "
+								+	"AND isHit = 1 "
+								+ "ORDER BY destructions.time DESC";
+
+				PreparedStatement ps = connection.prepareStatement(sqlQuery);
+				
+				ps.setTimestamp(1, sqlStart);
+				ps.setTimestamp(2, sqlEnd);
+
+				ResultSet rs = ps.executeQuery();
+				
+				while (rs.next())
+					count++;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return count;
+	}
+	
+	@Override
+	public long getTotalDamage(Calendar startDate, Calendar endDate) {
+		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
+		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+		
+		long sum = 0;
+		
+		synchronized (connection) {
+			try {
+				String sqlQuery = "SELECT * "
+								+ "FROM launches "
+								+ "WHERE launches.time BETWEEN ? AND ? "
+								+	"AND isHit = 1 "
+								+ "ORDER BY launches.time DESC";
+
+				PreparedStatement ps = connection.prepareStatement(sqlQuery);
+				
+				ps.setTimestamp(1, sqlStart);
+				ps.setTimestamp(2, sqlEnd);
+
+				ResultSet rs = ps.executeQuery();
+				
+				while (rs.next())
+					sum += rs.getInt("damage");
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return sum;
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	public void printTest() {
 
 		try {
-			connection = DriverManager.getConnection(dbUrl, "root", "");
 			Statement statement = connection.createStatement();
 
 			ResultSet rs = statement.executeQuery("SELECT * FROM launches");
@@ -741,13 +777,7 @@ public class WarJDBC implements WarDB {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
+		}	
 
 	}
 

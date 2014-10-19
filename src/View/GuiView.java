@@ -321,11 +321,17 @@ public class GuiView extends JFrame implements AbstractWarView {
 	}
 
 	// prints all war statistics
-	public void showStatistics(long[] array) {
+	public void showStatistics(long[] array, Calendar startDate, Calendar endDate) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("[" + Utils.getCurrentTime() + "]"
-				+ "\t\t   War Statistics\n");
+				+ "\t\t   War Statistics\n");		
 		msg.append("\t\t\t=========================================\n");
+		
+		if (startDate!=null && endDate!=null) {
+			msg.append("\t\t\t||\tFrom " + startDate.getTime() + " to " + endDate.getTime() + "\t||\n");
+			msg.append("\t\t\t=========================================\n");
+		}
+		
 		msg.append("\t\t\t||\tNum of launch missiles: " + array[0] + "\t||\n");
 		msg.append("\t\t\t||\tNum of intercept missiles: " + array[1]
 				+ "\t||\n");

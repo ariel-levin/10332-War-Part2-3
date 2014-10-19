@@ -1,11 +1,10 @@
-package War;
+package Utils;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import org.w3c.dom.NamedNodeMap;
 
-import Utils.IdGenerator;
-import Utils.Utils;
+import War.WarControl;
 
 import javax.xml.parsers.*;
 

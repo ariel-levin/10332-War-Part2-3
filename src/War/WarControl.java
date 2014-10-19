@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import Listeners.WarEventListener;
 import Listeners.WarEventUIListener;
+import Utils.WarStatistics;
+import Utils.WarXMLReader;
 import View.*;
 
 
@@ -150,13 +152,13 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 	@Override
 	public void showStatistics() {
 		WarStatistics statistics = warModel.getStatistics();
-		view.showStatistics(statistics.statisticsToArray());	
+		view.showStatistics(statistics.statisticsToArray(),null,null);	
 	}
 	
 	@Override
 	public void showStatisticsByDate(Calendar startDate, Calendar endDate) {
-		
-		
+		long[] arr = warModel.getStatisticsByDate(startDate, endDate);
+		view.showStatistics(arr,startDate,endDate);	
 	}
 
 	@Override

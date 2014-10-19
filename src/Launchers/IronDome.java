@@ -8,8 +8,8 @@ import Missiles.DefenseMissile;
 import Missiles.EnemyMissile;
 import Utils.IdGenerator;
 import Utils.Utils;
-import War.WarLogger;
-import War.WarStatistics;
+import Utils.WarLogger;
+import Utils.WarStatistics;
 
 public class IronDome extends Thread implements Munitions {
 	private List<WarEventListener> allListeners;

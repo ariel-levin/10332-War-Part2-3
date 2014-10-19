@@ -5,7 +5,7 @@ import java.util.List;
 
 import Listeners.WarEventListener;
 import Utils.Utils;
-import War.WarStatistics;
+import Utils.WarStatistics;
 
 /** Enemy missile, is been created by the Enemy launcher **/
 public class EnemyMissile extends Thread {

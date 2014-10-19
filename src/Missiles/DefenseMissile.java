@@ -5,7 +5,7 @@ import java.util.List;
 
 import Listeners.WarEventListener;
 import Utils.Utils;
-import War.WarStatistics;
+import Utils.WarStatistics;
 
 /** Missile for iron dome **/
 public class DefenseMissile extends Thread {

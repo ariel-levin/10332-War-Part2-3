@@ -6,7 +6,7 @@ import java.util.List;
 import Launchers.EnemyLauncher;
 import Listeners.WarEventListener;
 import Utils.Utils;
-import War.WarStatistics;
+import Utils.WarStatistics;
 
 /** Missile for Plane or Ship **/
 public class DefenseDestructorMissile extends Thread {

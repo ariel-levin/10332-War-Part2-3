@@ -1,6 +1,7 @@
 package War;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -12,6 +13,8 @@ import Launchers.LauncherDestructor;
 import Listeners.WarEventListener;
 import Missiles.EnemyMissile;
 import Utils.IdGenerator;
+import Utils.WarLogger;
+import Utils.WarStatistics;
 
 
 public class War extends Thread {
@@ -456,6 +459,17 @@ public class War extends Thread {
 
 	public WarStatistics getStatistics() {
 		return statistics;
+	}
+	
+	public long[] getStatisticsByDate(Calendar startDate, Calendar endDate) {
+		long[] arr = new long[5];
+		arr[0] = warDB.getNumOfLaunchMissiles(startDate, endDate);
+		arr[1] = warDB.getNumOfInterceptMissiles(startDate, endDate);
+		arr[2] = warDB.getNumOfHitTargetMissiles(startDate, endDate);
+		arr[3] = warDB.getNumOfLaunchersDestroyed(startDate, endDate);
+		arr[4] = warDB.getTotalDamage(startDate, endDate);
+		
+		return arr;
 	}
 
 	public String[] getAllTargetCities() {
