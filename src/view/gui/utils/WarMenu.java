@@ -2,9 +2,11 @@ package view.gui.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import view.*;
 import view.gui.forms.AddLauncherDestructorForm;
@@ -16,28 +18,11 @@ public class WarMenu extends JMenuBar {
 	private static final long serialVersionUID = 1L;
 	private GuiView guiView;
 	
+	
 	public WarMenu(GuiView guiView) {
 		this.guiView = guiView;
 		
 		JMenu fileMenu = new JMenu("File");
-		
-		JMenuItem statisticsItem = new JMenuItem("Show Statistics");
-		statisticsItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				WarMenu.this.guiView.fireShowStatistics();
-			}
-		});
-		fileMenu.add(statisticsItem);
-		
-		JMenuItem datesItem = new JMenuItem("Statistics by Dates");
-		datesItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new DateSelectionForm(WarMenu.this.guiView);
-			}
-		});
-		fileMenu.add(datesItem);
 		
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.addActionListener(new ActionListener() {
@@ -51,7 +36,7 @@ public class WarMenu extends JMenuBar {
 		
 		this.add(fileMenu);
 		
-		
+		/////////////////////////////////////////////////////////////////////////////////////
 		
 		JMenu addMunition = new JMenu("Add");
 		
@@ -83,6 +68,65 @@ public class WarMenu extends JMenuBar {
 		addMunition.add(addDestructorItem);
 		
 		this.add(addMunition);
+		
+		/////////////////////////////////////////////////////////////////////////////////////		
+		
+		JMenu statMenu = new JMenu("Statistics");
+		
+		JMenuItem statisticsItem = new JMenuItem("Show Statistics");
+		statisticsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WarMenu.this.guiView.fireShowStatistics();
+			}
+		});
+		statMenu.add(statisticsItem);
+		
+		JMenuItem datesItem = new JMenuItem("Statistics by Dates");
+		datesItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new DateSelectionForm(WarMenu.this.guiView);
+			}
+		});
+		statMenu.add(datesItem);
+		
+		this.add(statMenu);
+		
+		/////////////////////////////////////////////////////////////////////////////////////
+
+		JMenu serverMenu = new JMenu("Server");
+		
+		JMenuItem serverItem = new JMenuItem("Start Server");
+		serverItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WarMenu.this.guiView.startServer();
+			}
+		});
+		serverMenu.add(serverItem);
+		
+		this.add(serverMenu);
+		
+		/////////////////////////////////////////////////////////////////////////////////////
+
+		JMenu helpMenu = new JMenu("Help");
+		
+		JMenuItem aboutItem = new JMenuItem("About");
+		aboutItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String msg = 	"Ariel Levin\n" +
+								"ariel2011@gmail.com\n" +
+								"http://about.me/ariel.levin";
+				
+				JOptionPane.showMessageDialog(null,msg,"About War Management",JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		helpMenu.add(aboutItem);
+		
+		this.add(helpMenu);
+		
 	}
 	
 }

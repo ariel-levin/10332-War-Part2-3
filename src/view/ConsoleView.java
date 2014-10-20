@@ -16,7 +16,9 @@ public class ConsoleView extends Thread implements AbstractWarView {
 	private Scanner input = new Scanner(System.in);
 	private StringBuilder menu = new StringBuilder(1000);
 	private boolean isRunning = true;
-
+	
+	public String warName;
+	
 	
 	public ConsoleView() {
 		allListeners = new LinkedList<WarEventUIListener>();
@@ -443,6 +445,11 @@ public class ConsoleView extends Thread implements AbstractWarView {
 	
 	public void start() {
 		super.start();
+	}
+	
+	@Override
+	public void setWarName(String warName) {
+		this.warName = warName;
 	}
 	
 }

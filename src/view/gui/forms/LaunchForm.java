@@ -57,7 +57,7 @@ public class LaunchForm extends MunitionForm {
 		JLabel lblFly = new JLabel("Fly Time - " + MIN_FLY);
 		lblFly.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblFly);
-		sliderFly = setSliderProperties(sliderFly,MIN_FLY,MAX_FLY,5,10);
+		sliderFly = setSliderProperties(MIN_FLY,MAX_FLY,5,10);
 		sliderFly.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
@@ -71,7 +71,7 @@ public class LaunchForm extends MunitionForm {
 		JLabel lblDmg = new JLabel("Damage - " + MIN_DMG);
 		lblDmg.setHorizontalAlignment(JLabel.CENTER);
 		pnlMain.add(lblDmg);
-		sliderDmg = setSliderProperties(sliderDmg,MIN_DMG,MAX_DMG,100,500);
+		sliderDmg = setSliderProperties(MIN_DMG,MAX_DMG,100,500);
 		sliderDmg.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
@@ -97,8 +97,8 @@ public class LaunchForm extends MunitionForm {
 		setVisible(true);
 	}
 	
-	private JSlider setSliderProperties(JSlider slider, int min, int max, int minTick, int majTick) {
-		slider = new JSlider(JSlider.HORIZONTAL);
+	private JSlider setSliderProperties(int min, int max, int minTick, int majTick) {
+		JSlider slider = new JSlider(JSlider.HORIZONTAL);
 		slider.setMinimum(min);
 		slider.setMaximum(max);
 		slider.setPaintLabels(true);

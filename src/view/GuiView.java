@@ -31,6 +31,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 	private List<WarEventUIListener> allListeners;
 	private MainPanel mainPanel;
 	private JTextArea console;
+	private String warName;
 	
 
 	public GuiView() {
@@ -43,7 +44,7 @@ public class GuiView extends JFrame implements AbstractWarView {
 			SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e1) {}
 
-		setTitle("War Managment");
+		setTitle(warName + " - War Managment");
 		
 		// set the frame's Close operation
 		addWindowListener(new WindowAdapter() {
@@ -54,13 +55,8 @@ public class GuiView extends JFrame implements AbstractWarView {
 			}
 		});
 
-//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frameSize = new Dimension();
-//		console.append("screenSize.width * 0.5 = " + screenSize.width * 0.5);
-//		console.append("screenSize.height * 0.5 = " + screenSize.height * 0.5);
-//		frameSize.setSize(screenSize.width * 0.5, screenSize.height * 0.5);
 		frameSize.setSize(1080,650);
-//		frameSize.setSize(1080,500);
 		setSize(frameSize);
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -386,6 +382,17 @@ public class GuiView extends JFrame implements AbstractWarView {
 				JOptionPane.ERROR_MESSAGE);
 	}
 	
+	public void startServer() {
+		boolean success = allListeners.get(0).startServer();
+		if (!success)
+			JOptionPane.showMessageDialog(null,"Could not open the server, "
+					+ "perhaps already open","Error",JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void setWarName(String warName) {
+		this.warName = warName;
+	}
+
 	public void start() {
 		// not needed
 	}

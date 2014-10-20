@@ -268,5 +268,11 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 		return isOnAir;
 	}
 	
+	@Override
+	public boolean startServer() {
+		boolean success = warModel.startServer();
+		return success;
+	}
+	
 }
 

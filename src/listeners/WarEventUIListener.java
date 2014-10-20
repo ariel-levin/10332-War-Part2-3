@@ -72,5 +72,8 @@ public interface WarEventUIListener {
 	/** Returns if the given Launcher is Alive and Visible */
 	public boolean isLauncherAliveAndVisible(String launcherID);
 	
+	/** Request to open server */
+	public boolean startServer();
+	
 }
 

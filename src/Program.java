@@ -33,6 +33,7 @@ public class Program {
 				System.exit(0);
 			isSet = warModel.setWarName(warName);
 		}
+		view.setWarName(warName);
 
 		try {
 			warXML = new WarXMLReader("warStart.xml", warControl);

@@ -1,11 +1,13 @@
 package war;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import clientserver.Server;
 import utils.IdGenerator;
 import utils.WarLogger;
 import utils.WarStatistics;
@@ -25,7 +27,8 @@ public class War extends Thread {
 	private ArrayList<LauncherDestructor> launcherDestractorArr = new ArrayList<LauncherDestructor>();
 	private ArrayList<EnemyLauncher> enemyLauncherArr = new ArrayList<EnemyLauncher>();
 	private WarStatistics statistics;
-	private WarDB warDB;
+	private WarDB warDB = null;
+	private Server server = null;
 	private boolean alive = false;
 	private String[] targetCities = { "Sderot", "Ofakim", "Beer-Sheva",
 									"Netivot", "Tel-Aviv", "Re'ut" };
@@ -508,6 +511,23 @@ public class War extends Thread {
 	public boolean setWarName(String name) {
 		boolean isSet = warDB.setWarName(name);
 		return isSet;
+	}
+	
+	public boolean startServer() {
+		boolean success = false;
+		if (server == null) {
+			try {
+				server = new Server(this);
+				success = true;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return success;
+	}
+
+	public void serverClosed() {
+		server = null;
 	}
 	
 }

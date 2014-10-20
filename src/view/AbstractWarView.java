@@ -78,5 +78,7 @@ public interface AbstractWarView {
 	
 	void start();
 	
+	public void setWarName(String warName);
+	
 }
 
