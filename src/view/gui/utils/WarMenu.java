@@ -2,12 +2,12 @@ package view.gui.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import clientserver.Client;
 import view.*;
 import view.gui.forms.AddLauncherDestructorForm;
 import view.gui.forms.DateSelectionForm;
@@ -105,6 +105,31 @@ public class WarMenu extends JMenuBar {
 			}
 		});
 		serverMenu.add(serverItem);
+		
+		JMenuItem clientItem = new JMenuItem("New Client");
+		clientItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						
+						try {
+							Client.main(null);
+							
+						} catch (java.lang.IllegalStateException e1) {
+							JOptionPane.showMessageDialog(null,"Some JavaFX implementation error:\n"
+									+ "Application launch must not be called more than once.\n"
+									+ "If you wish to launch another client, please launch it from Eclipse"
+									,"Client JavaFX Launch Error",JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}).start();
+
+			}
+		});
+		serverMenu.add(clientItem);
 		
 		this.add(serverMenu);
 		

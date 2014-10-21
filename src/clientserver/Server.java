@@ -5,9 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -21,81 +21,111 @@ import javax.swing.text.DefaultCaret;
 import war.War;
 
 
-public class Server extends JFrame {
+public class Server extends Thread {
 
-	private static final long serialVersionUID = 1L;
-
-	private final int port = 7000;
-	
-	private War war;
+	private String ip;
+	private int port;
+	private JFrame frame;
+	private War warModel;
+	private ServerSocket server;
 	private JTextArea console;
 	private boolean alive;
 	
 	
-	public Server (War war) throws IOException {
-		this.war = war;
+	public Server (String ip, int port, War war) {
+		this.ip = ip;
+		this.port = port;
+		this.warModel = war;
 		createFrame();
 		alive = true;
+	}
+	
+	public void run() {
 		
-		final ServerSocket server = new ServerSocket(port);
-		console.append(new Date() + " --> Server waits for clients...");
+		try {
+			server = new ServerSocket(port);
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		console.append("\n" + new Date() + " >> The Server is waiting for clients...");
 
 		while (alive) {
-			final Socket socket = server.accept(); // blocking
 
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					String clientAddress = "";
-					try {
-						clientAddress = socket.getInetAddress() + ":" + socket.getPort();
-						console.append(new Date() + " --> Client connected from " + clientAddress);
-						DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-						PrintStream outputStream = new PrintStream(socket.getOutputStream());
-						outputStream.println("Welcome to server!");
+			try {
+				final Socket client = server.accept();	// blocking
 
-						String line = "";
-						while (!line.equals("goodbye")) {
-							line = inputStream.readLine();
-							outputStream.println(line);
-							console.append(new Date() + " --> Recieved from client " + clientAddress + ": " + line);
-						}
-					} catch (IOException e) {
-						System.err.println(e);
-					} finally {
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+
 						try {
-							socket.close();
-							server.close();
-							console.append("The client from " + clientAddress + " is disconnected");
-						} catch (IOException e) { // log and ignore
-						}
+							String clientAddress = client.getInetAddress() + ":" + client.getPort();
+							console.append("\n" + new Date() + " >> Client connected from " + clientAddress);
+
+							ObjectInputStream input = new ObjectInputStream(client.getInputStream());
+							ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());
+
+							// client connection success
+							output.writeObject(new Protocol(Protocol.Subject.SUCCESS));
+
+							// send war destinations
+							Protocol sendDest = new Protocol(Protocol.Subject.WAR_DESTINATIONS);
+							sendDest.setData(warModel.getAllTargetCities());
+							output.writeObject(sendDest);
+
+							Protocol request = null;
+							do {
+								request = (Protocol) input.readObject();
+								handleRequest(request, client, clientAddress);
+								
+								// if not a disconnect request, send confirmation
+								if (!request.getSubject().equals(Protocol.Subject.DISCONNECT))
+									output.writeObject(new Protocol(Protocol.Subject.SUCCESS));
+
+							} while (!request.getSubject().equals(Protocol.Subject.DISCONNECT));
+
+						} catch (IOException | ClassNotFoundException e) {
+							System.err.println(e);
+
+						} 					
 					}
-				} // run
-			}).start();
-		} // while
+
+				}).start();
+
+			} catch (IOException e1) {} 
+
+		}
 		
 	}
 	
 	private void createFrame() {
+		frame = new JFrame();
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			SwingUtilities.updateComponentTreeUI(this);
+			SwingUtilities.updateComponentTreeUI(frame);
 		} catch (Exception e1) {}
 
-		setTitle("Server - Port " + this.port);
+		frame.setTitle("Server - " + this.ip + " - Port " + this.port);
 		
 		// set the frame's Close operation
-		addWindowListener(new WindowAdapter() {
+		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				alive = false;
-				Server.this.war.serverClosed();
+				
+				Server.this.alive = false;
+				
+				try {
+					Server.this.server.close();
+				} catch (IOException | IllegalMonitorStateException e1) {}
+				
+				Server.this.warModel.serverClosed();
 			}
 		});
 
 		Dimension frameSize = new Dimension();
 		frameSize.setSize(550,200);
-		setSize(frameSize);
+		frame.setSize(frameSize);
 		
 		console = new JTextArea();
 		console.setFont(console.getFont().deriveFont(Font.PLAIN,12));
@@ -106,21 +136,56 @@ public class Server extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(console);
-		scrollPane.setPreferredSize(new Dimension(this.getWidth()-20, 150));
+		scrollPane.setPreferredSize(new Dimension(frame.getWidth()-20, 150));
 		
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		setLocationRelativeTo(null);
-//		setAlwaysOnTop(true);
-		setVisible(true);
+		frame.setLocationRelativeTo(null);
+		frame.setAlwaysOnTop(true);
+		frame.setVisible(true);
 	}
 
-	private void addNewLauncher() {
+	private void handleRequest(Protocol request, Socket client, String clientAddress) {
+
+		switch (request.getSubject()) {
 		
+			case ADD_LAUNCHER:		addNewLauncher(clientAddress);
+									break;
+									
+			case LAUNCH_MISSILE:	Object[] obj = request.getData();
+									launchMissile(	(String)obj[0], (int)obj[1], 
+													(int)obj[2], clientAddress	);
+									break;
+									
+			case DISCONNECT:		disconnectClient(client, clientAddress);
+									break;
+			
+			default:				break;
+		}
 	}
 	
-	private void launchMissile(String destination, int flyTime, int damage) {
+	private void addNewLauncher(String clientAddress) {
+		warModel.addEnemyLauncher();
+		console.append("\n" + new Date() + " >> Recieved 'Add New Launcher' request "
+				+ "\n\t\t\t\t>> from client " + clientAddress);
+	}
+	
+	private void launchMissile(String destination, int flyTime, int damage, String clientAddress) {
+
+		warModel.launchEnemyMissile(destination, damage, flyTime);
 		
+		console.append("\n" + new Date() + " >> Recieved 'Launch Missile' request "
+				+ "\n\t\t\t\t>> from client " + clientAddress);
+	}
+	
+	private void disconnectClient(Socket client, String clientAddress) {
+		try {
+			client.close();
+			console.append(	"\nThe client from " + clientAddress + " is now disconnected");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -131,11 +196,7 @@ public class Server extends JFrame {
 	
 	// for test
 	public static void main(String[] args) {
-		try {
-			new Server(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		new Server("localhost", 7000, null);
 
 	}
 	

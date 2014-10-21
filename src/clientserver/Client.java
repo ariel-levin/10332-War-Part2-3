@@ -1,10 +1,12 @@
 package clientserver;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -21,33 +23,46 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class Client extends Application {
-
+	
+	private final String serverIP = "localhost";
+	private final int serverPort = 7000;
+	
 	private Stage stage;
 	private RadioButton rbAddLauncher, rbLaunchMissile;
-	private Label lblFly, lblDmg;
+	private Label lblInfo, lblFly, lblDmg;
 	private ComboBox<String> cbDest;
 	private Slider sliderFly, sliderDmg;
+	private Button btnConnect, btnDisconnect, btnSend;
 
+	private Socket socket;
+	private ObjectInputStream input;
+	private ObjectOutputStream output;	
+	private boolean isConnected = false;
+	
 	
 	@Override
 	public void start(Stage stage) {
 		this.stage = stage;
 		buildScene();
-
+		setComponentsActive();
+		
 	}
 	
-
 	private void buildScene() {
-		stage.setTitle("Enemy Client");
+		stage.setTitle("Enemy Client - Disconnected");
 
 		FlowPane mainPane = new FlowPane(Orientation.VERTICAL);
 		mainPane.setColumnHalignment(HPos.CENTER);
 		mainPane.setAlignment(Pos.CENTER);
 		mainPane.setVgap(30);
 
+		lblInfo = new Label("Disconnected");
+		lblInfo.setStyle("-fx-font-weight: bold;" + "-fx-font-size: 14;");
+		
 		GridPane rbPane = new GridPane();
 		rbPane.setAlignment(Pos.CENTER);
 		rbPane.setHgap(10);
@@ -80,10 +95,7 @@ public class Client extends Application {
 
 		Label lblDest = new Label("Destination");
 		launchPane.getChildren().add(lblDest);
-		String[] cities = {"test1","test2","test3"};
-		ObservableList<String> listDest = FXCollections.observableArrayList(cities);
-		cbDest = new ComboBox<String>(listDest);
-		cbDest.setValue(cities[0]);
+		cbDest = new ComboBox<String>();
 		cbDest.setDisable(true);
 		launchPane.getChildren().add(cbDest);
 
@@ -114,47 +126,47 @@ public class Client extends Application {
 		btnPane.setAlignment(Pos.CENTER);
 		btnPane.setHgap(60);
 		
-		Button btnConnect = new Button("Connect");
+		btnConnect = new Button("Connect");
 		btnConnect.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent arg0) {
-				
-				
+				connect();
 			}
 		});
 		btnPane.getChildren().add(btnConnect);
 		
-		Button btnSend = new Button("Send");
+		btnSend = new Button("Send");
 		btnSend.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent arg0) {
-				
-				
+				send();
 			}
 		});
 		btnPane.getChildren().add(btnSend);
 		
-		Button btnDisconnect = new Button("Disconnect");
+		btnDisconnect = new Button("Disconnect");
 		btnDisconnect.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent arg0) {
-				
-				
+				disconnect();
 			}
 		});
 		btnPane.getChildren().add(btnDisconnect);
 		
-
+		mainPane.getChildren().add(lblInfo);
 		mainPane.getChildren().add(rbPane);
 		mainPane.getChildren().add(launchPane);
 		mainPane.getChildren().add(btnPane);
 
-		stage.setScene(new Scene(mainPane, 450, 400));
-
+		stage.setScene(new Scene(mainPane, 450, 450));
+		
 		stage.show();
+		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			public void handle(WindowEvent we) {
+				disconnect();
+			}
+		}); 
 	}
 
 	private Slider setSilder(int max, int min, int majTick, int minTick) {
@@ -166,7 +178,6 @@ public class Client extends Application {
 		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
 		slider.setValue(min);
-		slider.setDisable(true);
 		return slider;
 	}
 	
@@ -176,7 +187,120 @@ public class Client extends Application {
 		this.cbDest.setDisable(!enable);
 	}
 
+	private void setComponentsActive() {
+		btnSend.setDisable(!isConnected);
+		btnDisconnect.setDisable(!isConnected);
+		btnConnect.setDisable(isConnected);
+		rbAddLauncher.setDisable(!isConnected);
+		rbLaunchMissile.setDisable(!isConnected);
+		
+		if (rbLaunchMissile.isSelected())
+			setLaunchEnable(isConnected);
+		else
+			setLaunchEnable(false);
+	}
 
+	
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+
+
+	private void connect() {
+		if (isConnected)
+			return;
+
+		try {
+			socket = new Socket(this.serverIP, this.serverPort);
+			output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
+
+			Protocol response = (Protocol) input.readObject();
+
+			// client connection success
+			if (response.getSubject().equals(Protocol.Subject.SUCCESS)) {
+				isConnected = true;
+				lblInfo.setText("Connected to '" + Client.this.serverIP + "' , Port " + Client.this.serverPort);
+				stage.setTitle("Enemy Client - Connected");
+				setComponentsActive();
+			}
+
+			response = (Protocol) input.readObject();
+			
+			// get war destinations
+			if (response.getSubject().equals(Protocol.Subject.WAR_DESTINATIONS))
+				setDestinationFromServer(response);
+			
+		} catch (IOException | ClassNotFoundException e) {
+			lblInfo.setText("Failed to connect to server...");
+		}
+	}
+	
+	private void disconnect() {
+		if (!isConnected)
+			return;
+		
+		try {
+			Protocol req = new Protocol(Protocol.Subject.DISCONNECT);
+			output.writeObject(req);
+			
+			output.close();
+			input.close();
+			socket.close();
+			isConnected = false;
+			lblInfo.setText("Disconnected");
+			stage.setTitle("Enemy Client - Disconnected");
+			setComponentsActive();
+			
+		} catch (IOException e) {
+			lblInfo.setText("Failed to disconnect from server...");
+		}
+
+	}
+	
+	private void setDestinationFromServer(Protocol response) {
+		if (isConnected && cbDest.getItems().isEmpty()) {
+			String[] cities = (String[])response.getData();
+			for (String city : cities)
+				cbDest.getItems().addAll(city);
+			cbDest.setValue(cities[0]);
+		}
+	}
+	
+	private void send() {
+		if (!isConnected)
+			return;
+		
+		Protocol req = null;
+		
+		if (rbAddLauncher.isSelected()) {
+			
+			req = new Protocol(Protocol.Subject.ADD_LAUNCHER);
+			
+		} else if (rbLaunchMissile.isSelected()) {
+			
+			String dest = cbDest.getValue();
+			int flyTime = (int)sliderFly.getValue();
+			int dmg = (int)sliderDmg.getValue();
+			
+			req = new Protocol(Protocol.Subject.LAUNCH_MISSILE, dest, flyTime, dmg);
+		}
+		
+		if (req != null) {
+			try {
+				output.writeObject(req);
+				
+				Protocol response = (Protocol) input.readObject();
+				if (response.getSubject().equals(Protocol.Subject.SUCCESS)) {
+					lblInfo.setText("Request Succeeded");
+				} else
+					throw new IOException();
+				
+			} catch (IOException | ClassNotFoundException e) {
+				lblInfo.setText("Request failed...");
+			}
+		}
+	}
 	
 	
 
@@ -187,6 +311,7 @@ public class Client extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+
 	}
 
 }

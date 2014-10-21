@@ -1,12 +1,10 @@
 package war;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
-
 import clientserver.Server;
 import utils.IdGenerator;
 import utils.WarLogger;
@@ -263,6 +261,16 @@ public class War extends Thread {
 		
 		return null;
 	}
+	
+	// finds free enemy launcher
+	public EnemyLauncher findFreeEnemyLauncher() {
+		for (EnemyLauncher el : enemyLauncherArr) {
+			if (el.isAlive() && el.getCurrentMissile()==null) {
+				return el;
+			}
+		}
+		return null;
+	}
 
 	// returns a vector of all visible launchers id's
 	public Vector<String> getAllVisibleLaunchersIds() {
@@ -347,6 +355,17 @@ public class War extends Thread {
 				
 			}//if
 		}//for
+	}//method
+	
+	public void launchEnemyMissile(String destination, int damage, int flyTime) {
+		EnemyLauncher el = findFreeEnemyLauncher();
+//		launchEnemyMissile(el,destination,damage,flyTime);
+		if (el != null) {
+			synchronized (el) {
+				el.setMissileInfo(destination, damage, flyTime);
+				el.notify();
+			}//synchronized
+		}
 	}//method
 
 	//add enemy launcher without given parameters
@@ -516,17 +535,15 @@ public class War extends Thread {
 	public boolean startServer() {
 		boolean success = false;
 		if (server == null) {
-			try {
-				server = new Server(this);
-				success = true;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			server = new Server("localhost", 7000, this);
+			server.start();
+			success = true;
 		}
 		return success;
 	}
 
 	public void serverClosed() {
+		server.interrupt();
 		server = null;
 	}
 	
