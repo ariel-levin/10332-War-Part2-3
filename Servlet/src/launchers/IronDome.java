@@ -1,9 +1,5 @@
 package launchers;
 
-
-import java.util.LinkedList;
-import java.util.List;
-
 import missiles.DefenseMissile;
 import missiles.EnemyMissile;
 import utils.IdGenerator;
@@ -75,7 +71,7 @@ public class IronDome extends Thread implements Munitions {
 		// check if the target is still alive
 		if (toDestroy != null && toDestroy.isAlive()) {
 			// throw event
-			fireLaunchMissileEvent(currentMissile.getMissileId());
+			
 	
 			// Start missile and wait until he will finish to be able
 			// to shoot anther one
@@ -83,16 +79,10 @@ public class IronDome extends Thread implements Munitions {
 			currentMissile.join();
 		}
 		else{
-			fireMissileNotExist(toDestroy.getMissileId());
+			
 		}
 	}
 
-	private void fireMissileNotExist(String missileId) {
-//		for (WarEventListener l : allListeners)
-//			l.missileNotExist(getIronDomeId(), missileId);;
-		
-		
-	}
 
 	public void createMissile() {
 		// generate missile id
@@ -101,27 +91,11 @@ public class IronDome extends Thread implements Munitions {
 		// create new missile
 		currentMissile = new DefenseMissile(missieId, toDestroy, id, statistics);
 
-		// register listeners
-//		for (WarEventListener l : allListeners)
-//			currentMissile.registerListeners(l);
 	}
 
 	public DefenseMissile getCurrentMissile() {
 		return currentMissile;
 	}
-
-	// Event
-	private void fireLaunchMissileEvent(String missileId) {
-//		for (WarEventListener l : allListeners) {
-//			l.defenseLaunchMissile(id, missileId, toDestroy.getMissileId());
-//		}
-		
-		
-	}
-
-//	public void registerListeners(WarEventListener listener) {
-//		allListeners.add(listener);
-//	}
 
 	// check if can shoot from this current iron dome
 	public boolean getIsBusy() {
@@ -141,3 +115,4 @@ public class IronDome extends Thread implements Munitions {
 	}
 	
 }
+

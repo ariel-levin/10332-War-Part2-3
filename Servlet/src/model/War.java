@@ -1,8 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Vector;
 
 import utils.WarStatistics;
@@ -30,15 +28,15 @@ public class War extends Thread {
 
 	public void run() {
 		// throws event
-		fireWarHasBeenStarted();
 
 		// this thread will be alive until the war is over
 		synchronized (this) {
 			try {
+				System.out.println("<<<--- WAR START --->>>");
 				wait();
 
 				stopAllMunitions();
-				fireWarHasBeenFinished();
+				System.out.println("<<<--- WAR END --->>>");
 				sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -114,9 +112,7 @@ public class War extends Thread {
 	public synchronized void interceptGivenMissile(String missileId) {
 		IronDome ironDome = findFreeIronDome();
 
-		if (ironDome == null) {
-			fireNoSuchObject("Iron Dome");
-		} else {
+		if (ironDome != null) {
 			interceptGivenMissile(missileId, ironDome);
 		}
 	}
@@ -132,7 +128,6 @@ public class War extends Thread {
 				return;
 			}
 
-		fireNoSuchObject("Iron Dome");
 	}
 
 	//intercept given missile id and IronDome
@@ -153,7 +148,6 @@ public class War extends Thread {
 			}// if
 		}// for
 
-		fireMissileNotExistEvent(ironDome.getIronDomeId(), missileId);
 	}
 
 	// finds free iron dome to use in war against enemy missiles
@@ -176,17 +170,18 @@ public class War extends Thread {
 
 				// if found, not need to search more
 				return;
-			} else {
-				switch (launcherId.charAt(0)) {
-				case 'P':
-					fireNoSuchObject("plane");
-					break;
-
-				case 'S':
-					fireNoSuchObject("ship");
-					break;
-				}
-			}
+			} 
+//			else {
+//				switch (launcherId.charAt(0)) {
+//				case 'P':
+//					fireNoSuchObject("plane");
+//					break;
+//
+//				case 'S':
+//					fireNoSuchObject("ship");
+//					break;
+//				}
+//			}
 
 	}
 
@@ -194,19 +189,21 @@ public class War extends Thread {
 	public synchronized void interceptGivenLauncher(String launcherId) {
 		LauncherDestructor ld = findFreeDestructor();
 		
-		if (ld == null) {
-			switch (launcherId.charAt(0)) {
-			case 'P':
-				fireNoSuchObject("plane");
-				break;
-
-			case 'S':
-				fireNoSuchObject("ship");
-				break;
-			}
-		} else {
+		if (ld != null) {
 			interceptGivenLauncher(launcherId, ld);
-		}
+		} 
+//		else {
+//			switch (launcherId.charAt(0)) {
+//			case 'P':
+//				fireNoSuchObject("plane");
+//				break;
+//
+//			case 'S':
+//				fireNoSuchObject("ship");
+//				break;
+//			}
+//		}
+		
 	}
 
 	//intercept given missile id and launcher
@@ -225,7 +222,6 @@ public class War extends Thread {
 			}
 		}
 
-		fireMissileNotExistEvent(destructor.getDestructorId(), launcherId);
 	}
 
 	// finds free launcher destructor to use in war against enemy launchers
@@ -304,8 +300,6 @@ public class War extends Thread {
 	//add enemy launcher with parameters
 	public String addEnemyLauncher(String launcherId, boolean isHidden) {
 		EnemyLauncher launcher = new EnemyLauncher(launcherId, isHidden, statistics);
-//		for (WarEventListener l : allListeners)
-//			launcher.registerListeners(l);
 	
 		launcher.start();
 		enemyLauncherArr.add(launcher);
@@ -324,9 +318,6 @@ public class War extends Thread {
 	//add iron dome with given parameters
 	public String addIronDome(String id) {
 		IronDome ironDome = new IronDome(id, statistics);
-		
-//		for (WarEventListener l : allListeners)
-//			ironDome.registerListeners(l);
 
 		ironDome.start();
 		
@@ -341,60 +332,11 @@ public class War extends Thread {
 		
 		LauncherDestructor destructor = new LauncherDestructor(type, id, statistics);
 		
-//		for (WarEventListener l : allListeners)
-//			destructor.registerListeners(l);
-
 		destructor.start();
 		
 		launcherDestractorArr.add(destructor);
 
 		return id;
-	}
-
-//	public void registerListeners(WarEventListener control) {
-//		for (IronDome iron : ironDomeArr)
-//			iron.registerListeners(control);
-//	
-//		for (LauncherDestructor launcherDestructor : launcherDestractorArr)
-//			launcherDestructor.registerListeners(control);
-//	
-//		for (EnemyLauncher EnemyLauncher : enemyLauncherArr)
-//			EnemyLauncher.registerListeners(control);
-//	
-//		allListeners.add(control);
-//	}
-
-	// Event
-	private void fireWarHasBeenFinished() {
-//		for (WarEventListener l : allListeners)
-//			l.warHasBeenFinished();
-		
-		
-	}
-
-	// Event
-	private void fireWarHasBeenStarted() {
-//		for (WarEventListener l : allListeners)
-//			l.warHasBeenStarted();
-		
-		
-	}
-
-	// Event
-	private void fireNoSuchObject(String type) {
-//		for (WarEventListener l : allListeners)
-//			l.noSuchObject(type);
-		
-		
-	}
-
-	// Event
-	private void fireMissileNotExistEvent(String defenseLauncherId,
-			String enemyId) {
-//		for (WarEventListener l : allListeners)
-//			l.missileNotExist(defenseLauncherId, enemyId);
-		
-		
 	}
 
 	public WarStatistics getStatistics() {

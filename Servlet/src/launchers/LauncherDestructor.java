@@ -1,8 +1,5 @@
 package launchers;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import missiles.DefenseDestructorMissile;
 import utils.IdGenerator;
 import utils.Utils;
@@ -52,8 +49,9 @@ public class LauncherDestructor extends Thread implements Munitions{
 					launchMissile();
 					
 				} else {
-					if (toDestroy != null)
-						fireLauncherIsHiddenEvent(toDestroy.getLauncherId());
+					if (toDestroy != null) {
+						
+					}
 				}
 			} catch (InterruptedException e) {
 				//e.printStackTrace();
@@ -85,7 +83,7 @@ public class LauncherDestructor extends Thread implements Munitions{
 
 		if (toDestroy != null && toDestroy.isAlive() && !toDestroy.getIsHidden()) {
 			// Throw event
-			fireLaunchMissileEvent(currentMissile.getMissileId());
+			
 
 			// Start missile and wait until he will finish to be able
 			// to shoot anther one
@@ -94,10 +92,10 @@ public class LauncherDestructor extends Thread implements Munitions{
 		}
 		else{
 			if (toDestroy.getIsHidden()){
-				fireLauncherIsHiddenEvent(toDestroy.getLauncherId());
+				
 			}
 			else{
-				fireLauncherNotExist(toDestroy.getLauncherId());
+				
 			}
 		}
 	}
@@ -121,37 +119,6 @@ public class LauncherDestructor extends Thread implements Munitions{
 		return currentMissile;
 	}
 
-	// Event
-	private void fireLaunchMissileEvent(String missileId) {
-//		for (WarEventListener l : allListeners) {
-//			l.defenseLaunchMissile(id, type, missileId,
-//					toDestroy.getLauncherId());
-//		}
-		
-		
-	}
-
-	// Event
-	private void fireLauncherIsHiddenEvent(String launcherId) {
-//		for (WarEventListener l : allListeners) {
-//			l.defenseMissInterceptionHiddenLauncher(id, type, launcherId);
-//		}
-		
-		
-	}
-	
-	// Event
-	private void fireLauncherNotExist(String launcherId) {
-//		for (WarEventListener l : allListeners)
-//			l.enemyLauncherNotExist(id, launcherId);	
-		
-		
-	}
-
-//	public void registerListeners(WarEventListener listener) {
-//		allListeners.add(listener);
-//	}
-
 	// check if can shoot from this current launcher destructor
 	public boolean getIsBusy() {
 		return isBusy;
@@ -167,4 +134,6 @@ public class LauncherDestructor extends Thread implements Munitions{
 		toDestroy = null;
 		isRunning = false;
 	}
+	
 }
+

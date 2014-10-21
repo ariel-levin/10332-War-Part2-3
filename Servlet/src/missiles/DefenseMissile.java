@@ -1,8 +1,5 @@
 package missiles;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import utils.Utils;
 import utils.WarStatistics;
 
@@ -37,38 +34,23 @@ public class DefenseMissile extends Thread {
 			fireHitEvent();
 		}
 		else{
-			fireMissEvent();
+			
 		}
 	}// run
 
 	// Event
 	private void fireHitEvent() {
-//		for (WarEventListener l : allListeners) {
-//			l.defenseHitInterceptionMissile(whoLunchedMeId, id,
-//					missileToDestroy.getMissileId());
-//		}
-
+		
 		// update statistics
 		statistics.increaseNumOfInterceptMissiles();
 	}
 
-	// Event
-	private void fireMissEvent() {
-//		for (WarEventListener l : allListeners) {
-//			l.defenseMissInterceptionMissile(whoLunchedMeId, id,
-//					missileToDestroy.getMissileId(),
-//					missileToDestroy.getDamage());
-//		}
-		
-		
-	}
-
-//	public void registerListeners(WarEventListener listener) {
-//		allListeners.add(listener);
-//	}
-
 	public String getMissileId() {
 		return id;
+	}
+
+	public String getWhoLunchedMeId() {
+		return whoLunchedMeId;
 	}
 
 }

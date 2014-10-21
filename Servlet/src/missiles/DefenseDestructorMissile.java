@@ -1,8 +1,5 @@
 package missiles;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import launchers.EnemyLauncher;
 import utils.Utils;
 import utils.WarStatistics;
@@ -41,37 +38,27 @@ public class DefenseDestructorMissile extends Thread {
 			fireHitEvent();
 			
 		}else {
-			fireMissEvent();
+			
 		}
 	}
 
 	// Event
 	private void fireHitEvent() {
-//		for (WarEventListener l : allListeners) {
-//			l.defenseHitInterceptionLauncher(whoLaunchedMeId,
-//					whoLaunchedMeType, id, launcherToDestroy.getLauncherId());
-//		}
 
-		
 		// update statistics
 		statistics.increaseNumOfLauncherDestroyed();
 	}
-
-	// Event
-	private void fireMissEvent() {
-//		for (WarEventListener l : allListeners) {
-//			l.defenseMissInterceptionLauncher(whoLaunchedMeId,
-//					whoLaunchedMeType, id, launcherToDestroy.getLauncherId());
-//		}
-		
-	}
-
-//	public void registerListeners(WarEventListener listener) {
-//		allListeners.add(listener);
-//	}
 
 	public String getMissileId() {
 		return id;
 	}
 
+	public String getWhoLaunchedMeId() {
+		return whoLaunchedMeId;
+	}
+
+	public String getWhoLaunchedMeType() {
+		return whoLaunchedMeType;
+	}
+	
 }

@@ -50,7 +50,7 @@ public class EnemyMissile extends Thread {
 					if (Utils.randomSuccesRate()) {
 						fireHitEvent();
 					} else {
-						fireMissEvent();
+						
 					}
 				}
 			}
@@ -60,30 +60,11 @@ public class EnemyMissile extends Thread {
 	// Event
 	private void fireHitEvent() {
 		
-//		for (WarEventListener l : allListeners) {
-//			l.enemyHitDestination(whoLaunchedMeId, id, destination, damage,
-//					launchTime);
-//		}
-		
-
 		// update the war statistics
 		statistics.increaseNumOfHitTargetMissiles();
 		statistics.increaseTotalDamage(damage);
 	}
 
-	// Event
-	private void fireMissEvent() {
-//		for (WarEventListener l : allListeners) {
-//			l.enemyMissDestination(whoLaunchedMeId, id, destination, launchTime);
-//		}
-		
-		
-	}
-
-	// Event
-//	public void registerListeners(WarEventListener listener) {
-//		allListeners.add(listener);
-//	}
 
 	public String getMissileId() {
 		return id;
@@ -95,6 +76,18 @@ public class EnemyMissile extends Thread {
 	
 	public boolean isBeenHit(){
 		return beenHit;
+	}
+
+	public String getWhoLaunchedMeId() {
+		return whoLaunchedMeId;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public String getLaunchTime() {
+		return launchTime;
 	}
 
 }

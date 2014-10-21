@@ -1,8 +1,5 @@
 package launchers;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import missiles.EnemyMissile;
 import utils.IdGenerator;
 import utils.Utils;
@@ -78,9 +75,10 @@ public class EnemyLauncher extends Thread implements Munitions{
 
 		// Missile isn't hidden when launching a missile
 		isHidden = false;
-		if (firstHiddenState)
+		if (firstHiddenState) {
 			// throw event if he was hidden
-			fireEnemyLauncherIsVisibleEvent(true);
+
+		}
 
 		// It's take time to launch missile
 		sleep(Utils.LAUNCH_DURATION);
@@ -96,9 +94,10 @@ public class EnemyLauncher extends Thread implements Munitions{
 
 		// returning the first hidden state:
 		isHidden = firstHiddenState;
-		if (firstHiddenState)
+		if (firstHiddenState) {
 			// throw event if he is back to be hidden
-			fireEnemyLauncherIsVisibleEvent(false);
+
+		}
 
 		// wait until the missile will finish
 		currentMissile.join();
@@ -113,9 +112,6 @@ public class EnemyLauncher extends Thread implements Munitions{
 		currentMissile = new EnemyMissile(missileId, destination, flyTime,
 				damage, id, statistics);
 
-		// register listeners
-//		for (WarEventListener l : allListeners)
-//			currentMissile.registerListeners(l);
 	}
 
 	// check if there is alive missile in the air
@@ -127,27 +123,12 @@ public class EnemyLauncher extends Thread implements Munitions{
 	}
 
 	// Event
-	private void fireEnemyLauncherIsVisibleEvent(boolean visible) {
-//		for (WarEventListener l : allListeners) {
-//			l.enemyLauncherIsVisible(id, visible);
-//		}
-		
-		
-	}
-
-	// Event
 	private void fireLaunchMissileEvent(String missileId) {
-//		for (WarEventListener l : allListeners) {
-//			l.enemyLaunchMissile(id, missileId, destination, damage);
-//		}
 		
 		//update statistics
 		statistics.increaseNumOfLaunchMissiles();
 	}
 
-//	public void registerListeners(WarEventListener listener) {
-//		allListeners.add(listener);
-//	}
 
 	public String getLauncherId() {
 		return id;
