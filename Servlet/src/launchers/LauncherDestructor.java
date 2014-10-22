@@ -19,11 +19,9 @@ public class LauncherDestructor extends Thread implements Munitions{
 
 	
 	public LauncherDestructor(String type, String id, WarStatistics statistics) {
-
 		this.id = id;
 		this.type = Utils.capitalize(type);
 		this.statistics = statistics;
-
 	}
 
 	public void run() {

@@ -18,11 +18,8 @@ public class IronDome extends Thread implements Munitions {
 
 	
 	public IronDome(String id, WarStatistics statistics) {
-//		allListeners = new LinkedList<WarEventListener>();
-
 		this.statistics = statistics;
 		this.id = id;
-
 	}
 
 	public void run() {

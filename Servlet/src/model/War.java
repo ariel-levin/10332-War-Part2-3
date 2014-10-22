@@ -1,9 +1,16 @@
 package model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import utils.Utils;
 import utils.WarStatistics;
+import utils.WarXMLReader;
 import launchers.EnemyLauncher;
 import launchers.IronDome;
 import launchers.LauncherDestructor;
@@ -21,12 +28,14 @@ public class War extends Thread {
 			"Netivot", "Tel-Aviv", "Re'ut" };
 	
 	private String warName;
+	private WarXMLReader warXML;
 
 	
 	public War(String warName) {
 		this.warName = warName;
 		statistics = new WarStatistics();
 
+		startXML();
 	}
 
 	public void run() {
@@ -48,7 +57,34 @@ public class War extends Thread {
 
 	}// run
 
+	private void startXML() {
+		new Thread(new Runnable() {
+		
+		@Override
+		public void run() {
 
+			try {
+				String path = "C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/Servlet";
+				warXML = new WarXMLReader(path + "/warStart.xml",War.this);
+				warXML.start();
+
+				warXML.join();
+
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			} catch (SAXException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		}).start();
+		
+	}
+	
 	// this method stop all the munitions that are alive
 	// in case the war is end
 	// the method will wait until all munitions end there run
@@ -307,6 +343,9 @@ public class War extends Thread {
 		launcher.start();
 		enemyLauncherArr.add(launcher);
 	
+		System.out.println("[" + Utils.getCurrentTime() + "] Launcher: "
+				+ launcherId + " was added");
+		
 		return launcherId;
 	}
 
@@ -326,6 +365,9 @@ public class War extends Thread {
 		
 		ironDomeArr.add(ironDome);
 
+		System.out.println("[" + Utils.getCurrentTime() + "] Iron dome: " + id
+				+ " was added");
+
 		return id;
 	}
 
@@ -338,6 +380,9 @@ public class War extends Thread {
 		destructor.start();
 		
 		launcherDestractorArr.add(destructor);
+
+		System.out.println("[" + Utils.getCurrentTime() + "] " + type + ": "
+				+ id + " was added");
 
 		return id;
 	}

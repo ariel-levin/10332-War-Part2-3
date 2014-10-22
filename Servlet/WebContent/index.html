@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>War Management - Allies Form</title>
+</head>
+<body>
+<form method="get" action="WarServlet">
+<h1 style="text-align: center;"><span style="color:#0000CD;"><em><strong><span style="font-family:comic sans ms,cursive;">War Management - Allies Form</span></strong></em></span></h1>
+
+<br>
+
+<table align="center" border="3" cellpadding="5" cellspacing="5" dir="ltr" style="width: 390px;">
+	<tbody>
+		<tr>
+			<td>
+			<p><input checked="checked" name="subject" type="radio" value="0" />&nbsp;<span style="font-size:14px;"><strong><span style="font-family:tahoma,geneva,sans-serif;">Start War</span></strong></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><input name="subject" type="radio" value="1" />&nbsp;<span style="font-size:14px;"><strong><span style="font-family:tahoma,geneva,sans-serif;">Add New Iron Dome</span></strong></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><input name="subject" type="radio" value="2")/>&nbsp;<span style="font-size:14px;"><strong><span style="font-family:tahoma,geneva,sans-serif;">Add New Launcher Destructor , </span></strong></span><span style="font-size:14px;"><strong><span style="font-family:tahoma,geneva,sans-serif;">Type: &nbsp;</span></strong></span><strong style="font-size: 14px;"><span style="font-family:tahoma,geneva,sans-serif;"><select name="cbType"><option value="plane">plane</option><option value="ship">ship</option></select></span></strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><input name="subject" type="radio" value="3" /><strong><span style="font-size:14px;"><span style="font-family:tahoma,geneva,sans-serif;">&nbsp;Intercept Enemy Missile</span></span></strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><input name="subject" type="radio" value="4" /><strong><span style="font-size:14px;"><span style="font-family:tahoma,geneva,sans-serif;">&nbsp;Destroy Enemy Launcher</span></span></strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><input name="subject" type="radio" value="5" /><strong><span style="font-size:14px;"><span style="font-family:tahoma,geneva,sans-serif;">&nbsp;End War</span></span></strong></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<p style="text-align: center;"><input type="submit" value="Send Request" style="width: 200px;"/></p>
+</form>
+</body>
+</html>
