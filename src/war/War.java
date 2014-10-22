@@ -28,11 +28,10 @@ public class War extends Thread {
 	private WarDB warDB = null;
 	private Server server = null;
 	private boolean alive = false;
+	private String warName;
 	private String[] targetCities = { "Sderot", "Ofakim", "Beer-Sheva",
 									"Netivot", "Tel-Aviv", "Re'ut" };
 	
-	public String warName;
-
 	
 	public War() {
 		allListeners = new LinkedList<WarEventListener>();
@@ -532,6 +531,10 @@ public class War extends Thread {
 		return isSet;
 	}
 	
+	public String getWarName() {
+		return warName;
+	}
+
 	public boolean startServer() {
 		boolean success = false;
 		if (server == null) {

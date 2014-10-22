@@ -50,7 +50,7 @@ public class LauncherDestructor extends Thread implements Munitions{
 					
 				} else {
 					if (toDestroy != null) {
-						
+						fireLauncherIsHiddenEvent(toDestroy.getLauncherId());
 					}
 				}
 			} catch (InterruptedException e) {
@@ -83,7 +83,7 @@ public class LauncherDestructor extends Thread implements Munitions{
 
 		if (toDestroy != null && toDestroy.isAlive() && !toDestroy.getIsHidden()) {
 			// Throw event
-			
+			fireLaunchMissileEvent(currentMissile.getMissileId());
 
 			// Start missile and wait until he will finish to be able
 			// to shoot anther one
@@ -92,10 +92,10 @@ public class LauncherDestructor extends Thread implements Munitions{
 		}
 		else{
 			if (toDestroy.getIsHidden()){
-				
+				fireLauncherIsHiddenEvent(toDestroy.getLauncherId());
 			}
 			else{
-				
+				fireLauncherNotExist(toDestroy.getLauncherId());
 			}
 		}
 	}
@@ -117,6 +117,27 @@ public class LauncherDestructor extends Thread implements Munitions{
 
 	public DefenseDestructorMissile getCurrentMissile() {
 		return currentMissile;
+	}
+	
+	// Event
+	private void fireLaunchMissileEvent(String missileId) {
+		System.out.println("[" + Utils.getCurrentTime() + "] " + type + ": "
+				+ id + " just launched missile: " + missileId
+				+ " towards launcher: " + toDestroy.getLauncherId());
+	}
+	
+	// Event
+	private void fireLauncherIsHiddenEvent(String launcherId) {
+		System.out.println("[" + Utils.getCurrentTime() + "] " + type + ": "
+				+ id + " missed the Launcher: " + launcherId
+				+ " because he is hidden");
+	}
+	
+	// Event
+	private void fireLauncherNotExist(String launcherId) {
+		System.out.println("[" + Utils.getCurrentTime() + "] ERROR: "
+				+ id + " tried to intercept, " + "but missed: "
+				+ launcherId + " doesn't exist!");	
 	}
 
 	// check if can shoot from this current launcher destructor

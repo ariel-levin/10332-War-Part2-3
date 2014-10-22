@@ -8,32 +8,39 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.War;
+
 
 /**
  * Servlet implementation class WarServlet
  */
+//@WebServlet(name="/WarServlet", urlPatterns="/kuku")
 @WebServlet("/WarServlet")
 public class WarServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public WarServlet() {
-        super();
-        
-        
-        
-    }
+    
+	public enum Subject {
+		ADD_IRON_DOME,
+		ADD_DESTRUCTOR,
+		INTERCEPT,
+		DESTROY
+	}
+
+	
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public WarServlet() {
+		super();
+
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		PrintWriter out = response.getWriter();
-        out.println("Hello World");
-		
+		doPost(request, response);
 	}
 
 	/**
@@ -41,7 +48,23 @@ public class WarServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter output = response.getWriter();
+		War war = (War) getServletContext().getAttribute("war");
+		if (war == null) {
+			war = new War("ServletWar");
+			getServletContext().setAttribute("war", war);
+			war.start();
+		}
+		int subject = Integer.parseInt(request.getParameter("subject"));
 		
 	}
 
 }
+
+
+
+
+
+
+

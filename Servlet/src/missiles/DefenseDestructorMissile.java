@@ -38,15 +38,28 @@ public class DefenseDestructorMissile extends Thread {
 			fireHitEvent();
 			
 		}else {
-			
+			fireMissEvent();
 		}
 	}
 
 	// Event
 	private void fireHitEvent() {
-
+		System.out.println("[" + Utils.getCurrentTime() + "] "
+				+ whoLaunchedMeType + ": " + whoLaunchedMeId
+				+ " fired missile: " + id
+				+ " and intercept succesfully the Launcher: "
+				+ launcherToDestroy.getLauncherId());
+		
 		// update statistics
 		statistics.increaseNumOfLauncherDestroyed();
+	}
+	
+	public void fireMissEvent() {
+		
+		System.out.println("[" + Utils.getCurrentTime() + "] "
+				+ whoLaunchedMeType + ": " + whoLaunchedMeId
+				+ " fired missile: " + id + " but missed the Launcher: "
+				+ launcherToDestroy.getLauncherId());
 	}
 
 	public String getMissileId() {

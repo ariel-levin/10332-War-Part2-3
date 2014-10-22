@@ -8,7 +8,7 @@ import utils.WarStatistics;
 public class DefenseMissile extends Thread {
 
 	private String id;
-	private String whoLunchedMeId;
+	private String whoLaunchedMeId;
 	private EnemyMissile missileToDestroy;
 	private WarStatistics statistics;
 
@@ -18,7 +18,7 @@ public class DefenseMissile extends Thread {
 
 		this.id = id;
 		this.missileToDestroy = missileToDestroy;
-		this.whoLunchedMeId = whoLunchedMeId;
+		this.whoLaunchedMeId = whoLunchedMeId;
 		this.statistics = statistics;
 	}
 
@@ -34,15 +34,25 @@ public class DefenseMissile extends Thread {
 			fireHitEvent();
 		}
 		else{
-			
+			fireMissEvent();
 		}
 	}// run
 
 	// Event
 	private void fireHitEvent() {
+		System.out.println("[" + Utils.getCurrentTime() + "] Iron Dome: "
+				+ whoLaunchedMeId + " fired missile: " + id
+				+ " and intercept succesfully the missile: "
+				+ missileToDestroy.getMissileId());
 		
 		// update statistics
 		statistics.increaseNumOfInterceptMissiles();
+	}
+	
+	public void fireMissEvent() {
+		System.out.println("[" + Utils.getCurrentTime() + "] Iron Dome: "
+				+ whoLaunchedMeId + " fired missile: " + id
+				+ " but missed the missile: " + missileToDestroy.getMissileId());
 	}
 
 	public String getMissileId() {
@@ -50,7 +60,7 @@ public class DefenseMissile extends Thread {
 	}
 
 	public String getWhoLunchedMeId() {
-		return whoLunchedMeId;
+		return whoLaunchedMeId;
 	}
 
 }

@@ -19,9 +19,12 @@ public class War extends Thread {
 	private WarStatistics statistics;
 	private String[] targetCities = { "Sderot", "Ofakim", "Beer-Sheva",
 			"Netivot", "Tel-Aviv", "Re'ut" };
+	
+	private String warName;
 
 	
-	public War() {
+	public War(String warName) {
+		this.warName = warName;
 		statistics = new WarStatistics();
 
 	}
@@ -346,4 +349,10 @@ public class War extends Thread {
 	public String[] getAllTargetCities() {
 		return targetCities;
 	}
+
+	public String getWarName() {
+		return warName;
+	}
+	
 }
+

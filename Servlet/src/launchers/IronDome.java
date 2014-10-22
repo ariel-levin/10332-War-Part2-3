@@ -71,7 +71,7 @@ public class IronDome extends Thread implements Munitions {
 		// check if the target is still alive
 		if (toDestroy != null && toDestroy.isAlive()) {
 			// throw event
-			
+			fireLaunchMissileEvent(currentMissile.getMissileId());
 	
 			// Start missile and wait until he will finish to be able
 			// to shoot anther one
@@ -79,10 +79,15 @@ public class IronDome extends Thread implements Munitions {
 			currentMissile.join();
 		}
 		else{
-			
+			fireMissileNotExist(toDestroy.getMissileId());
 		}
 	}
-
+	
+	private void fireMissileNotExist(String missileId) {
+		System.out.println("[" + Utils.getCurrentTime() + "] ERROR: "
+				+ id + " tried to intercept, " + "but missed: "
+				+ missileId + " doesn't exist!");
+	}
 
 	public void createMissile() {
 		// generate missile id
@@ -95,6 +100,13 @@ public class IronDome extends Thread implements Munitions {
 
 	public DefenseMissile getCurrentMissile() {
 		return currentMissile;
+	}
+	
+	// Event
+	private void fireLaunchMissileEvent(String missileId) {
+		System.out.println("[" + Utils.getCurrentTime() + "] Iron dome: "
+				+ id + " just launched missile: " + missileId
+				+ " towards missile: " + toDestroy.getMissileId());
 	}
 
 	// check if can shoot from this current iron dome

@@ -50,7 +50,7 @@ public class EnemyMissile extends Thread {
 					if (Utils.randomSuccesRate()) {
 						fireHitEvent();
 					} else {
-						
+						fireMissEvent();
 					}
 				}
 			}
@@ -58,11 +58,20 @@ public class EnemyMissile extends Thread {
 	}// run
 
 	// Event
-	private void fireHitEvent() {
+	private void fireHitEvent() {		
+		System.out.println("[" + Utils.getCurrentTime() + "] Enemy Missile: "
+				+ id + " HIT " + destination + ". the damage is: " + damage
+				+ ". Launch by: " + whoLaunchedMeId);
 		
 		// update the war statistics
 		statistics.increaseNumOfHitTargetMissiles();
 		statistics.increaseTotalDamage(damage);
+	}
+	
+	private void fireMissEvent() {
+		System.out.println("[" + Utils.getCurrentTime() + "] Enemy Missile: "
+				+ id + " MISSED " + destination + " launch at: " + launchTime
+				+ ". Launch by: " + whoLaunchedMeId);
 	}
 
 

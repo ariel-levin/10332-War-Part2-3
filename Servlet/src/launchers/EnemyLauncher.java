@@ -24,9 +24,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 		this.isHidden = isHidden;
 		this.statistics = statistics;
 
-//		allListeners = new LinkedList<WarEventListener>();
 		firstHiddenState = isHidden;
-
 	}
 
 	public void run() {
@@ -77,7 +75,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 		isHidden = false;
 		if (firstHiddenState) {
 			// throw event if he was hidden
-
+			fireEnemyLauncherIsVisibleEvent(true);
 		}
 
 		// It's take time to launch missile
@@ -96,7 +94,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 		isHidden = firstHiddenState;
 		if (firstHiddenState) {
 			// throw event if he is back to be hidden
-
+			fireEnemyLauncherIsVisibleEvent(false);
 		}
 
 		// wait until the missile will finish
@@ -121,9 +119,19 @@ public class EnemyLauncher extends Thread implements Munitions{
 
 		return null;
 	}
+	
+	// Event
+	private void fireEnemyLauncherIsVisibleEvent(boolean visible) {
+		String str = visible ? "visible" : "hidden";
+		System.out.println("[" + Utils.getCurrentTime() + "] Launcher: " + id
+				+ " just turned " + str);
+	}
 
 	// Event
 	private void fireLaunchMissileEvent(String missileId) {
+		System.out.println("[" + Utils.getCurrentTime() + "] Launcher: " + id
+				+ " just launched missile: " + missileId + " towards: "
+				+ destination + " its about to cause damade of: " + damage);
 		
 		//update statistics
 		statistics.increaseNumOfLaunchMissiles();
