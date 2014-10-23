@@ -1,4 +1,4 @@
-package missiles;
+package model.missiles;
 
 import java.util.LinkedList;
 import java.util.List;

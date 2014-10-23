@@ -1,19 +1,20 @@
-package war;
+package model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+
 import clientserver.Server;
 import utils.IdGenerator;
 import utils.WarLogger;
 import utils.WarStatistics;
-import launchers.EnemyLauncher;
-import launchers.IronDome;
-import launchers.LauncherDestructor;
 import listeners.WarEventListener;
-import missiles.EnemyMissile;
+import model.launchers.EnemyLauncher;
+import model.launchers.IronDome;
+import model.launchers.LauncherDestructor;
+import model.missiles.EnemyMissile;
 import database.*;
 
 
@@ -36,7 +37,8 @@ public class War extends Thread {
 	public War() {
 		allListeners = new LinkedList<WarEventListener>();
 		statistics = new WarStatistics();
-		warDB = new WarJDBC(this);
+//		warDB = new WarJDBC(this);
+		warDB = new WarJPA(this);
 
 		registerListener(new WarLogger());
 		registerListener(warDB);

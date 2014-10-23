@@ -10,15 +10,13 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Vector;
 
-import war.War;
+import javax.swing.JOptionPane;
+
+import model.War;
 
 
 public class WarJDBC implements WarDB {
 
-	private final String[] allTables = {"interceptions","destructions",
-										"launches","irondomes",
-										"destructors","launchers","wars"};
-	
 	private Connection connection;
 	private War war;
 	private String dbUrl;
@@ -34,17 +32,14 @@ public class WarJDBC implements WarDB {
 
 			connection = DriverManager.getConnection(dbUrl, "root", "");
 
-//			clearAllTables();
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException | SQLException e) {
 
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	
+			JOptionPane.showMessageDialog(null,"Error connecting to DB\n"
+					+ "Please connect to Wamp first","Database Error",JOptionPane.ERROR_MESSAGE);
+			
+			System.exit(0);
+		}
 
 	}
 
@@ -570,15 +565,6 @@ public class WarJDBC implements WarDB {
 		return false;
 	}
 
-	public void clearAllTables() throws SQLException {
-		Statement statement = connection.createStatement();
-
-		for (String table : allTables)
-			statement.executeUpdate("DELETE FROM " + table);
-
-		connection.close();
-	}
-	
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,11 +1,12 @@
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import model.War;
 import org.xml.sax.SAXException;
 
+import controllers.*;
 import utils.WarXMLReader;
 import view.*;
-import war.*;
 
 
 public class Program {

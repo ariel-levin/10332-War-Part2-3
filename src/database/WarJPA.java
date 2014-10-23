@@ -13,16 +13,15 @@ import database.jpa.*;
 
 public class WarJPA implements WarDB {
 
-	private war.War warModel;
+	private model.War warModel;
 	private database.jpa.War dbWar;
-	private EntityManager em;
+	private EntityManagerFactory emf;
+	
 
-
-	public WarJPA(war.War warModel) {
+	public WarJPA(model.War warModel) {
 		this.warModel = warModel;
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("War");
-		em = emf.createEntityManager();
+		emf = Persistence.createEntityManagerFactory("War");
 	}
 
 	@Override
@@ -67,14 +66,19 @@ public class WarJPA implements WarDB {
 			if (i.getIrondomeID().equals(whoLaunchedMeId)
 					&& i.getTargetID().equals(enemyMissileId)) {
 
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Interception inter = em.find(Interception.class, i.getDbID());
 						inter.setIsHit(booleanToByte(true));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -86,7 +90,8 @@ public class WarJPA implements WarDB {
 			
 			if (l.getId().getMissileID().equals(enemyMissileId)) {
 				
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Launch launch = em.find(Launch.class, l.getId());
@@ -95,7 +100,11 @@ public class WarJPA implements WarDB {
 						launch.setWhoIntercepted(whoLaunchedMeId);
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -113,14 +122,19 @@ public class WarJPA implements WarDB {
 			if (d.getDestructorID().equals(whoLaunchedMeId)
 					&& d.getTargetID().equals(enemyLauncherId)) {
 
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Destruction dest = em.find(Destruction.class, d.getDbID());
 						dest.setIsHit(booleanToByte(true));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -132,14 +146,19 @@ public class WarJPA implements WarDB {
 			
 			if (l.getId().getLauncherID().equals(enemyLauncherId)) {
 				
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Launcher launcher = em.find(Launcher.class, l.getId());
 						launcher.setIsDestroyed(booleanToByte(true));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -157,14 +176,19 @@ public class WarJPA implements WarDB {
 			if (i.getIrondomeID().equals(whoLaunchedMeId)
 					&& i.getTargetID().equals(enemyMissileId)) {
 
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Interception inter = em.find(Interception.class, i.getDbID());
 						inter.setIsHit(booleanToByte(false));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -189,14 +213,19 @@ public class WarJPA implements WarDB {
 			if (d.getDestructorID().equals(whoLaunchedMeId)
 					&& d.getTargetID().equals(enemyLauncherId)) {
 
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Destruction dest = em.find(Destruction.class, d.getDbID());
 						dest.setIsHit(booleanToByte(false));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -232,14 +261,19 @@ public class WarJPA implements WarDB {
 			
 			if (l.getId().getLauncherID().equals(id)) {
 				
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Launcher launcher = em.find(Launcher.class, l.getId());
 						launcher.setIsHidden(booleanToByte(visible));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -255,7 +289,8 @@ public class WarJPA implements WarDB {
 			
 			if (l.getId().getMissileID().equals(id)) {
 				
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Launch launch = em.find(Launch.class, l.getId());
@@ -263,7 +298,11 @@ public class WarJPA implements WarDB {
 						launch.setIsIntercepted(booleanToByte(false));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -280,7 +319,8 @@ public class WarJPA implements WarDB {
 			
 			if (l.getId().getMissileID().equals(id)) {
 				
-				synchronized (em) {
+				synchronized (emf) {
+					EntityManager em = emf.createEntityManager();
 					em.getTransaction().begin();
 					try {
 						Launch launch = em.find(Launch.class, l.getId());
@@ -288,7 +328,11 @@ public class WarJPA implements WarDB {
 						launch.setIsIntercepted(booleanToByte(false));
 						em.getTransaction().commit();
 
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						
+					} finally {
+						em.close();
+					}
 				}
 				break;
 			}
@@ -329,8 +373,8 @@ public class WarJPA implements WarDB {
 	@Override
 	public void warHasBeenFinished() {
 
-		synchronized (em) {
-			
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
 			em.getTransaction().begin();
 			
 			try {
@@ -345,6 +389,8 @@ public class WarJPA implements WarDB {
 				
 				try {
 					em.close();
+					emf.close();
+					
 				} catch (Exception e) {}
 			}
 			
@@ -439,7 +485,8 @@ public class WarJPA implements WarDB {
 
 	private boolean isWarNameExist(String name) {
 
-		synchronized (em) {
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
 			
 			try {
 				database.jpa.War war = em.find(database.jpa.War.class, name);
@@ -449,7 +496,11 @@ public class WarJPA implements WarDB {
 				else
 					return true;
 
-			} catch (Exception e) {} 
+			} catch (Exception e) {
+				
+			} finally {
+				em.close();
+			}
 		}
 		
 		return false;
@@ -459,19 +510,18 @@ public class WarJPA implements WarDB {
 		return (value) ? (byte)1 : (byte)0 ;
 	}
 	
-	private synchronized void insertToDB(Object obj) {
+	private void insertToDB(Object obj) {
 		
-		synchronized (em) {
-			
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
 			em.getTransaction().begin();
 			
 			try {
 				em.persist(obj);
 				em.getTransaction().commit();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-				em.getTransaction().rollback();
+			} catch (Exception e) {}
+			finally {
+				em.close();
 			}
 		}
 	}
@@ -482,185 +532,149 @@ public class WarJPA implements WarDB {
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public long getNumOfLaunchMissiles(Calendar startDate, Calendar endDate) {
 		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
 		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+
+		List<Launch> launches = null;
 		
-		long count = 0;
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
+			
+			launches = em.createQuery(
+					"SELECT l FROM Launch l "
+						+ "WHERE l.time BETWEEN :startDate AND :endDate "
+						+ "ORDER BY l.time DESC")
+
+						.setParameter("startDate", sqlStart)
+						.setParameter("endDate", sqlEnd).getResultList();
+			
+			em.close();
+		}
 		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "SELECT * "
-//								+ "FROM launches "
-//								+ "WHERE launches.time BETWEEN ? AND ? "
-//								+ "ORDER BY launches.time DESC";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//				
-//				ps.setTimestamp(1, sqlStart);
-//				ps.setTimestamp(2, sqlEnd);
-//
-//				ResultSet rs = ps.executeQuery();
-//				
-//				while (rs.next())
-//					count++;
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
-		return count;
+		if (launches == null)
+			return 0;
+		else
+			return launches.size();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public long getNumOfInterceptMissiles(Calendar startDate, Calendar endDate) {
 		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
 		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
 		
-		long count = 0;
+		List<Interception> interceptions = null;
 		
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
+			
+			interceptions = em.createQuery(
+					"SELECT i FROM Interception i "
+						+ "WHERE i.time BETWEEN :startDate AND :endDate "
+						+ "AND i.isHit = 1 "
+						+ "ORDER BY i.time DESC")
+
+						.setParameter("startDate", sqlStart)
+						.setParameter("endDate", sqlEnd).getResultList();
 		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "SELECT * "
-//								+ "FROM interceptions "
-//								+ "WHERE interceptions.time BETWEEN ? AND ? "
-//								+ 	"AND isHit = 1 "
-//								+ "ORDER BY interceptions.time DESC";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//				
-//				ps.setTimestamp(1, sqlStart);
-//				ps.setTimestamp(2, sqlEnd);
-//
-//				ResultSet rs = ps.executeQuery();
-//				
-//				while (rs.next())
-//					count++;
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
-		return count;
+			em.close();
+		}
+
+		if (interceptions == null)
+			return 0;
+		else
+			return interceptions.size();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public long getNumOfHitTargetMissiles(Calendar startDate, Calendar endDate) {
 		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
 		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+
+		List<Launch> launches = null;
 		
-		long count = 0;
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
+			
+			launches = em.createQuery(
+					"SELECT l FROM Launch l "
+						+ "WHERE l.time BETWEEN :startDate AND :endDate "
+						+ "AND l.isHit = 1 "
+						+ "ORDER BY l.time DESC")
+
+						.setParameter("startDate", sqlStart)
+						.setParameter("endDate", sqlEnd).getResultList();
+			
+			em.close();
+		}
 		
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "SELECT * "
-//								+ "FROM launches "
-//								+ "WHERE launches.time BETWEEN ? AND ? "
-//								+	"AND isHit = 1 "
-//								+ "ORDER BY launches.time DESC";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//				
-//				ps.setTimestamp(1, sqlStart);
-//				ps.setTimestamp(2, sqlEnd);
-//
-//				ResultSet rs = ps.executeQuery();
-//				
-//				while (rs.next())
-//					count++;
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
-		return count;
+		if (launches == null)
+			return 0;
+		else
+			return launches.size();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public long getNumOfLaunchersDestroyed(Calendar startDate, Calendar endDate) {
 		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
 		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
 		
-		long count = 0;
+		List<Destruction> destructions = null;
 		
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
+			
+			destructions = em.createQuery(
+					"SELECT d FROM Destruction d "
+						+ "WHERE d.time BETWEEN :startDate AND :endDate "
+						+ "AND d.isHit = 1 "
+						+ "ORDER BY d.time DESC")
+
+						.setParameter("startDate", sqlStart)
+						.setParameter("endDate", sqlEnd).getResultList();
+			
+			em.close();
+		}
 		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "SELECT * "
-//								+ "FROM destructions "
-//								+ "WHERE destructions.time BETWEEN ? AND ? "
-//								+	"AND isHit = 1 "
-//								+ "ORDER BY destructions.time DESC";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//				
-//				ps.setTimestamp(1, sqlStart);
-//				ps.setTimestamp(2, sqlEnd);
-//
-//				ResultSet rs = ps.executeQuery();
-//				
-//				while (rs.next())
-//					count++;
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
-		return count;
+		if (destructions == null)
+			return 0;
+		else
+			return destructions.size();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public long getTotalDamage(Calendar startDate, Calendar endDate) {
 		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
 		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
 		
 		long sum = 0;
+		List<Launch> launches = null;
 		
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
+			
+			launches = em.createQuery(
+					"SELECT l FROM Launch l "
+						+ "WHERE l.time BETWEEN :startDate AND :endDate "
+						+ "AND l.isHit = 1 "
+						+ "ORDER BY l.time DESC")
+
+						.setParameter("startDate", sqlStart)
+						.setParameter("endDate", sqlEnd).getResultList();
+			
+			em.close();
+		}
 		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "SELECT * "
-//								+ "FROM launches "
-//								+ "WHERE launches.time BETWEEN ? AND ? "
-//								+	"AND isHit = 1 "
-//								+ "ORDER BY launches.time DESC";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//				
-//				ps.setTimestamp(1, sqlStart);
-//				ps.setTimestamp(2, sqlEnd);
-//
-//				ResultSet rs = ps.executeQuery();
-//				
-//				while (rs.next())
-//					sum += rs.getInt("damage");
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		if (launches != null) {
+			for (Launch l : launches)
+				sum += l.getDamage();
+		}
 		
 		return sum;
 	}
@@ -671,6 +685,7 @@ public class WarJPA implements WarDB {
 	////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+	// for test
 	public static void main(String[] args) {
 	
 		WarJPA wardb = new WarJPA(null);
@@ -679,9 +694,9 @@ public class WarJPA implements WarDB {
 		wardb.warHasBeenStarted();
 		
 //		wardb.enemyLauncherAdded("XXX", true);
-//		wardb.enemyLaunchMissile("XXX", "ARIEL", "gaza", 1000);
-//		wardb.defenseLaunchMissile("ARIEL", null, "ARIEL");
-//		wardb.defenseHitInterceptionMissile("ARIEL", null, "ARIEL");
+		wardb.enemyLaunchMissile("XXX", "shmugudu", "gaza", 1000);
+		wardb.defenseLaunchMissile("ARIEL", null, "ARIEL");
+		wardb.defenseHitInterceptionMissile("ARIEL", null, "ARIEL");
 //		wardb.defenseLaunchMissile("XXX", "XXX", missileId, enemyLauncherId);
 		
 //		System.out.println("\nIs war name exist? " + wardb.isWarNameExist("LOLI"));
@@ -693,28 +708,6 @@ public class WarJPA implements WarDB {
 		
 	public void test() {
 
-		Interception inter = new Interception();
-        //a1.setId(8);
-		inter.setIrondomeID("ARIEL");
-		inter.setTargetID("ARIEL");
-		inter.setIsHit(booleanToByte(false));
-		inter.setTime(getCurrentTime());
-		inter.setWar(dbWar);
-		dbWar.getInterceptions().add(inter);
-           
-		em.getTransaction().begin();
-		
-        try {
-            em.persist(inter);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("In catch: " + e.getMessage());
-            em.getTransaction().rollback();
-        } finally {
-            System.out.println("In finally");
-            em.close();
-        }
-        System.out.println("done");
 
 	}
 

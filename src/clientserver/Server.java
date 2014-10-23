@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -18,7 +19,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
-import war.War;
+import model.War;
 
 
 public class Server extends Thread {

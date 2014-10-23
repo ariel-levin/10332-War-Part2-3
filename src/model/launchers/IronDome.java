@@ -1,4 +1,4 @@
-package launchers;
+package model.launchers;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,8 +8,8 @@ import utils.Utils;
 import utils.WarLogger;
 import utils.WarStatistics;
 import listeners.WarEventListener;
-import missiles.DefenseMissile;
-import missiles.EnemyMissile;
+import model.missiles.DefenseMissile;
+import model.missiles.EnemyMissile;
 
 public class IronDome extends Thread implements Munitions {
 	private List<WarEventListener> allListeners;

@@ -4,7 +4,7 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import org.w3c.dom.NamedNodeMap;
 
-import war.WarControl;
+import controllers.WarControl;
 
 import javax.xml.parsers.*;
 

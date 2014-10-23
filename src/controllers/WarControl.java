@@ -1,4 +1,4 @@
-package war;
+package controllers;
 
 import java.util.Calendar;
 import java.util.Vector;
@@ -8,6 +8,7 @@ import utils.WarXMLReader;
 import view.*;
 import listeners.WarEventListener;
 import listeners.WarEventUIListener;
+import model.War;
 
 
 public class WarControl implements WarEventListener, WarEventUIListener {

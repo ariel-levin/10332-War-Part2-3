@@ -1,12 +1,12 @@
-package missiles;
+package model.missiles;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import utils.Utils;
 import utils.WarStatistics;
-import launchers.EnemyLauncher;
 import listeners.WarEventListener;
+import model.launchers.EnemyLauncher;
 
 /** Missile for Plane or Ship **/
 public class DefenseDestructorMissile extends Thread {

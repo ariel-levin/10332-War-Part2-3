@@ -1,4 +1,4 @@
-package launchers;
+package model.launchers;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +8,7 @@ import utils.Utils;
 import utils.WarLogger;
 import utils.WarStatistics;
 import listeners.WarEventListener;
-import missiles.DefenseDestructorMissile;
+import model.missiles.DefenseDestructorMissile;
 
 
 /** Plane or Ship **/
