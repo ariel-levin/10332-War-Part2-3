@@ -80,5 +80,7 @@ public interface AbstractWarView {
 	
 	public void setWarName(String warName);
 	
+	public void showMessage(String msg);
+	
 }
 

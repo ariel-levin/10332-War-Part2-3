@@ -19,6 +19,9 @@ public class Program {
 		AbstractWarView view = new GuiView();
 		
 		War warModel = new War();
+		view.showMessage("Starting War Management program\n"
+						+ "Database system chosen in chooseDB.xml :\n"
+						+ warModel.getDBtype());
 
 		WarControl warControl = new WarControl(warModel, view);
 		

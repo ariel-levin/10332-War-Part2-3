@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import clientserver.Server;
 import utils.IdGenerator;
@@ -37,8 +39,19 @@ public class War extends Thread {
 	public War() {
 		allListeners = new LinkedList<WarEventListener>();
 		statistics = new WarStatistics();
-//		warDB = new WarJDBC(this);
-		warDB = new WarJPA(this);
+		
+		ApplicationContext theContext = null;
+		try {
+			theContext = new ClassPathXmlApplicationContext("chooseDB.xml");
+		} catch (Exception e) {
+			System.out.println("\nError reading chooseDB.xml file");
+			System.exit(0);
+		}
+		
+		warDB = (WarDB)theContext.getBean("theDB");
+		warDB.setWar(this);
+		
+		((ClassPathXmlApplicationContext)theContext).close();
 
 		registerListener(new WarLogger());
 		registerListener(warDB);
@@ -483,7 +496,7 @@ public class War extends Thread {
 	public WarStatistics getStatistics() {
 		return statistics;
 	}
-	
+
 	public long[] getStatisticsByDate(Calendar startDate, Calendar endDate) {
 		long[] arr = new long[5];
 		arr[0] = warDB.getNumOfLaunchMissiles(startDate, endDate);
@@ -537,6 +550,15 @@ public class War extends Thread {
 		return warName;
 	}
 
+	public String getDBtype() {
+		if (warDB instanceof database.WarJDBC)
+			return "JDBC";
+		if (warDB instanceof database.WarJPA)
+			return "JPA";
+		
+		return null;
+	}
+	
 	public boolean startServer() {
 		boolean success = false;
 		if (server == null) {

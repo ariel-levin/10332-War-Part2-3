@@ -23,9 +23,16 @@ public class WarJDBC implements WarDB {
 	private String warName;
 
 
+	public WarJDBC() {
+		openConnection();
+	}
+	
 	public WarJDBC(War war) {
 		this.war = war;
-		
+		openConnection();
+	}
+	
+	private void openConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			dbUrl = "jdbc:mysql://localhost/war";
@@ -39,10 +46,9 @@ public class WarJDBC implements WarDB {
 					+ "Please connect to Wamp first","Database Error",JOptionPane.ERROR_MESSAGE);
 			
 			System.exit(0);
-		}
-
+		}	
 	}
-
+	
 	@Override
 	public void defenseLaunchMissile(String irondomeID, String missileID,
 			String enemyMissileId) {
@@ -524,6 +530,10 @@ public class WarJDBC implements WarDB {
 	////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////
 
+	
+	public void setWar(War war) {
+		this.war = war;
+	}
 
 	private Timestamp getCurrentTime() {
 		java.util.Date time = new java.util.Date();

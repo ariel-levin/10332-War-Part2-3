@@ -10,5 +10,15 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/aspectjrt-1.6.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/aspectjweaver-1.6.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-aop-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-aspects-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-beans-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-context-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-core-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-expression-4.1.0.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

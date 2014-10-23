@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -389,12 +390,17 @@ public class GuiView extends JFrame implements AbstractWarView {
 					+ "perhaps already open","Error",JOptionPane.ERROR_MESSAGE);
 	}
 	
+	public void start() {
+		// not needed
+	}
+	
 	public void setWarName(String warName) {
 		this.warName = warName;
 	}
 
-	public void start() {
-		// not needed
+	@Override
+	public void showMessage(String msg) {
+		JOptionPane.showMessageDialog(null,msg,"War Message",JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 }

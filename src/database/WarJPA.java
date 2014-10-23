@@ -18,9 +18,12 @@ public class WarJPA implements WarDB {
 	private EntityManagerFactory emf;
 	
 
+	public WarJPA() {
+		emf = Persistence.createEntityManagerFactory("War");
+	}
+	
 	public WarJPA(model.War warModel) {
 		this.warModel = warModel;
-		
 		emf = Persistence.createEntityManagerFactory("War");
 	}
 
@@ -466,7 +469,10 @@ public class WarJPA implements WarDB {
 	////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////
 
-
+	public void setWar(model.War war) {
+		this.warModel = war;
+	}
+	
 	private Timestamp getCurrentTime() {
 		java.util.Date time = new java.util.Date();
 		return new Timestamp(time.getTime());

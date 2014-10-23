@@ -452,5 +452,10 @@ public class ConsoleView extends Thread implements AbstractWarView {
 		this.warName = warName;
 	}
 	
+	@Override
+	public void showMessage(String msg) {
+		System.out.println("\nmsg\n");
+	}
+	
 }
 
