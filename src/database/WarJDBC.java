@@ -64,7 +64,7 @@ public class WarJDBC implements WarDB {
 				ps.setString(2, irondomeID);
 				ps.setString(3, enemyMissileId);
 				ps.setTimestamp(4, getCurrentTime());
-				ps.setNull(5, java.sql.Types.BOOLEAN);
+				ps.setBoolean(5, false);
 
 				ps.executeUpdate();
 
@@ -92,7 +92,7 @@ public class WarJDBC implements WarDB {
 				ps.setString(3, type);
 				ps.setString(4, enemyLauncherId);
 				ps.setTimestamp(5, getCurrentTime());
-				ps.setNull(6, java.sql.Types.BOOLEAN);
+				ps.setBoolean(6, false);
 
 				ps.executeUpdate();
 
@@ -273,8 +273,8 @@ public class WarJDBC implements WarDB {
 				ps.setString(4, destination);
 				ps.setTimestamp(5, getCurrentTime());
 				ps.setInt(6, damage);
-				ps.setNull(7, java.sql.Types.BOOLEAN);
-				ps.setNull(8, java.sql.Types.BOOLEAN);
+				ps.setBoolean(7, false);
+				ps.setBoolean(8, false);
 				ps.setNull(9, java.sql.Types.VARCHAR);
 
 				ps.executeUpdate();

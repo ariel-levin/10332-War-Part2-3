@@ -2,233 +2,174 @@ package database;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Vector;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-import war.War;
+import database.jpa.*;
 
 
 public class WarJPA implements WarDB {
 
-	private War war;
-	private String warName;
+	private war.War warModel;
+	private database.jpa.War dbWar;
+	private EntityManager em;
 
 
-	public WarJPA(War war) {
-		this.war = war;
+	public WarJPA(war.War warModel) {
+		this.warModel = warModel;
 		
-		
-		
-		
-//		try {
-//			Class.forName("com.mysql.jdbc.Driver").newInstance();
-//			dbUrl = "jdbc:mysql://localhost/war";
-//
-//			connection = DriverManager.getConnection(dbUrl, "root", "");
-//
-//
-//		} catch (InstantiationException e) {
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}	
-
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("War");
+		em = emf.createEntityManager();
 	}
 
 	@Override
 	public void defenseLaunchMissile(String irondomeID, String missileID,
 			String enemyMissileId) {
 
-		
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = 	"INSERT INTO `war`.`interceptions` "
-//						+ "(`warName`, `irondomeID`, `targetID`, `time`, `isHit`) "
-//						+ "VALUES (?,?,?,?,?)";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, this.warName);
-//				ps.setString(2, irondomeID);
-//				ps.setString(3, enemyMissileId);
-//				ps.setTimestamp(4, getCurrentTime());
-//				ps.setNull(5, java.sql.Types.BOOLEAN);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		Interception inter = new Interception();
+		inter.setIrondomeID(irondomeID);
+		inter.setTargetID(enemyMissileId);
+		inter.setIsHit(booleanToByte(false));
+		inter.setTime(getCurrentTime());
+		inter.setWar(dbWar);
+		dbWar.getInterceptions().add(inter);
 
+		insertToDB(inter);
 	}
 
 	@Override
 	public void defenseLaunchMissile(String destructorID, String type,
 			String missileId, String enemyLauncherId) {
-
 		
+		Destruction dest = new Destruction();
+		dest.setDestructorID(destructorID);
+		dest.setDestructorType(type);
+		dest.setTargetID(enemyLauncherId);
+		dest.setTime(getCurrentTime());
+		dest.setIsHit(booleanToByte(false));
+		dest.setWar(dbWar);
+		dbWar.getDestructions().add(dest);
 		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = 	"INSERT INTO `war`.`destructions` "
-//						+ "(`warName`, `destructorID`, `destructorType`, `targetID`, `time`, `isHit`) "
-//						+ "VALUES (?,?,?,?,?,?)";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, this.warName);
-//				ps.setString(2, destructorID);
-//				ps.setString(3, type);
-//				ps.setString(4, enemyLauncherId);
-//				ps.setTimestamp(5, getCurrentTime());
-//				ps.setNull(6, java.sql.Types.BOOLEAN);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-
+		insertToDB(dest);
 	}
 
 	@Override
 	public void defenseHitInterceptionMissile(String whoLaunchedMeId,
 			String id, String enemyMissileId) {
 
-		
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE interceptions "
-//						+ "SET isHit = ? "
-//						+ "WHERE warName = ? "
-//						+ "AND irondomeID = ? "
-//						+ "AND targetID = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, true);
-//				ps.setString(2, this.warName);
-//				ps.setString(3, whoLaunchedMeId);
-//				ps.setString(4, enemyMissileId);
-//
-//				ps.executeUpdate();
-//
-//
-//				// update launches table
-//				sqlQuery =	"UPDATE launches "
-//						+ "SET isHit = ?"
-//						+	", isIntercepted = ?"
-//						+	", whoIntercepted = ? "
-//						+ "WHERE warName = ? "
-//						+ "AND missileID = ?";
-//
-//				ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, false);
-//				ps.setBoolean(2, true);
-//				ps.setString(3, whoLaunchedMeId);
-//				ps.setString(4, this.warName);
-//				ps.setString(5, enemyMissileId);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		// update interceptions
+		List<Interception> interceptions = dbWar.getInterceptions();
+		for (Interception i : interceptions) {
 
+			if (i.getIrondomeID().equals(whoLaunchedMeId)
+					&& i.getTargetID().equals(enemyMissileId)) {
+
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Interception inter = em.find(Interception.class, i.getDbID());
+						inter.setIsHit(booleanToByte(true));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
+		
+		// update launches
+		List<Launch> launches = dbWar.getLaunches();
+		for (Launch l : launches) {
+			
+			if (l.getId().getMissileID().equals(enemyMissileId)) {
+				
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Launch launch = em.find(Launch.class, l.getId());
+						launch.setIsHit(booleanToByte(false));
+						launch.setIsIntercepted(booleanToByte(true));
+						launch.setWhoIntercepted(whoLaunchedMeId);
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
 	}
 
 	@Override
 	public void defenseHitInterceptionLauncher(String whoLaunchedMeId,
 			String Type, String id, String enemyLauncherId) {
 
+		// update destructions
+		List<Destruction> destructions = dbWar.getDestructions();
+		for (Destruction d : destructions) {
+
+			if (d.getDestructorID().equals(whoLaunchedMeId)
+					&& d.getTargetID().equals(enemyLauncherId)) {
+
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Destruction dest = em.find(Destruction.class, d.getDbID());
+						dest.setIsHit(booleanToByte(true));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
 		
+		// update launchers
+		List<Launcher> launchers = dbWar.getLaunchers();
+		for (Launcher l : launchers) {
+			
+			if (l.getId().getLauncherID().equals(enemyLauncherId)) {
+				
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Launcher launcher = em.find(Launcher.class, l.getId());
+						launcher.setIsDestroyed(booleanToByte(true));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
 		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE destructions "
-//						+ "SET isHit = ? "
-//						+ "WHERE warName = ? "
-//						+ "AND destructorID = ? "
-//						+ "AND targetID = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, true);
-//				ps.setString(2, this.warName);
-//				ps.setString(3, whoLaunchedMeId);
-//				ps.setString(4, enemyLauncherId);
-//
-//				ps.executeUpdate();
-//
-//
-//				// update launchers table			
-//				sqlQuery =	"UPDATE launchers "
-//						+ "SET isDestroyed = ? "
-//						+ "WHERE warName = ? AND launcherID = ?";
-//
-//				ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, true);
-//				ps.setString(2, this.warName);
-//				ps.setString(3, enemyLauncherId);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
 	}
 
 	@Override
 	public void defenseMissInterceptionMissile(String whoLaunchedMeId,
 			String id, String enemyMissileId, int damage) {
 
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE interceptions "
-//						+ "SET isHit = ? "
-//						+ "WHERE warName = ? "
-//						+ "AND irondomeID = ? "
-//						+ "AND targetID = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, false);
-//				ps.setString(2, this.warName);
-//				ps.setString(3, whoLaunchedMeId);
-//				ps.setString(4, enemyMissileId);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		List<Interception> interceptions = dbWar.getInterceptions();
+		for (Interception i : interceptions) {
 
+			if (i.getIrondomeID().equals(whoLaunchedMeId)
+					&& i.getTargetID().equals(enemyMissileId)) {
+
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Interception inter = em.find(Interception.class, i.getDbID());
+						inter.setIsHit(booleanToByte(false));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
+		
 	}
 
 	@Override
@@ -242,240 +183,172 @@ public class WarJPA implements WarDB {
 	public void defenseMissInterceptionLauncher(String whoLaunchedMeId,
 			String Type, String id, String enemyLauncherId) {
 
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE destructions "
-//						+ "SET isHit = ? "
-//						+ "WHERE warName = ? "
-//						+ "AND destructorID = ? "
-//						+ "AND targetID = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, false);
-//				ps.setString(2, this.warName);
-//				ps.setString(3, whoLaunchedMeId);
-//				ps.setString(4, enemyLauncherId);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		List<Destruction> destructions = dbWar.getDestructions();
+		for (Destruction d : destructions) {
 
+			if (d.getDestructorID().equals(whoLaunchedMeId)
+					&& d.getTargetID().equals(enemyLauncherId)) {
+
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Destruction dest = em.find(Destruction.class, d.getDbID());
+						dest.setIsHit(booleanToByte(false));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
 	}
 
 	@Override
 	public void enemyLaunchMissile(String launcherID, String missileID,
 			String destination, int damage) {
 
+		Launch l = new Launch();
+		LaunchPK lpk = new LaunchPK();
+		lpk.setMissileID(missileID);
+		lpk.setWarName(dbWar.getWarName());
+		l.setId(lpk);
+		l.setLauncherID(launcherID);
+		l.setDamage(damage);
+		l.setDestination(destination);
+		l.setIsHit(booleanToByte(false));
+		l.setIsIntercepted(booleanToByte(false));
+		l.setTime(getCurrentTime());
+		l.setWar(dbWar);
+		dbWar.getLaunches().add(l);
 		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "INSERT INTO `war`.`launches` "
-//						+ "(`warName`, `launcherID`, `missileID`, `destination`, "
-//						+ "`time`, `damage`, `isHit`, `isIntercepted`, `whoIntercepted`) "
-//						+ "VALUES (?,?,?,?,?,?,?,?,?)";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, this.warName);
-//				ps.setString(2, launcherID);
-//				ps.setString(3, missileID);
-//				ps.setString(4, destination);
-//				ps.setTimestamp(5, getCurrentTime());
-//				ps.setInt(6, damage);
-//				ps.setNull(7, java.sql.Types.BOOLEAN);
-//				ps.setNull(8, java.sql.Types.BOOLEAN);
-//				ps.setNull(9, java.sql.Types.VARCHAR);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-
+		insertToDB(l);
 	}
 
 	@Override
 	public void enemyLauncherIsVisible(String id, boolean visible) {
 
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE launchers "
-//						+ "SET isHidden = ? "
-//						+ "WHERE warName = ? AND launcherID = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, visible);
-//				ps.setString(2, this.warName);
-//				ps.setString(3, id);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		List<Launcher> launchers = dbWar.getLaunchers();
+		for (Launcher l : launchers) {
+			
+			if (l.getId().getLauncherID().equals(id)) {
+				
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Launcher launcher = em.find(Launcher.class, l.getId());
+						launcher.setIsHidden(booleanToByte(visible));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
 	}
 
 	@Override
 	public void enemyHitDestination(String whoLaunchedMeId, String id,
 			String destination, int damage, String launchTime) {
 
+		List<Launch> launches = dbWar.getLaunches();
+		for (Launch l : launches) {
+			
+			if (l.getId().getMissileID().equals(id)) {
+				
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Launch launch = em.find(Launch.class, l.getId());
+						launch.setIsHit(booleanToByte(true));
+						launch.setIsIntercepted(booleanToByte(false));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
 		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE launches "
-//						+ "SET isHit = ?"
-//						+	", isIntercepted = ? "
-//						+ "WHERE warName = ? "
-//						+ 	"AND missileID = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, true);
-//				ps.setBoolean(2, false);
-//				ps.setString(3, this.warName);
-//				ps.setString(4, id);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
 	}
 
 	@Override
 	public void enemyMissDestination(String whoLaunchedMeId, String id,
 			String destination, String launchTime) {
 
+		List<Launch> launches = dbWar.getLaunches();
+		for (Launch l : launches) {
+			
+			if (l.getId().getMissileID().equals(id)) {
+				
+				synchronized (em) {
+					em.getTransaction().begin();
+					try {
+						Launch launch = em.find(Launch.class, l.getId());
+						launch.setIsHit(booleanToByte(false));
+						launch.setIsIntercepted(booleanToByte(false));
+						em.getTransaction().commit();
+
+					} catch (Exception e) {}
+				}
+				break;
+			}
+		}
 		
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE launches "
-//						+ "SET isHit = ?"
-//						+	", isIntercepted = ? "
-//						+ "WHERE warName = ? "
-//						+ 	"AND missileID = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setBoolean(1, false);
-//				ps.setBoolean(2, false);
-//				ps.setString(3, this.warName);
-//				ps.setString(4, id);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
 	}
 
 	@Override
 	public void warHasBeenStarted() {
 
+		dbWar.setStartTime(getCurrentTime());
+		insertToDB(dbWar);
 		
 		
+		// add all launchers
+		Vector<String> launchers = warModel.getAllLaunchersIds();
+		for (String l : launchers) {
+			Boolean isHidden = warModel.isLauncherHidden(l);
+			enemyLauncherAdded(l,isHidden);
+		}
 		
+		// add all iron domes
+		Vector<String> irondomes = warModel.getAllIronDomesIds();
+		for (String id : irondomes)
+			ironDomeAdded(id);
 		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"INSERT INTO `war`.`wars` "
-//						+ "(`warName`, `startTime`, `endTime`) "
-//						+ "VALUES (?,?,?)";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, this.warName);
-//				ps.setTimestamp(2, getCurrentTime());
-//				ps.setNull(3, java.sql.Types.TIMESTAMP);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		// add all launchers
-//		Vector<String> launchers = war.getAllLaunchersIds();
-//		for (String l : launchers) {
-//			Boolean isHidden = war.isLauncherHidden(l);
-//			enemyLauncherAdded(l,isHidden);
-//		}
-//		
-//		// add all iron domes
-//		Vector<String> irondomes = war.getAllIronDomesIds();
-//		for (String id : irondomes)
-//			ironDomeAdded(id);
-//		
-//		// add all launcher destructors
-//		Vector<String> destructors = war.getAllLauncherDestructorsIdAndType();
-//		int size = destructors.size();
-//		for (int i = 0 ; i < size-1 ; i+=2) {
-//			String id = destructors.get(i);
-//			String type = destructors.get(i+1);
-//			launcherDestructorAdded(id,type);
-//		}
+		// add all launcher destructors
+		Vector<String> destructors = warModel.getAllLauncherDestructorsIdAndType();
+		int size = destructors.size();
+		for (int i = 0 ; i < size-1 ; i+=2) {
+			String id = destructors.get(i);
+			String type = destructors.get(i+1);
+			launcherDestructorAdded(id,type);
+		}
 		
 	}
 
 	@Override
 	public void warHasBeenFinished() {
 
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"UPDATE wars "
-//						+ "SET endTime = ? "
-//						+ "WHERE warName = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setTimestamp(1, getCurrentTime());
-//				ps.setString(2, this.warName);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			} finally {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
+		synchronized (em) {
+			
+			em.getTransaction().begin();
+			
+			try {
+				
+				database.jpa.War war = em.find(database.jpa.War.class, dbWar.getWarName());
+				war.setEndTime(getCurrentTime());
+				em.getTransaction().commit();
+
+			} catch (Exception e) {
+				
+			} finally {
+				
+				try {
+					em.close();
+				} catch (Exception e) {}
+			}
+			
+		}
 	}
 
 	@Override
@@ -502,84 +375,44 @@ public class WarJPA implements WarDB {
 
 	public void enemyLauncherAdded(String id, boolean isHidden) {
 
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "INSERT INTO `war`.`launchers` "
-//						+ "(`launcherID`, `warName`, `isHidden`, `isDestroyed`) "
-//						+ "VALUES (?,?,?,?)";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, id);
-//				ps.setString(2, this.warName);
-//				ps.setBoolean(3, isHidden);
-//				ps.setBoolean(4, false);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		Launcher l = new Launcher();
+		LauncherPK lpk = new LauncherPK();
+		lpk.setLauncherID(id);
+		lpk.setWarName(dbWar.getWarName());
+		l.setId(lpk);
+		l.setWar(dbWar);
+		l.setIsHidden(booleanToByte(isHidden));
+		l.setIsDestroyed(booleanToByte(false));
+		dbWar.getLaunchers().add(l);
+
+		insertToDB(l);
 	}
 
 	public void ironDomeAdded(String id) {
 
-		
-		
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "INSERT INTO `war`.`irondomes` "
-//						+ "(`irondomeID`, `warName`) "
-//						+ "VALUES (?,?)";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, id);
-//				ps.setString(2, this.warName);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		Irondome dome = new Irondome();
+		IrondomePK domepk = new IrondomePK();
+		domepk.setIrondomeID(id);
+		domepk.setWarName(dbWar.getWarName());
+		dome.setId(domepk);
+		dome.setWar(dbWar);
+		dbWar.getIrondomes().add(dome);
+
+		insertToDB(dome);
 	}
 
 	public void launcherDestructorAdded(String id, String type) {
 
-		
-		
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery = "INSERT INTO `war`.`destructors` "
-//						+ "(`destructorID`, `warName`, `type`) "
-//						+ "VALUES (?,?,?)";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, id);
-//				ps.setString(2, this.warName);
-//				ps.setString(3, type);
-//
-//				ps.executeUpdate();
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		Destructor ld = new Destructor();
+		DestructorPK ldpk = new DestructorPK();
+		ldpk.setDestructorID(id);
+		ldpk.setWarName(dbWar.getWarName());
+		ld.setId(ldpk);
+		ld.setType(type);
+		ld.setWar(dbWar);
+		dbWar.getDestructors().add(ld);
+
+		insertToDB(ld);
 	}
 
 
@@ -598,40 +431,49 @@ public class WarJPA implements WarDB {
 		if (isWarNameExist(warName))
 			return false;
 		else {
-			this.warName = warName;
+			dbWar = new database.jpa.War();
+			dbWar.setWarName(warName);
 			return true;
 		}
 	}
 
 	private boolean isWarNameExist(String name) {
 
-		
-		
-		
-		
-//		synchronized (connection) {
-//			try {
-//				String sqlQuery =	"SELECT wars.warName "
-//						+ "FROM wars "
-//						+ "WHERE wars.warName = ?";
-//
-//				PreparedStatement ps = connection.prepareStatement(sqlQuery);
-//
-//				ps.setString(1, name);
-//
-//				ResultSet rs = ps.executeQuery();
-//
-//				boolean isExist = rs.first();
-//
-//				return isExist;
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
+		synchronized (em) {
+			
+			try {
+				database.jpa.War war = em.find(database.jpa.War.class, name);
+				
+				if (war == null)
+					return false;
+				else
+					return true;
+
+			} catch (Exception e) {} 
+		}
 		
 		return false;
+	}
+	
+	private byte booleanToByte(boolean value) {
+		return (value) ? (byte)1 : (byte)0 ;
+	}
+	
+	private synchronized void insertToDB(Object obj) {
+		
+		synchronized (em) {
+			
+			em.getTransaction().begin();
+			
+			try {
+				em.persist(obj);
+				em.getTransaction().commit();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				em.getTransaction().rollback();
+			}
+		}
 	}
 	
 
@@ -831,13 +673,48 @@ public class WarJPA implements WarDB {
 	
 	public static void main(String[] args) {
 	
+		WarJPA wardb = new WarJPA(null);
 		
+		wardb.setWarName("ARIEL");
+		wardb.warHasBeenStarted();
 		
+//		wardb.enemyLauncherAdded("XXX", true);
+//		wardb.enemyLaunchMissile("XXX", "ARIEL", "gaza", 1000);
+//		wardb.defenseLaunchMissile("ARIEL", null, "ARIEL");
+//		wardb.defenseHitInterceptionMissile("ARIEL", null, "ARIEL");
+//		wardb.defenseLaunchMissile("XXX", "XXX", missileId, enemyLauncherId);
+		
+//		System.out.println("\nIs war name exist? " + wardb.isWarNameExist("LOLI"));
+		
+//		wardb.test();
+
+		wardb.warHasBeenFinished();
 	}
 		
-	public void printTest() {
+	public void test() {
 
-
+		Interception inter = new Interception();
+        //a1.setId(8);
+		inter.setIrondomeID("ARIEL");
+		inter.setTargetID("ARIEL");
+		inter.setIsHit(booleanToByte(false));
+		inter.setTime(getCurrentTime());
+		inter.setWar(dbWar);
+		dbWar.getInterceptions().add(inter);
+           
+		em.getTransaction().begin();
+		
+        try {
+            em.persist(inter);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("In catch: " + e.getMessage());
+            em.getTransaction().rollback();
+        } finally {
+            System.out.println("In finally");
+            em.close();
+        }
+        System.out.println("done");
 
 	}
 

@@ -16,6 +16,7 @@ public class Destruction implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue
 	private int dbID;
 
 	private String destructorID;

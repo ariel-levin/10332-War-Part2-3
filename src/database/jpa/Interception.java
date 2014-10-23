@@ -16,6 +16,8 @@ public class Interception implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(generator="my_seq")
+	@SequenceGenerator(name="my_seq",sequenceName="MY_SEQ", allocationSize=1)
 	private int dbID;
 
 	private String irondomeID;
