@@ -4,9 +4,11 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TemporalType;
 
 import database.jpa.*;
 
@@ -34,7 +36,7 @@ public class WarJPA implements WarDB {
 		Interception inter = new Interception();
 		inter.setIrondomeID(irondomeID);
 		inter.setTargetID(enemyMissileId);
-		inter.setIsHit(booleanToByte(false));
+		inter.setIsHit(false);
 		inter.setTime(getCurrentTime());
 		inter.setWar(dbWar);
 		dbWar.getInterceptions().add(inter);
@@ -51,7 +53,7 @@ public class WarJPA implements WarDB {
 		dest.setDestructorType(type);
 		dest.setTargetID(enemyLauncherId);
 		dest.setTime(getCurrentTime());
-		dest.setIsHit(booleanToByte(false));
+		dest.setIsHit(false);
 		dest.setWar(dbWar);
 		dbWar.getDestructions().add(dest);
 		
@@ -74,7 +76,7 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Interception inter = em.find(Interception.class, i.getDbID());
-						inter.setIsHit(booleanToByte(true));
+						inter.setIsHit(true);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -98,8 +100,8 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Launch launch = em.find(Launch.class, l.getId());
-						launch.setIsHit(booleanToByte(false));
-						launch.setIsIntercepted(booleanToByte(true));
+						launch.setIsHit(false);
+						launch.setIsIntercepted(true);
 						launch.setWhoIntercepted(whoLaunchedMeId);
 						em.getTransaction().commit();
 
@@ -130,7 +132,7 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Destruction dest = em.find(Destruction.class, d.getDbID());
-						dest.setIsHit(booleanToByte(true));
+						dest.setIsHit(true);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -154,7 +156,7 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Launcher launcher = em.find(Launcher.class, l.getId());
-						launcher.setIsDestroyed(booleanToByte(true));
+						launcher.setIsDestroyed(true);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -184,7 +186,7 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Interception inter = em.find(Interception.class, i.getDbID());
-						inter.setIsHit(booleanToByte(false));
+						inter.setIsHit(false);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -221,7 +223,7 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Destruction dest = em.find(Destruction.class, d.getDbID());
-						dest.setIsHit(booleanToByte(false));
+						dest.setIsHit(false);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -247,8 +249,8 @@ public class WarJPA implements WarDB {
 		l.setLauncherID(launcherID);
 		l.setDamage(damage);
 		l.setDestination(destination);
-		l.setIsHit(booleanToByte(false));
-		l.setIsIntercepted(booleanToByte(false));
+		l.setIsHit(false);
+		l.setIsIntercepted(false);
 		l.setTime(getCurrentTime());
 		l.setWar(dbWar);
 		dbWar.getLaunches().add(l);
@@ -269,7 +271,7 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Launcher launcher = em.find(Launcher.class, l.getId());
-						launcher.setIsHidden(booleanToByte(visible));
+						launcher.setIsHidden(visible);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -297,8 +299,8 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Launch launch = em.find(Launch.class, l.getId());
-						launch.setIsHit(booleanToByte(true));
-						launch.setIsIntercepted(booleanToByte(false));
+						launch.setIsHit(true);
+						launch.setIsIntercepted(false);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -327,8 +329,8 @@ public class WarJPA implements WarDB {
 					em.getTransaction().begin();
 					try {
 						Launch launch = em.find(Launch.class, l.getId());
-						launch.setIsHit(booleanToByte(false));
-						launch.setIsIntercepted(booleanToByte(false));
+						launch.setIsHit(false);
+						launch.setIsIntercepted(false);
 						em.getTransaction().commit();
 
 					} catch (Exception e) {
@@ -430,8 +432,8 @@ public class WarJPA implements WarDB {
 		lpk.setWarName(dbWar.getWarName());
 		l.setId(lpk);
 		l.setWar(dbWar);
-		l.setIsHidden(booleanToByte(isHidden));
-		l.setIsDestroyed(booleanToByte(false));
+		l.setIsHidden(isHidden);
+		l.setIsDestroyed(false);
 		dbWar.getLaunchers().add(l);
 
 		insertToDB(l);
@@ -512,10 +514,6 @@ public class WarJPA implements WarDB {
 		return false;
 	}
 	
-	private byte booleanToByte(boolean value) {
-		return (value) ? (byte)1 : (byte)0 ;
-	}
-	
 	private void insertToDB(Object obj) {
 		
 		synchronized (emf) {
@@ -554,8 +552,8 @@ public class WarJPA implements WarDB {
 						+ "WHERE l.time BETWEEN :startDate AND :endDate "
 						+ "ORDER BY l.time DESC")
 
-						.setParameter("startDate", sqlStart)
-						.setParameter("endDate", sqlEnd).getResultList();
+						.setParameter("startDate", sqlStart, TemporalType.DATE)
+						.setParameter("endDate", sqlEnd, TemporalType.DATE).getResultList();
 			
 			em.close();
 		}
@@ -699,21 +697,68 @@ public class WarJPA implements WarDB {
 		wardb.setWarName("ARIEL");
 		wardb.warHasBeenStarted();
 		
-//		wardb.enemyLauncherAdded("XXX", true);
+		wardb.enemyLauncherAdded("XXX", true);
 		wardb.enemyLaunchMissile("XXX", "shmugudu", "gaza", 1000);
-		wardb.defenseLaunchMissile("ARIEL", null, "ARIEL");
-		wardb.defenseHitInterceptionMissile("ARIEL", null, "ARIEL");
+//		wardb.defenseLaunchMissile("ARIEL", null, "ARIEL");
+//		wardb.defenseHitInterceptionMissile("ARIEL", null, "ARIEL");
 //		wardb.defenseLaunchMissile("XXX", "XXX", missileId, enemyLauncherId);
 		
 //		System.out.println("\nIs war name exist? " + wardb.isWarNameExist("LOLI"));
 		
-//		wardb.test();
+		wardb.test();
 
 		wardb.warHasBeenFinished();
 	}
 		
+	@SuppressWarnings("unchecked")
 	public void test() {
 
+		Calendar startDate = Calendar.getInstance();
+		startDate.set(2014, 9, 20);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(2014, 9, 30);
+		
+		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
+		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
+
+		System.out.println("\nsqlStart: " + sqlStart);
+		System.out.println("sqlEnd: " + sqlEnd);
+		
+		List<Launch> launches = null;
+		
+		synchronized (emf) {
+			EntityManager em = emf.createEntityManager();
+			
+			launches = em.createQuery(
+					"SELECT l FROM Launch l "
+						+ "WHERE l.time BETWEEN :startDate AND :endDate "
+						+ "ORDER BY l.time DESC")
+
+						.setParameter("startDate", sqlStart, TemporalType.DATE)
+						.setParameter("endDate", sqlEnd, TemporalType.DATE).getResultList();
+					
+//			launches = em.createNamedQuery("Launch.findAll").getResultList();
+			
+//			launches = em.createQuery("SELECT l FROM Launch l WHERE l.time BETWEEN :startDate AND :endDate")  
+//					  .setParameter("startDate", sqlStart, TemporalType.DATE)  
+//					  .setParameter("endDate", sqlEnd, TemporalType.DATE)  
+//					  .getResultList();
+			
+			em.close();
+		}
+		
+		for (Launch l : launches)
+			System.out.println("\nl launcher id " + l.getLauncherID());
+		
+		System.out.println("\nsize: " + launches.size());
+		
+		System.out.println();
+		
+//		System.out.println("\n\n getNumOfLaunchMissiles: " + getNumOfLaunchMissiles(startDate, endDate));
+//		System.out.println("\n\n getNumOfInterceptMissiles: " + getNumOfInterceptMissiles(startDate, endDate));
+//		System.out.println("\n\n getNumOfHitTargetMissiles: " + getNumOfHitTargetMissiles(startDate, endDate));
+//		System.out.println("\n\n getNumOfLaunchersDestroyed: " + getNumOfLaunchersDestroyed(startDate, endDate));
+//		System.out.println("\n\n getTotalDamage: " + getTotalDamage(startDate, endDate));
 
 	}
 

@@ -22,9 +22,9 @@ public class Launch implements Serializable {
 
 	private String destination;
 
-	private byte isHit;
+	private boolean isHit;
 
-	private byte isIntercepted;
+	private boolean isIntercepted;
 
 	private String launcherID;
 
@@ -65,19 +65,19 @@ public class Launch implements Serializable {
 		this.destination = destination;
 	}
 
-	public byte getIsHit() {
+	public boolean getIsHit() {
 		return this.isHit;
 	}
 
-	public void setIsHit(byte isHit) {
+	public void setIsHit(boolean isHit) {
 		this.isHit = isHit;
 	}
 
-	public byte getIsIntercepted() {
+	public boolean getIsIntercepted() {
 		return this.isIntercepted;
 	}
 
-	public void setIsIntercepted(byte isIntercepted) {
+	public void setIsIntercepted(boolean isIntercepted) {
 		this.isIntercepted = isIntercepted;
 	}
 

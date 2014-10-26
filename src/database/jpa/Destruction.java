@@ -26,7 +26,7 @@ public class Destruction implements Serializable {
 
 	private String destructorType;
 
-	private byte isHit;
+	private boolean isHit;
 
 	private String targetID;
 
@@ -65,11 +65,11 @@ public class Destruction implements Serializable {
 		this.destructorType = destructorType;
 	}
 
-	public byte getIsHit() {
+	public boolean getIsHit() {
 		return this.isHit;
 	}
 
-	public void setIsHit(byte isHit) {
+	public void setIsHit(boolean isHit) {
 		this.isHit = isHit;
 	}
 

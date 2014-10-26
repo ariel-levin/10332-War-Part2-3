@@ -24,7 +24,7 @@ public class Interception implements Serializable {
 
 	private String irondomeID;
 
-	private byte isHit;
+	private boolean isHit;
 
 	private String targetID;
 
@@ -55,11 +55,11 @@ public class Interception implements Serializable {
 		this.irondomeID = irondomeID;
 	}
 
-	public byte getIsHit() {
+	public boolean getIsHit() {
 		return this.isHit;
 	}
 
-	public void setIsHit(byte isHit) {
+	public void setIsHit(boolean isHit) {
 		this.isHit = isHit;
 	}
 

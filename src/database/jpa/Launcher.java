@@ -17,9 +17,9 @@ public class Launcher implements Serializable {
 	@EmbeddedId
 	private LauncherPK id;
 
-	private byte isDestroyed;
+	private boolean isDestroyed;
 
-	private byte isHidden;
+	private boolean isHidden;
 
 	//bi-directional many-to-one association to War
 	@ManyToOne
@@ -37,19 +37,19 @@ public class Launcher implements Serializable {
 		this.id = id;
 	}
 
-	public byte getIsDestroyed() {
+	public boolean getIsDestroyed() {
 		return this.isDestroyed;
 	}
 
-	public void setIsDestroyed(byte isDestroyed) {
+	public void setIsDestroyed(boolean isDestroyed) {
 		this.isDestroyed = isDestroyed;
 	}
 
-	public byte getIsHidden() {
+	public boolean getIsHidden() {
 		return this.isHidden;
 	}
 
-	public void setIsHidden(byte isHidden) {
+	public void setIsHidden(boolean isHidden) {
 		this.isHidden = isHidden;
 	}
 
