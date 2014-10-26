@@ -5,14 +5,14 @@ import java.util.List;
 
 import utils.IdGenerator;
 import utils.Utils;
-import utils.WarLogger;
 import utils.WarStatistics;
 import listeners.WarEventListener;
 import model.missiles.DefenseDestructorMissile;
 
 
 /** Plane or Ship **/
-public class LauncherDestructor extends Thread implements Munitions{
+public class LauncherDestructor extends Thread implements Munitions {
+	
 	private List<WarEventListener> allListeners;
 
 	private String id;
@@ -23,6 +23,7 @@ public class LauncherDestructor extends Thread implements Munitions{
 	private WarStatistics statistics;
 	private DefenseDestructorMissile currentMissile;
 
+	
 	public LauncherDestructor(String type, String id, WarStatistics statistics) {
 		allListeners = new LinkedList<WarEventListener>();
 
@@ -30,7 +31,7 @@ public class LauncherDestructor extends Thread implements Munitions{
 		this.type = Utils.capitalize(type);
 		this.statistics = statistics;
 
-		WarLogger.addLoggerHandler(this.type, id);
+//		WarLogger.addLoggerHandler(this.type, id);
 	}
 
 	public void run() {
@@ -73,7 +74,7 @@ public class LauncherDestructor extends Thread implements Munitions{
 		}// while
 		
 		// close the handler of the logger
-		WarLogger.closeMyHandler(id);
+//		WarLogger.closeMyHandler(id);
 	}// run
 
 	
@@ -165,6 +166,10 @@ public class LauncherDestructor extends Thread implements Munitions{
 		return type;
 	}
 	
+	public EnemyLauncher getToDestroy() {
+		return toDestroy;
+	}
+
 	@Override
 	// use for end the thread
 	public void stopRunning() {

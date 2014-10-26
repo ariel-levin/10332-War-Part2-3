@@ -8,8 +8,10 @@ import utils.WarStatistics;
 import listeners.WarEventListener;
 import model.launchers.EnemyLauncher;
 
+
 /** Missile for Plane or Ship **/
 public class DefenseDestructorMissile extends Thread {
+	
 	private List<WarEventListener> allListeners;
 
 	private String id;
@@ -18,6 +20,7 @@ public class DefenseDestructorMissile extends Thread {
 	private EnemyLauncher launcherToDestroy;
 	private WarStatistics statistics;
 
+	
 	public DefenseDestructorMissile(String id, EnemyLauncher LauncherToDestroy,
 			String whoLunchedMeId, String whoLaunchedMeType,
 			WarStatistics statistics) {
@@ -73,6 +76,18 @@ public class DefenseDestructorMissile extends Thread {
 
 	public String getMissileId() {
 		return id;
+	}
+
+	public String getWhoLaunchedMeId() {
+		return whoLaunchedMeId;
+	}
+
+	public String getWhoLaunchedMeType() {
+		return whoLaunchedMeType;
+	}
+
+	public EnemyLauncher getLauncherToDestroy() {
+		return launcherToDestroy;
 	}
 
 }

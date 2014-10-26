@@ -7,22 +7,25 @@ import utils.Utils;
 import utils.WarStatistics;
 import listeners.WarEventListener;
 
+
 /** Missile for iron dome **/
 public class DefenseMissile extends Thread {
+	
 	private List<WarEventListener> allListeners;
 
 	private String id;
-	private String whoLunchedMeId;
+	private String whoLaunchedMeId;
 	private EnemyMissile missileToDestroy;
 	private WarStatistics statistics;
 
+	
 	public DefenseMissile(String id, EnemyMissile missileToDestroy,
 			String whoLunchedMeId, WarStatistics statistics) {
 		allListeners = new LinkedList<WarEventListener>();
 
 		this.id = id;
 		this.missileToDestroy = missileToDestroy;
-		this.whoLunchedMeId = whoLunchedMeId;
+		this.whoLaunchedMeId = whoLunchedMeId;
 		this.statistics = statistics;
 	}
 
@@ -45,7 +48,7 @@ public class DefenseMissile extends Thread {
 	// Event
 	private void fireHitEvent() {
 		for (WarEventListener l : allListeners) {
-			l.defenseHitInterceptionMissile(whoLunchedMeId, id,
+			l.defenseHitInterceptionMissile(whoLaunchedMeId, id,
 					missileToDestroy.getMissileId());
 		}
 
@@ -56,7 +59,7 @@ public class DefenseMissile extends Thread {
 	// Event
 	private void fireMissEvent() {
 		for (WarEventListener l : allListeners) {
-			l.defenseMissInterceptionMissile(whoLunchedMeId, id,
+			l.defenseMissInterceptionMissile(whoLaunchedMeId, id,
 					missileToDestroy.getMissileId(),
 					missileToDestroy.getDamage());
 		}
@@ -68,6 +71,14 @@ public class DefenseMissile extends Thread {
 
 	public String getMissileId() {
 		return id;
+	}
+
+	public String getWhoLaunchedMeId() {
+		return whoLaunchedMeId;
+	}
+
+	public EnemyMissile getMissileToDestroy() {
+		return missileToDestroy;
 	}
 
 }

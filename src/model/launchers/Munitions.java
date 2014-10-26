@@ -1,5 +1,6 @@
 package model.launchers;
 
+
 /** Inteface for all munitions using in the program **/
 public interface Munitions {
 	//public void addLoggerHandler();

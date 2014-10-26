@@ -7,8 +7,10 @@ import utils.Utils;
 import utils.WarStatistics;
 import listeners.WarEventListener;
 
+
 /** Enemy missile, is been created by the Enemy launcher **/
 public class EnemyMissile extends Thread {
+	
 	private List<WarEventListener> allListeners;
 
 	private String id;
@@ -20,6 +22,7 @@ public class EnemyMissile extends Thread {
 	private String launchTime;
 	private boolean beenHit = false;
 
+	
 	public EnemyMissile(String id, String destination, int flyTime, int damage,
 			String whoLaunchedMeId, WarStatistics statistics) {
 		allListeners = new LinkedList<WarEventListener>();
@@ -95,6 +98,18 @@ public class EnemyMissile extends Thread {
 	
 	public boolean isBeenHit(){
 		return beenHit;
+	}
+
+	public String getWhoLaunchedMeId() {
+		return whoLaunchedMeId;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public String getLaunchTime() {
+		return launchTime;
 	}
 
 }

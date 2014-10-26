@@ -10,7 +10,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import clientserver.Server;
 import utils.IdGenerator;
-import utils.WarLogger;
 import utils.WarStatistics;
 import listeners.WarEventListener;
 import model.launchers.EnemyLauncher;
@@ -53,9 +52,9 @@ public class War extends Thread {
 		
 		((ClassPathXmlApplicationContext)theContext).close();
 
-		registerListener(new WarLogger());
+//		registerListener(new WarLogger());
 		registerListener(warDB);
-		WarLogger.addWarLoggerHandler("War");
+//		WarLogger.addWarLoggerHandler("War");
 	}
 
 	public void run() {
@@ -78,8 +77,8 @@ public class War extends Thread {
 		}// synchronized
 
 		// close all the handlers of the logger
-		WarLogger.closeAllHandlers();
-		WarLogger.closeWarHandler();
+//		WarLogger.closeAllHandlers();
+//		WarLogger.closeWarHandler();
 		//warHandler.close();
 		fireWarHasBeenFinished();
 	}// run

@@ -20,5 +20,7 @@
 	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-context-4.1.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-core-4.1.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/spring-expression-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ariel/workspace/10332/Home Assignments/10332-War-Part2-3/jars/aspectj-1.8.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

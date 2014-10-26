@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import listeners.WarEventListener;
 
+
 public class WarLogger implements WarEventListener {
 	
 	private static Logger theLogger = Logger.getLogger("warLogger");
@@ -168,6 +169,18 @@ public class WarLogger implements WarEventListener {
 				 "\t\t\tLand Time: " + Utils.getCurrentTime() + "\n");
 	}
 
+	public void enemyLauncherAdded(String id, boolean isHidden) {
+		
+	}
+	
+	public void ironDomeAdded(String id) {
+		
+	}
+	
+	public void launcherDestructorAdded(String id, String type) {
+		
+	}
+	
 	@Override
 	public void warHasBeenStarted() {
 		theLogger.log(Level.INFO, "====== >\tWar started\t< ======\n");
@@ -196,18 +209,6 @@ public class WarLogger implements WarEventListener {
 	@Override
 	public void noSuchObject(String type) {
 		// Not needed
-	}
-
-	public void enemyLauncherAdded(String id, boolean isHidden) {
-		
-	}
-	
-	public void ironDomeAdded(String id) {
-		
-	}
-	
-	public void launcherDestructorAdded(String id, String type) {
-		
 	}
 
 }

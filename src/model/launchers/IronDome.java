@@ -5,11 +5,11 @@ import java.util.List;
 
 import utils.IdGenerator;
 import utils.Utils;
-import utils.WarLogger;
 import utils.WarStatistics;
 import listeners.WarEventListener;
 import model.missiles.DefenseMissile;
 import model.missiles.EnemyMissile;
+
 
 public class IronDome extends Thread implements Munitions {
 	private List<WarEventListener> allListeners;
@@ -27,7 +27,7 @@ public class IronDome extends Thread implements Munitions {
 		this.statistics = statistics;
 		this.id = id;
 
-		WarLogger.addLoggerHandler("IronDome", id);
+//		WarLogger.addLoggerHandler("IronDome", id);
 	}
 
 	public void run() {
@@ -60,7 +60,7 @@ public class IronDome extends Thread implements Munitions {
 		}// while
 
 		// close the handler of the logger
-		WarLogger.closeMyHandler(id);
+//		WarLogger.closeMyHandler(id);
 		//ironDomeHandler.close();
 	}// run
 
@@ -130,6 +130,10 @@ public class IronDome extends Thread implements Munitions {
 
 	public String getIronDomeId() {
 		return id;
+	}
+
+	public EnemyMissile getToDestroy() {
+		return toDestroy;
 	}
 
 	// use for end the thread

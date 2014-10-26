@@ -5,12 +5,13 @@ import java.util.List;
 
 import utils.IdGenerator;
 import utils.Utils;
-import utils.WarLogger;
 import utils.WarStatistics;
 import listeners.WarEventListener;
 import model.missiles.EnemyMissile;
 
+
 public class EnemyLauncher extends Thread implements Munitions{
+	
 	private List<WarEventListener> allListeners;
 
 	private String id;
@@ -23,6 +24,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 	private WarStatistics statistics;
 	private EnemyMissile currentMissile;
 
+	
 	public EnemyLauncher(String id, boolean isHidden, WarStatistics statistics) {
 		this.id = id;
 		this.isHidden = isHidden;
@@ -31,7 +33,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 		allListeners = new LinkedList<WarEventListener>();
 		firstHiddenState = isHidden;
 
-		WarLogger.addLoggerHandler("Launcher", id);
+//		WarLogger.addLoggerHandler("Launcher", id);
 	}
 
 	public void run() {
@@ -65,7 +67,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 		}// while
 
 		// close the handler of the logger
-		WarLogger.closeMyHandler(id);
+//		WarLogger.closeMyHandler(id);
 		
 	}// run
 	
@@ -106,7 +108,9 @@ public class EnemyLauncher extends Thread implements Munitions{
 			fireEnemyLauncherIsVisibleEvent(false);
 
 		// wait until the missile will finish
-		currentMissile.join();
+		try {
+			currentMissile.join();
+		} catch (Exception e) {}
 	}
 
 	// Create new missile
@@ -160,6 +164,14 @@ public class EnemyLauncher extends Thread implements Munitions{
 		return isHidden;
 	}
 	
+	public String getDestination() {
+		return destination;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
 	// use the stop the thread when the launcher is been hit
 	@Override
 	public void stopRunning() {
