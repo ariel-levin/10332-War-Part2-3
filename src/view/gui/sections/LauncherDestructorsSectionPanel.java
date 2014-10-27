@@ -9,6 +9,11 @@ import view.gui.forms.AddLauncherDestructorForm;
 import view.gui.panels.LauncherDestructorPanel;
 
 
+/** 
+ * @author	<a href="http://about.me/ariel.levin">Ariel Levin</a><br>
+ * 			<a href="mailto:ariel2011@gmail.com">ariel2011@gmail.com</a><br>
+ *			<a href="http://github.com/ariel-levin">github.com/ariel-levin</a>
+ * */
 public class LauncherDestructorsSectionPanel extends SectionPanel {
 
 	private static final long serialVersionUID = 1L;

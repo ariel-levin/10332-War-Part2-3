@@ -5,6 +5,11 @@ import model.launchers.*;
 import model.missiles.*;
 
 
+/** 
+ * @author	<a href="http://about.me/ariel.levin">Ariel Levin</a><br>
+ * 			<a href="mailto:ariel2011@gmail.com">ariel2011@gmail.com</a><br>
+ *			<a href="http://github.com/ariel-levin">github.com/ariel-levin</a>
+ * */
 public aspect LogAspect {
 
 	private WarLogger warLogger;

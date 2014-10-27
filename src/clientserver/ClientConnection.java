@@ -6,6 +6,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 
+/** 
+ * @author	<a href="http://about.me/ariel.levin">Ariel Levin</a><br>
+ * 			<a href="mailto:ariel2011@gmail.com">ariel2011@gmail.com</a><br>
+ *			<a href="http://github.com/ariel-levin">github.com/ariel-levin</a>
+ * */
 public class ClientConnection {
 
 	private final String serverIP = "localhost";

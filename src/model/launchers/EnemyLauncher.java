@@ -110,7 +110,9 @@ public class EnemyLauncher extends Thread implements Munitions{
 		// wait until the missile will finish
 		try {
 			currentMissile.join();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("inside currentMissile.join() Exception");
+		}
 	}
 
 	// Create new missile

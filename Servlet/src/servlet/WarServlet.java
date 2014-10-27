@@ -15,6 +15,10 @@ import model.War;
 
 /**
  * Servlet implementation class WarServlet
+ * 
+ * @author	<a href="http://about.me/ariel.levin">Ariel Levin</a><br>
+ * 			<a href="mailto:ariel2011@gmail.com">ariel2011@gmail.com</a><br>
+ *			<a href="http://github.com/ariel-levin">github.com/ariel-levin</a>
  */
 @WebServlet(name = "WarServlet", urlPatterns = {"/WarServlet"})
 public class WarServlet extends HttpServlet {

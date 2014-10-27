@@ -6,13 +6,15 @@ import java.time.format.DateTimeFormatter;
 
 
 public class Utils {
+	
 	public static final int SECOND = 1000;
 	public static final int FLY_TIME = 3;
 	public static final int LAUNCH_DURATION = 1000;
-	private static final double DESTRACOTR_SUCCES_RATE = 0.95;
-	private static final double SUCCES_RATE = 0.7;
+	private static final double DESTRUCTOR_SUCCES_RATE = 0.95;
+	private static final double SUCCES_RATE = 0.95;
 	private static final double IS_HIDDEN_RATE = 0.5;
 	private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+	
 	
 	// create local date
 	public static String getCurrentTime() {
@@ -56,8 +58,8 @@ public class Utils {
 	}
 
 	/** randomize the success rate of destructor **/
-	public static boolean randomDestractorSucces() {
-		return Math.random() < DESTRACOTR_SUCCES_RATE;
+	public static boolean randomDestructorSuccess() {
+		return Math.random() < DESTRUCTOR_SUCCES_RATE;
 	}
 
 	/** randomize if launcher will be hidden or not **/
