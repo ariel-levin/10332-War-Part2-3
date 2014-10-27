@@ -40,9 +40,7 @@ public class AddLauncherDestructorForm extends JFrame {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(this);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		} catch (Exception e1) {}
 		
 		setLocationRelativeTo(null);
 		setResizable(false);

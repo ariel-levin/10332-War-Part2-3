@@ -49,13 +49,9 @@ public class Program {
 
 			warXML.join();
 
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (ParserConfigurationException | SAXException 
+				| IOException | InterruptedException e) {
+			
 			e.printStackTrace();
 		}
 		

@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.util.Date;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -35,7 +36,7 @@ public class Server extends Thread {
 	private War warModel;
 	private ServerSocket server;
 	private JTextArea console;
-	private boolean alive;
+	private boolean alive = false;
 	
 	
 	public Server (String ip, int port, War war) {
@@ -43,16 +44,24 @@ public class Server extends Thread {
 		this.port = port;
 		this.warModel = war;
 		createFrame();
-		alive = true;
 	}
 	
 	public void run() {
 		
 		try {
 			server = new ServerSocket(port);
+			alive = true;
 		} catch (IOException e2) {
-			e2.printStackTrace();
+			JOptionPane.showMessageDialog(null, "The program encountered some"
+					+ " difficulties to run the Server...", "Server Error",
+					JOptionPane.ERROR_MESSAGE);
+			alive = false;
+			warModel.serverClosed();
+			try {
+				frame.dispose();
+			} catch (Exception e) {}
 		}
+		
 		console.append("\n" + new Date() + " >> The Server is waiting for clients...");
 
 		while (alive) {
@@ -101,7 +110,7 @@ public class Server extends Thread {
 
 			} catch (IOException e1) {} 
 
-		}
+		} // while alive
 		
 	}
 	
@@ -189,21 +198,7 @@ public class Server extends Thread {
 			client.close();
 			console.append(	"\nThe client from " + clientAddress + " is now disconnected");
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	///////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	// for test
-	public static void main(String[] args) {
-		new Server("localhost", 7000, null);
-
+		} catch (IOException e) {}
 	}
 	
 }

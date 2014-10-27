@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -688,83 +687,4 @@ public class WarJPA implements WarDB {
 		return sum;
 	}
 	
-	
-	////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	// for test
-	public static void main(String[] args) {
-	
-		WarJPA wardb = new WarJPA(null);
-		
-		wardb.setWarName("ARIEL");
-		wardb.warHasBeenStarted();
-		
-		wardb.enemyLauncherAdded("XXX", true);
-		wardb.enemyLaunchMissile("XXX", "shmugudu", "gaza", 1000);
-//		wardb.defenseLaunchMissile("ARIEL", null, "ARIEL");
-//		wardb.defenseHitInterceptionMissile("ARIEL", null, "ARIEL");
-//		wardb.defenseLaunchMissile("XXX", "XXX", missileId, enemyLauncherId);
-		
-//		System.out.println("\nIs war name exist? " + wardb.isWarNameExist("LOLI"));
-		
-		wardb.test();
-
-		wardb.warHasBeenFinished();
-	}
-		
-	@SuppressWarnings("unchecked")
-	public void test() {
-
-		Calendar startDate = Calendar.getInstance();
-		startDate.set(2014, 9, 20);
-		Calendar endDate = Calendar.getInstance();
-		endDate.set(2014, 9, 30);
-		
-		Timestamp sqlStart = new Timestamp(startDate.getTime().getTime());
-		Timestamp sqlEnd = new Timestamp(endDate.getTime().getTime());
-
-		System.out.println("\nsqlStart: " + sqlStart);
-		System.out.println("sqlEnd: " + sqlEnd);
-		
-		List<Launch> launches = null;
-		
-		synchronized (emf) {
-			EntityManager em = emf.createEntityManager();
-			
-			launches = em.createQuery(
-					"SELECT l FROM Launch l "
-						+ "WHERE l.time BETWEEN :startDate AND :endDate "
-						+ "ORDER BY l.time DESC")
-
-						.setParameter("startDate", sqlStart, TemporalType.DATE)
-						.setParameter("endDate", sqlEnd, TemporalType.DATE).getResultList();
-					
-//			launches = em.createNamedQuery("Launch.findAll").getResultList();
-			
-//			launches = em.createQuery("SELECT l FROM Launch l WHERE l.time BETWEEN :startDate AND :endDate")  
-//					  .setParameter("startDate", sqlStart, TemporalType.DATE)  
-//					  .setParameter("endDate", sqlEnd, TemporalType.DATE)  
-//					  .getResultList();
-			
-			em.close();
-		}
-		
-		for (Launch l : launches)
-			System.out.println("\nl launcher id " + l.getLauncherID());
-		
-		System.out.println("\nsize: " + launches.size());
-		
-		System.out.println();
-		
-//		System.out.println("\n\n getNumOfLaunchMissiles: " + getNumOfLaunchMissiles(startDate, endDate));
-//		System.out.println("\n\n getNumOfInterceptMissiles: " + getNumOfInterceptMissiles(startDate, endDate));
-//		System.out.println("\n\n getNumOfHitTargetMissiles: " + getNumOfHitTargetMissiles(startDate, endDate));
-//		System.out.println("\n\n getNumOfLaunchersDestroyed: " + getNumOfLaunchersDestroyed(startDate, endDate));
-//		System.out.println("\n\n getTotalDamage: " + getTotalDamage(startDate, endDate));
-
-	}
-
 }

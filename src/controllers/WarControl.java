@@ -96,9 +96,7 @@ public class WarControl implements WarEventListener, WarEventUIListener {
 		if (view instanceof ConsoleView) {
 			try {
 				((ConsoleView)view).join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			} catch (InterruptedException e) {}
 		}
 		view.showWarHasBeenFinished();
 	}

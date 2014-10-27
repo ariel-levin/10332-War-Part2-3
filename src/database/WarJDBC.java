@@ -5,11 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Vector;
-
 import javax.swing.JOptionPane;
 
 import model.War;
@@ -750,36 +748,4 @@ public class WarJDBC implements WarDB {
 		return sum;
 	}
 	
-	
-	////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	public void printTest() {
-
-		try {
-			Statement statement = connection.createStatement();
-
-			ResultSet rs = statement.executeQuery("SELECT * FROM launches");
-
-			int count = 0;
-			while (rs.next())	{
-				System.out.println(	++count + ". " +
-						"Launcher " + rs.getString("launcherID") +
-						", Missile " + rs.getString("missileID") +
-						", Destination: " + rs.getString("destination") +
-						", Time: " + rs.getTimestamp("time") +
-						", flyTime: " + rs.getString("flyTime") +
-						", damage: " + rs.getString("damage") +
-						", Intercepted? " + (rs.getInt("intercepted")==1)	
-						);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	
-
-	}
-
 }
