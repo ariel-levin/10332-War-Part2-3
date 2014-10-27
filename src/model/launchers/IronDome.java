@@ -12,6 +12,7 @@ import model.missiles.EnemyMissile;
 
 
 public class IronDome extends Thread implements Munitions {
+	
 	private List<WarEventListener> allListeners;
 
 	private String id;
@@ -21,6 +22,7 @@ public class IronDome extends Thread implements Munitions {
 	private WarStatistics statistics;
 	private DefenseMissile currentMissile;
 
+	
 	public IronDome(String id, WarStatistics statistics) {
 		allListeners = new LinkedList<WarEventListener>();
 
