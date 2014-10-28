@@ -36,14 +36,16 @@ public class DefenseDestructorMissile extends Thread {
 
 	public void run() {
 		synchronized (launcherToDestroy) {
-			if (launcherToDestroy.isAlive() && !launcherToDestroy.getIsHidden()
+//			if (launcherToDestroy.isAlive() && !launcherToDestroy.getIsHidden()
+			if (!launcherToDestroy.isBeenHit() && !launcherToDestroy.getIsHidden()
 					&& Utils.randomDestructorSuccess()) {
 				// Check if the launcher is hidden or not
-				launcherToDestroy.interrupt();
+//				launcherToDestroy.interrupt();
+				launcherToDestroy.destroyLauncher();
 			}
 		}// synchronized
 	
-		if(launcherToDestroy.isInterrupted()){
+		if(launcherToDestroy.isBeenHit()){
 			fireHitEvent();
 			
 		}else {

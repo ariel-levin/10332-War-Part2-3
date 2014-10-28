@@ -21,6 +21,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 	private boolean isHidden;
 	private boolean firstHiddenState;
 	private boolean beenHit = false;
+	private boolean isOccupied = false;
 	private WarStatistics statistics;
 	private EnemyMissile currentMissile;
 
@@ -49,16 +50,20 @@ public class EnemyLauncher extends Thread implements Munitions{
 				catch (InterruptedException ex) {
 					// firehasBeenHitEvent() ==> not needed because
 					// the DefenseDestructorMissile call this event
-					stopRunning();
-					break;
+//					stopRunning();
+//					break;
 				}
 			}// synchronized
-			try {
-				launchMissile();
-			} catch (InterruptedException e) {
-				stopRunning();
-				break;
-				//e.printStackTrace();
+			
+			// if still not destroyed
+			if (!beenHit) {
+				try {
+					launchMissile();
+
+				} catch (InterruptedException e) {
+//					stopRunning();
+//					break;
+				}
 			}
 
 			// update that this launcher is not in use
@@ -68,7 +73,6 @@ public class EnemyLauncher extends Thread implements Munitions{
 
 		// close the handler of the logger
 //		WarLogger.closeMyHandler(id);
-		
 	}// run
 	
 	// setting the next missile the user want to launch
@@ -98,8 +102,13 @@ public class EnemyLauncher extends Thread implements Munitions{
 		currentMissile.start();
 
 		// X time that the launcher is not hidden:
-		int x = flyTime * Utils.SECOND;
-		sleep(x);
+//		int x = flyTime * Utils.SECOND;
+//		sleep(x);
+		isOccupied = true;
+		synchronized (this) {
+			wait();
+		}
+		isOccupied = false;
 
 		// returning the first hidden state:
 		isHidden = firstHiddenState;
@@ -108,11 +117,9 @@ public class EnemyLauncher extends Thread implements Munitions{
 			fireEnemyLauncherIsVisibleEvent(false);
 
 		// wait until the missile will finish
-		try {
-			currentMissile.join();
-		} catch (Exception e) {
-			System.out.println("inside currentMissile.join() Exception");
-		}
+//		try {
+//			currentMissile.join();
+//		} catch (Exception e) {}
 	}
 
 	// Create new missile
@@ -122,7 +129,7 @@ public class EnemyLauncher extends Thread implements Munitions{
 
 		// create new missile
 		currentMissile = new EnemyMissile(missileId, destination, flyTime,
-				damage, id, statistics);
+				damage, this, statistics);
 
 		// register listeners
 		for (WarEventListener l : allListeners)
@@ -158,6 +165,13 @@ public class EnemyLauncher extends Thread implements Munitions{
 		allListeners.add(listener);
 	}
 
+	public void destroyLauncher() {
+		stopRunning();
+		try {
+			interrupt();
+		} catch (Exception e) {}
+	}
+	
 	public String getLauncherId() {
 		return id;
 	}
@@ -166,6 +180,14 @@ public class EnemyLauncher extends Thread implements Munitions{
 		return isHidden;
 	}
 	
+	public boolean isOccupied() {
+		return isOccupied;
+	}
+
+	public boolean isBeenHit() {
+		return beenHit;
+	}
+
 	public String getDestination() {
 		return destination;
 	}
@@ -177,7 +199,8 @@ public class EnemyLauncher extends Thread implements Munitions{
 	// use the stop the thread when the launcher is been hit
 	@Override
 	public void stopRunning() {
-		currentMissile = null;
 		beenHit = true;
+		isOccupied = false;
+		currentMissile = null;
 	}
 }

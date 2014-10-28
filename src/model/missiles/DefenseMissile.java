@@ -32,12 +32,15 @@ public class DefenseMissile extends Thread {
 	public void run() {
 		synchronized (missileToDestroy) {
 			// Check if the missile is still in the air before trying to destroy
-			if (missileToDestroy.isAlive() && Utils.randomSuccesRate()) {
-				missileToDestroy.interrupt();
+//			if (missileToDestroy.isAlive() && Utils.randomSuccesRate()) {
+			if (missileToDestroy.isOnAir() && Utils.randomSuccesRate()) {
+//				missileToDestroy.interrupt();
+				missileToDestroy.intercept();
 			}
 		}//synchronized
 				
-		if (missileToDestroy.isInterrupted()){
+//		if (missileToDestroy.isInterrupted()) {
+		if (missileToDestroy.isBeenHit()) {
 			fireHitEvent();
 		}
 		else{

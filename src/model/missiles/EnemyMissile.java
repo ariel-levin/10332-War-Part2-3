@@ -6,6 +6,7 @@ import java.util.List;
 import utils.Utils;
 import utils.WarStatistics;
 import listeners.WarEventListener;
+import model.launchers.EnemyLauncher;
 
 
 /** Enemy missile, is been created by the Enemy launcher **/
@@ -14,17 +15,19 @@ public class EnemyMissile extends Thread {
 	private List<WarEventListener> allListeners;
 
 	private String id;
-	private String whoLaunchedMeId;
+//	private String whoLaunchedMeId;
+	private EnemyLauncher whoLaunchedMeId;
 	private String destination;
 	private int flyTime;
 	private int damage;
 	private WarStatistics statistics;
 	private String launchTime;
 	private boolean beenHit = false;
+	private boolean onAir = false;
 
 	
 	public EnemyMissile(String id, String destination, int flyTime, int damage,
-			String whoLaunchedMeId, WarStatistics statistics) {
+			EnemyLauncher whoLaunchedMeId, WarStatistics statistics) {
 		allListeners = new LinkedList<WarEventListener>();
 
 		this.id = id;
@@ -39,17 +42,19 @@ public class EnemyMissile extends Thread {
 		launchTime = Utils.getCurrentTime();
 
 		try {
+			onAir = true;
 			// fly time
 			sleep(flyTime * Utils.SECOND);
+			onAir = false;
 
 			// Interrupt is thrown when Enemy missile has been hit.
 		} catch (InterruptedException ex) {
 			// this event was already being thrown by the missile (defense) who
-			// hit this
-			// missile.
-			synchronized (this) {
-				beenHit = true;
-			}
+			// hit this missile.
+			
+//			synchronized (this) {
+//				beenHit = true;
+//			}
 			
 		} finally {
 			synchronized (this) {
@@ -61,14 +66,24 @@ public class EnemyMissile extends Thread {
 					}
 				}
 			}
+			
+			// release the enemy launcher
+			if (whoLaunchedMeId.isOccupied()) {
+				try {
+					synchronized (whoLaunchedMeId) {
+						whoLaunchedMeId.notify();
+					}
+				} catch (IllegalMonitorStateException e) {}
+			}
+			
 		}// finally
 	}// run
 
 	// Event
 	private void fireHitEvent() {
 		for (WarEventListener l : allListeners) {
-			l.enemyHitDestination(whoLaunchedMeId, id, destination, damage,
-					launchTime);
+			l.enemyHitDestination(whoLaunchedMeId.getLauncherId(), id,
+					destination, damage, launchTime);
 		}
 
 		// update the war statistics
@@ -79,7 +94,8 @@ public class EnemyMissile extends Thread {
 	// Event
 	private void fireMissEvent() {
 		for (WarEventListener l : allListeners) {
-			l.enemyMissDestination(whoLaunchedMeId, id, destination, launchTime);
+			l.enemyMissDestination(whoLaunchedMeId.getLauncherId(), id,
+					destination, launchTime);
 		}
 	}
 
@@ -87,7 +103,14 @@ public class EnemyMissile extends Thread {
 	public void registerListeners(WarEventListener listener) {
 		allListeners.add(listener);
 	}
-
+	
+	public void intercept() {
+		beenHit = true;
+		try {
+			interrupt();
+		} catch (Exception e) {}
+	}
+	
 	public String getMissileId() {
 		return id;
 	}
@@ -100,8 +123,12 @@ public class EnemyMissile extends Thread {
 		return beenHit;
 	}
 
+	public boolean isOnAir() {
+		return onAir;
+	}
+
 	public String getWhoLaunchedMeId() {
-		return whoLaunchedMeId;
+		return whoLaunchedMeId.getLauncherId();
 	}
 
 	public String getDestination() {
